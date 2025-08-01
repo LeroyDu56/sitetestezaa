@@ -1,0 +1,952 @@
+{% extends 'minecraft_app/base.html' %}
+{% load static %}
+
+{% block title %}Boutique - Serveur Novania Towny Earth{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/store.css' %}">
+<link rel="stylesheet" href="{% static 'css/store-fixes.css' %}">
+<style>
+    /* Style pour les rangs déjà possédés */
+    .product-card.owned {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .owned-badge {
+        position: absolute;
+        top: 15px;
+        right: -50px;
+        background: linear-gradient(135deg, #4CAF50, #2E7D32);
+        color: white;
+        padding: 8px 50px;
+        font-weight: bold;
+        transform: rotate(45deg);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        z-index: 3;
+        font-size: 0.9rem;
+    }
+    
+    /* Styles pour le bouton d'ajout au panier désactivé */
+    .btn-purchase.add-cart-btn[disabled] {
+        background: rgba(50, 50, 50, 0.5) !important;
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+    
+    /* Style pour mettre en évidence le bouton Offrir ce Rang */
+    .product-card.owned .gift-btn {
+        background: linear-gradient(to right, #e74c3c, #c0392b) !important;
+        animation: pulse-gift 2s infinite;
+    }
+    
+    @keyframes pulse-gift {
+        0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4); }
+        70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Section Héro Boutique -->
+<section class="store-hero">
+    <div class="store-particles" id="store-particles"></div>
+    <div class="store-hero-content">
+        <h1 class="store-title">Boutique Novania</h1>
+        <p class="store-subtitle">Soutenez le serveur et améliorez votre expérience</p>
+        
+        <div class="store-description">
+            <p>Notre serveur est maintenu par une équipe passionnée de bénévoles. Votre soutien nous aide à couvrir les coûts du serveur et à développer de nouvelles fonctionnalités pour que tous puissent en profiter. Parcourez nos rangs premium et nos trésors exclusifs !</p>
+        </div>
+    </div>
+</section>
+
+<!-- Navigation Boutique -->
+<section class="store-navigation">
+    <div class="container">
+        <div class="store-tabs">
+            <button class="store-tab active" data-tab="ranks">Rangs Premium</button>
+            <button class="store-tab" data-tab="bundles">Bundles Spéciaux</button>
+            <button class="store-tab" data-tab="treasures">Trésors Exclusifs</button>
+        </div>
+        
+        <!-- Indicateur Panier -->
+        <div class="cart-indicator">
+            <a href="{% url 'cart' %}" class="cart-link">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">{{ cart_count|default:"0" }}</span>
+                <span class="cart_total">€{{ cart_total|default:"0.00" }}</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Section Produits Boutique -->
+<section class="store-products-section">
+    <div class="container">
+        <!-- Contenu Onglet Rangs -->
+        <div class="store-tab-content active" id="ranks-content">
+            <h2 class="section-title">Rangs Premium</h2>
+            <p class="section-subtitle">Débloquez des avantages et privilèges spéciaux</p>
+            
+            {% if show_new_ranks_notice %}
+                <div class="new-ranks-notice">
+                    <div class="notice-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>Vous avez atteint le rang le plus élevé !</h3>
+                    <p>Nouveaux rangs à venir ! Restez à l'écoute pour plus de contenu exclusif.</p>
+                </div>
+            {% else %}
+                <div class="store-grid">
+                    {% for rank in ranks %}
+                    <div class="product-card product-{{ rank.name|lower }} {% if rank.owned %}owned{% endif %} {% if rank.duration_type == 'monthly' %}monthly-rank{% endif %}">
+                        {% if rank.owned %}
+                        <div class="owned-badge">POSSÉDÉ</div>
+                        {% endif %}
+                        <div class="product-header">
+                            <h3 class="product-name" style="color: {{ rank.color_code }}">{{ rank.name }}</h3>
+                            <div class="product-price">
+                                {% if rank.duration_type == 'monthly' %}
+                                    <!-- Pour les grades mensuels : pas de réduction, prix simple -->
+                                    €{{ rank.price }}<span class="price-unit">/mois</span>
+                                {% else %}
+                                    <!-- Pour les grades à vie : garde le système de réduction actuel -->
+                                    {% if rank.discounted_price %}
+                                        <!-- Afficher le prix réduit avec l'original barré -->
+                                        <div class="price-wrapper">
+                                            <span class="current-price">€{{ rank.discounted_price }}</span>
+                                            <span class="original-price">€{{ rank.original_price }}</span>
+                                        </div>
+                                        <div class="discount-badge">{{ rank.discount_percentage }}% RÉDUCTION</div>
+                                    {% else %}
+                                        <!-- Afficher juste le prix normal -->
+                                        €{{ rank.original_price }}<span class="price-unit">/à vie</span>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                            {% if rank.duration_type == 'monthly' %}
+                                <div class="monthly-badge">MENSUEL  </div>
+                            {% else %}
+                                <div class="lifetime-badge">PERMANENT</div>
+                            {% endif %}
+                        </div>
+                            
+                            <div class="product-content">
+                                <div class="product-description">
+                                    {{ rank.description }}
+                                </div>
+                                
+                                <!-- Bouton pour afficher les features -->
+                                <div class="features-separator"></div>
+                                <button class="toggle-features" style="background: linear-gradient(to right, {{ rank.color_code }}99, {{ rank.color_code }})" data-rank="{{ rank.name|lower }}">
+                                    <span>Voir les Avantages</span>
+                                    <span class="features-count">{{ rank.get_features_list|length }}</span>
+                                    <i class="fas fa-search"></i>
+                                </button>
+                                
+                                <div class="product-features" id="features-{{ rank.name|lower }}" style="display: none;">
+                                    {% if rank.kit_image %}
+                                    <div class="kit-image-container">
+                                        <p>Contenu du kit :</p>
+                                        <img src="/static/images/{{ rank.kit_image }}" alt="Kit {{ rank.name }}" class="kit-image">
+                                    </div>
+                                    {% endif %}
+                                    <ul class="feature-list">
+                                        {% for feature in rank.get_features_list %}
+                                            <li><i class="fas fa-check-circle"></i> {{ feature }}</li>
+                                        {% empty %}
+                                            <li><i class="fas fa-check-circle"></i> Aucun avantage spécifié</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="product-footer">
+                                <form action="{% url 'add_to_cart' %}" method="POST" class="quantity-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="item_type" value="rank">
+                                    <input type="hidden" name="item_id" value="{{ rank.id }}">
+                                    <button type="submit" class="btn-purchase add-cart-btn" style="background: linear-gradient(to right, {{ rank.color_code }}, {{ rank.color_code }}CC);" {% if rank.owned %}disabled{% endif %}>
+                                        <i class="fas {% if rank.owned %}fa-check{% else %}fa-cart-plus{% endif %}"></i> {% if rank.owned %}Déjà Possédé{% else %}Ajouter au Panier{% endif %}
+                                    </button>
+                                </form>
+                                
+                                <a href="{% url 'gift_rank' rank.id %}" class="btn-purchase gift-btn">
+                                    <i class="fas fa-gift"></i> Offrir ce Rang
+                                </a>
+                            </div>
+                        </div>
+                        {% empty %}
+                            <div class="no-ranks-available">
+                                <p>Aucun rang n'est actuellement disponible.</p>
+                            </div>
+                        {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- Contenu Onglet Trésors -->
+        <div class="store-tab-content" id="treasures-content">
+            <h2 class="section-title">Trésors Exclusifs</h2>
+            <p class="section-subtitle">Améliorez votre gameplay avec des objets et services uniques</p>
+        
+            
+            <div class="store-categories">
+                <button class="category-btn active" data-category="all">Tous</button>
+                <button class="category-btn" data-category="collectible">Collections</button>
+                <button class="category-btn" data-category="cosmetic">Cosmétiques</button>
+                <button class="category-btn" data-category="utility">Utilitaires</button>
+                <button class="category-btn" data-category="special">Spéciaux</button>
+            </div>
+            
+            <div class="store-grid treasures-grid">
+                {% for item in store_items %}
+                <div class="treasure-card" data-category="{{ item.category }}">
+                    <div class="treasure-image">
+                        {% if item.image %}
+                            <img src="{{ item.image }}" alt="{{ item.name }}">
+                        {% else %}
+                            <div class="treasure-placeholder" style="background-color: {{ item.color_code }}">
+                                <i class="fas fa-gift"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="treasure-content">
+                        <div class="treasure-category">{{ item.get_category_display }}</div>
+                        <h3 class="treasure-name" style="color: {{ item.color_code }}">{{ item.name }}</h3>
+                        <p class="treasure-description">{{ item.description }}</p>
+                    </div>
+                    
+                    <div class="treasure-footer">
+                        <div class="treasure-price-row">
+                            {% if discount_percentage > 0 %}
+                                <div class="treasure-price">
+                                    <span class="discounted-price">€{{ item.discounted_price }}</span>
+                                    <span class="original-price">€{{ item.original_price }}</span>
+                                    <span class="discount-badge">{{ discount_percentage }}% RÉDUCTION</span>
+                                </div>
+                            {% else %}
+                                <div class="treasure-price">€{{ item.price }}</div>
+                            {% endif %}
+                            
+                            <form action="{% url 'add_to_cart' %}" method="POST" class="treasure-cart-form quantity-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="item_type" value="store_item">
+                                <input type="hidden" name="item_id" value="{{ item.id }}">
+                                
+                                <div class="quantity-control">
+                                    <button type="button" class="quantity-btn minus">-</button>
+                                    <input type="number" name="quantity" value="1" min="1" max="99" class="quantity-input">
+                                    <button type="button" class="quantity-btn plus">+</button>
+                                </div>
+                                
+                                <button type="submit" class="add-to-cart-btn" style="background-color: {{ item.color_code }};">
+                                    <i class="fas fa-cart-plus"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="store-tab-content" id="bundles-content">
+            <h2 class="section-title">Bundles Spéciaux</h2>
+            <p class="section-subtitle">Économisez avec nos offres groupées exclusives</p>
+            
+            {% if bundles %}
+                <div class="bundles-grid">
+                    {% for bundle in bundles %}
+                    <div class="bundle-card {% if bundle.bundle_type == 'rank_items' %}premium-bundle{% else %}items-bundle{% endif %}">
+                        <!-- Badge du type de bundle avec couleur personnalisée -->
+                        <div class="bundle-type-badge {% if bundle.bundle_type == 'rank_items' %}premium{% else %}collection{% endif %}" 
+                            style="background: linear-gradient(135deg, {{ bundle.color_code }}, {{ bundle.color_code }}CC);">
+                            {% if bundle.bundle_type == 'rank_items' %}
+                                <i class="fas fa-crown"></i> PREMIUM
+                            {% else %}
+                                <i class="fas fa-box"></i> COLLECTION
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Header du bundle avec couleur personnalisée -->
+                        <div class="bundle-header" style="background: linear-gradient(135deg, rgba(0,0,0,0.7), {{ bundle.color_code }}33);">
+                            <h3 class="bundle-name" style="color: {{ bundle.color_code }};">{{ bundle.name }}</h3>
+                            <div class="bundle-description">{{ bundle.description }}</div>
+                        </div>
+                        
+                        <!-- Contenu du bundle -->
+                        <div class="bundle-content">
+                            {% if bundle.rank %}
+                                <div class="bundle-rank">
+                                    <div class="rank-item">
+                                        <div class="rank-icon" style="background-color: {{ bundle.rank.color_code }}">
+                                            <i class="fas fa-crown"></i>
+                                        </div>
+                                        <div class="rank-details">
+                                            <span class="rank-name" style="color: {{ bundle.rank.color_code }}">
+                                                Rang {{ bundle.rank.name }}
+                                            </span>
+                                            <span class="rank-value">€{{ bundle.rank.price }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            
+                            {% if bundle.items.exists %}
+                                <div class="bundle-items">
+                                    <div class="items-header" style="color: {{ bundle.color_code }};">
+                                        <i class="fas fa-gift"></i>
+                                        <span>{{ bundle.items.count }} objet{{ bundle.items.count|pluralize }}</span>
+                                    </div>
+                                    <div class="items-list">
+                                        {% for bundle_item in bundle.items.all %}
+                                            <div class="bundle-item">
+                                                <div class="item-icon" style="background-color: {{ bundle_item.store_item.color_code }}">
+                                                    <i class="fas fa-gem"></i>
+                                                </div>
+                                                <div class="item-details">
+                                                    <span class="item-name">{{ bundle_item.store_item.name }}</span>
+                                                    <span class="item-quantity">x{{ bundle_item.quantity }}</span>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Pricing section -->
+                        <div class="bundle-pricing">
+                            <div class="value-comparison">
+                                <div class="individual-value">
+                                    <span class="label">Valeur individuelle:</span>
+                                    <span class="value">€{{ bundle.total_value }}</span>
+                                </div>
+                                <div class="bundle-savings">
+                                    <span class="savings-badge" style="background: linear-gradient(135deg, {{ bundle.color_code }}, {{ bundle.color_code }}CC);">
+                                        <i class="fas fa-percent"></i>
+                                        {{ bundle.savings_percentage }}% d'économie
+                                    </span>
+                                    <span class="savings-amount">Économisez €{{ bundle.savings }}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="bundle-price">
+                                {% if bundle.discounted_price %}
+                                    <div class="price-wrapper">
+                                        <span class="current-price" style="color: {{ bundle.color_code }};">€{{ bundle.discounted_price }}</span>
+                                        <span class="original-price">€{{ bundle.original_price }}</span>
+                                    </div>
+                                    <div class="additional-discount">
+                                        + {{ bundle.user_discount_percentage }}% réduction membre
+                                    </div>
+                                {% else %}
+                                    <span class="final-price" style="color: {{ bundle.color_code }};">€{{ bundle.price }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Add to cart button avec couleur personnalisée -->
+                        <div class="bundle-footer">
+                            <form action="{% url 'add_to_cart' %}" method="POST" class="bundle-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="item_type" value="bundle">
+                                <input type="hidden" name="item_id" value="{{ bundle.id }}">
+                                <button type="submit" class="btn-purchase bundle-btn" 
+                                        style="background: linear-gradient(to right, {{ bundle.color_code }}, {{ bundle.color_code }}CC);">
+                                    <i class="fas fa-cart-plus"></i>
+                                    Ajouter au Panier
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-bundles-available">
+                    <div class="no-bundles-icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <h3>Aucun bundle disponible</h3>
+                    <p>Les bundles spéciaux arriveront bientôt !</p>
+                </div>
+            {% endif %}
+        </div>
+        <div class="payment-section">
+            <h3 class="payment-title">Méthodes de Paiement Sécurisées</h3>
+            <p class="payment-description">Nous acceptons diverses méthodes de paiement pour votre commodité. Toutes les transactions sont sécurisées et cryptées.</p>
+            
+            <div class="payment-methods">
+                <div class="payment-method visa">
+                    <i class="fab fa-cc-visa" title="Visa"></i>
+                </div>
+                <div class="payment-method mastercard">
+                    <i class="fab fa-cc-mastercard" title="Mastercard"></i>
+                </div>
+                <div class="payment-method stripe">
+                    <i class="fab fa-cc-stripe" title="Stripe"></i>
+                </div>
+                <div class="payment-method other">
+                    <i class="fas fa-credit-card" title="Autres Cartes"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section FAQ -->
+        <div class="faq-section">
+            <h2 class="faq-title">Foire Aux Questions</h2>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Combien de temps durent les rangs et les objets ?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Tous les rangs achetés sur Novania sont permanents. Une fois que vous achetez un rang, vous le conservez pour toujours, même à travers les réinitialisations du serveur ou les changements de carte. Les objets spéciaux varient - certains sont permanents tandis que d'autres peuvent être consommables. La description de chaque objet précisera sa durée.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Comment recevoir mes achats après paiement ?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Les rangs et objets numériques sont généralement appliqués automatiquement quelques minutes après un achat réussi. Le système lie votre compte du site à votre pseudo Minecraft. Pour les objets personnalisés ou spéciaux qui nécessitent l'intervention du staff, notre équipe vous contactera dans les 24 heures. Si vous ne recevez pas votre achat dans le délai prévu, veuillez contacter un membre du staff sur notre serveur Discord.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Puis-je améliorer mon rang plus tard ?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Oui ! Si vous avez déjà un rang et souhaitez passer à un rang supérieur, vous n'aurez qu'à payer la différence. Contactez un membre du staff pour obtenir de l'aide concernant les améliorations.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Où va l'argent ?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Tous les fonds provenant des achats vont directement aux coûts du serveur, y compris l'hébergement, les frais de domaine, le développement et les futures extensions. Nous sommes un projet communautaire à but non lucratif géré par des bénévoles.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="summary-container">
+        <div class="summary-content">
+            <h3>Résumé du Panier</h3>
+            <ul>
+                <li><strong>Articles dans le Panier :</strong> <span id="cart-count">{{ cart_count|default:"0" }}</span></li>
+                <li><strong>Total du Panier :</strong> <span id="cart-total">€{{ cart_total|default:"0.00" }}</span></li>
+            </ul>
+            <a href="{% url 'cart' %}" class="btn-cart">
+                <i class="fas fa-shopping-cart"></i> Voir le Panier
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Créer des particules pour le conteneur store-particles
+    const particlesContainer = document.getElementById('store-particles');
+    if (particlesContainer) {
+        const particleCount = window.innerWidth < 768 ? 20 : 40;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            const size = Math.random() * 4 + 2;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.left = Math.random() * 100 + '%';
+            
+            particle.style.opacity = Math.random() * 0.5 + 0.3;
+            
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            
+            particlesContainer.appendChild(particle);
+        }
+    }
+    
+    // Fonctionnalité de popup des avantages
+    const toggleFeaturesBtns = document.querySelectorAll('.toggle-features');
+    
+    toggleFeaturesBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const rankName = this.getAttribute('data-rank');
+            const rankTitle = this.closest('.product-card').querySelector('.product-name').textContent;
+            const featuresElement = document.getElementById(`features-${rankName}`);
+            const featuresItems = featuresElement.querySelectorAll('li');
+            
+            // Créer popup
+            createFeaturesPopup(rankTitle, featuresItems, this.style.background);
+            
+            // Ajouter une classe d'animation au bouton
+            this.classList.add('pulsing');
+            setTimeout(() => {
+                this.classList.remove('pulsing');
+            }, 1000);
+        });
+    });
+    
+    // Fonction pour créer et afficher la popup des avantages
+    function createFeaturesPopup(rankTitle, featuresItems, btnBackground) {
+        console.log("Création de la popup d'avantages pour :", rankTitle);
+        
+        // Supprimer toute popup existante
+        const existingPopup = document.getElementById('features-popup');
+        if (existingPopup) {
+            existingPopup.remove();
+        }
+        
+        // Créer les éléments de la popup
+        const popup = document.createElement('div');
+        popup.id = 'features-popup';
+        popup.className = 'features-popup';
+        
+        // Créer le contenu de la popup
+        const popupContent = document.createElement('div');
+        popupContent.className = 'popup-content';
+        
+        // Créer l'en-tête
+        const popupHeader = document.createElement('div');
+        popupHeader.className = 'popup-header';
+        popupHeader.style.background = btnBackground;
+        
+        const popupTitle = document.createElement('h3');
+        popupTitle.textContent = rankTitle + ' Avantages';
+        
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'popup-close';
+        closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+        closeBtn.addEventListener('click', () => {
+            popup.classList.remove('active');
+            setTimeout(() => {
+                popup.remove();
+            }, 300);
+        });
+        
+        popupHeader.appendChild(popupTitle);
+        popupHeader.appendChild(closeBtn);
+        
+        // D'abord ajouter l'en-tête au contenu de la popup
+        popupContent.appendChild(popupHeader);
+        
+        // Trouver l'élément featuresElement source du DOM
+        const rankName = rankTitle.toLowerCase();
+        const featuresElement = document.getElementById(`features-${rankName}`);
+        console.log("Élément d'avantages trouvé :", featuresElement);
+        
+        // Ajouter l'image du kit si elle existe
+        if (featuresElement) {
+            const kitImageContainer = featuresElement.querySelector('.kit-image-container');
+            console.log("Conteneur d'image de kit trouvé :", kitImageContainer);
+            
+            if (kitImageContainer) {
+                // Cloner le conteneur d'image
+                const imageContainerClone = kitImageContainer.cloneNode(true);
+                console.log("Ajout du conteneur d'image à la popup :", imageContainerClone);
+                
+                // Ajouter le conteneur d'image après l'en-tête
+                popupContent.appendChild(imageContainerClone);
+            }
+        }
+        
+        // Créer la liste d'avantages
+        const featuresList = document.createElement('ul');
+        featuresList.className = 'popup-features-list';
+        
+        // Ajouter les éléments de la liste d'avantages
+        featuresItems.forEach(item => {
+            const li = document.createElement('li');
+            li.innerHTML = item.innerHTML;
+            featuresList.appendChild(li);
+        });
+        
+        // Ajouter la liste d'avantages au contenu de la popup
+        popupContent.appendChild(featuresList);
+        
+        // Ajouter le contenu de la popup à la popup
+        popup.appendChild(popupContent);
+        
+        // Ajouter au DOM
+        document.body.appendChild(popup);
+        
+        // Déclencher l'animation
+        setTimeout(() => {
+            popup.classList.add('active');
+        }, 10);
+        
+        // Fermer en cliquant à l'extérieur
+        popup.addEventListener('click', (e) => {
+            if (e.target === popup) {
+                popup.classList.remove('active');
+                setTimeout(() => {
+                    popup.remove();
+                }, 300);
+            }
+        });
+        
+        // Fermer avec la touche échap
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('features-popup')) {
+                popup.classList.remove('active');
+                setTimeout(() => {
+                    popup.remove();
+                }, 300);
+            }
+        });
+    }
+    
+    // Afficher/masquer le conteneur de résumé au défilement
+    window.addEventListener('scroll', function() {
+        const summaryContainer = document.querySelector('.summary-container');
+        if (summaryContainer) {
+            if (window.scrollY > 200) {
+                summaryContainer.classList.add('visible');
+            } else {
+                summaryContainer.classList.remove('visible');
+            }
+        }
+    });
+
+    // Initialiser la visibilité du résumé au chargement de la page
+    const summaryContainer = document.querySelector('.summary-container');
+    if (summaryContainer && window.scrollY > 200) {
+        summaryContainer.classList.add('visible');
+    }
+    
+    // Onglets de la boutique
+    const storeTabs = document.querySelectorAll('.store-tab');
+    const storeContents = document.querySelectorAll('.store-tab-content');
+    
+    storeTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            storeTabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            storeContents.forEach(content => content.classList.remove('active'));
+            const tabId = this.getAttribute('data-tab');
+            document.getElementById(tabId + '-content').classList.add('active');
+        });
+    });
+    
+    // Filtre par catégorie
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const treasureCards = document.querySelectorAll('.treasure-card');
+    
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            categoryBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            const category = this.getAttribute('data-category');
+            treasureCards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+    
+    // Boutons de quantité améliorés
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('quantity-btn') || e.target.closest('.quantity-btn')) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const button = e.target.classList.contains('quantity-btn') ? e.target : e.target.closest('.quantity-btn');
+            const control = button.closest('.quantity-control');
+            if (!control) return;
+            
+            const input = control.querySelector('.quantity-input');
+            if (!input) return;
+            
+            const currentValue = parseInt(input.value) || 1;
+            const minValue = parseInt(input.min) || 1;
+            const maxValue = parseInt(input.max) || 99;
+            
+            if (button.classList.contains('minus')) {
+                if (currentValue > minValue) {
+                    input.value = currentValue - 1;
+                    input.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            } else if (button.classList.contains('plus')) {
+                if (currentValue < maxValue) {
+                    input.value = currentValue + 1;
+                    input.dispatchEvent(new Event('change', { bubbles: true }));
+                } else {
+                    showMessage('La quantité maximale est ' + maxValue, 'error');
+                }
+            }
+        }
+    });
+    
+    // Fonctionnalité FAQ
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', function() {
+            const faqItem = this.closest('.faq-item');
+            const answer = this.nextElementSibling;
+            const icon = this.querySelector('.faq-icon i');
+            const isActive = faqItem.classList.contains('active');
+            
+            document.querySelectorAll('.faq-item').forEach(item => {
+                if (item !== faqItem) {
+                    item.classList.remove('active');
+                    const itemAnswer = item.querySelector('.faq-answer');
+                    itemAnswer.style.maxHeight = null;
+                    const itemIcon = item.querySelector('.faq-icon i');
+                    if (itemIcon) itemIcon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+                }
+            });
+            
+            if (!isActive) {
+                faqItem.classList.add('active');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                if (icon) icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+            } else {
+                faqItem.classList.remove('active');
+                answer.style.maxHeight = null;
+                if (icon) icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+            }
+        });
+    });
+    
+    // ✅ FONCTION CORRIGÉE : Mettre à jour l'indicateur du panier et le résumé
+    function updateCartIndicator(count, total) {
+        // Mettre à jour l'indicateur principal du panier (en haut à droite)
+        const cartCount = document.querySelector('.cart-count');
+        const cartTotal = document.querySelector('.cart_total'); // Note: underscore dans le template
+        
+        if (cartCount) {
+            cartCount.textContent = count || 0;
+            cartCount.classList.add('pulse');
+            setTimeout(() => {
+                cartCount.classList.remove('pulse');
+            }, 500);
+        }
+        
+        if (cartTotal && total !== undefined) {
+            cartTotal.textContent = `€${parseFloat(total).toFixed(2)}`;
+            cartTotal.classList.add('cart-total-updated');
+            setTimeout(() => {
+                cartTotal.classList.remove('cart-total-updated');
+            }, 1000);
+        }
+        
+        // Mettre à jour le conteneur de résumé (en bas à droite)
+        updateSummary(count, total);
+    }
+    
+    // ✅ FONCTION CORRIGÉE : Mettre à jour le conteneur de résumé
+    function updateSummary(cartCount, cartTotal) {
+        const cartCountElement = document.querySelector('#cart-count');
+        const cartTotalElement = document.querySelector('#cart-total');
+        
+        if (cartCountElement) {
+            cartCountElement.textContent = cartCount || 0;
+            cartCountElement.classList.add('count-updated');
+            setTimeout(() => {
+                cartCountElement.classList.remove('count-updated');
+            }, 800);
+        }
+        
+        if (cartTotalElement) {
+            cartTotalElement.textContent = cartTotal ? `€${parseFloat(cartTotal).toFixed(2)}` : '€0.00';
+            cartTotalElement.classList.add('total-updated');
+            setTimeout(() => {
+                cartTotalElement.classList.remove('total-updated');
+            }, 800);
+        }
+        
+        // Faire clignoter le conteneur de résumé pour attirer l'attention
+        const summaryContainer = document.querySelector('.summary-container');
+        if (summaryContainer) {
+            summaryContainer.classList.add('summary-updated');
+            setTimeout(() => {
+                summaryContainer.classList.remove('summary-updated');
+            }, 1200);
+        }
+    }
+    
+    // Définir l'URL add_to_cart comme variable JavaScript
+    const addToCartUrl = "{% url 'add_to_cart' %}";
+
+    // Ensemble pour suivre les rangs ajoutés au panier
+    const addedRanks = new Set();
+    
+    // Désactiver l'envoi du formulaire pour les rangs déjà possédés
+    document.querySelectorAll('.product-card.owned form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            showMessage('Vous possédez déjà ce rang. Vous pouvez l\'offrir à un autre joueur !', 'info');
+        });
+    });
+    
+    // ✅ SECTION AJAX CORRIGÉE : Convertir tous les formulaires d'ajout au panier en AJAX
+    const addToCartForms = document.querySelectorAll(`form[action="${addToCartUrl}"]`);
+    
+    addToCartForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            // Ne pas traiter les formulaires avec boutons désactivés
+            if (form.querySelector('button[disabled]')) {
+                e.preventDefault();
+                return;
+            }
+            
+            e.preventDefault();
+            
+            const itemType = form.querySelector('input[name="item_type"]').value;
+            const itemId = form.querySelector('input[name="item_id"]').value;
+            const submitButton = form.querySelector('button[type="submit"]');
+            
+            // ✅ NOUVELLE VÉRIFICATION : Éviter les doubles clics
+            if (submitButton.classList.contains('processing')) {
+                return;
+            }
+            
+            if (itemType === 'rank' && addedRanks.has(itemId)) {
+                showMessage('Ce rang est déjà dans votre panier.', 'error');
+                return;
+            }
+            
+            const formData = new FormData(form);
+            
+            // ✅ AMÉLIORATION : Désactiver temporairement le bouton
+            submitButton.classList.add('processing');
+            const originalButtonText = submitButton.innerHTML;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Ajout...';
+            submitButton.disabled = true;
+            
+            const treasureCard = form.closest('.treasure-card') || form.closest('.product-card') || form.closest('.bundle-card');
+            if (treasureCard) {
+                treasureCard.style.opacity = '0.7';
+            }
+            
+            fetch(addToCartUrl, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showMessage(data.message, data.status);
+                    
+                    // ✅ CORRECTION PRINCIPALE : Mettre à jour les deux indicateurs
+                    updateCartIndicator(data.cart_count, data.cart_total);
+                    
+                    // ✅ NOUVEAU : Animation sur l'indicateur principal du panier
+                    const cartIndicator = document.querySelector('.cart-indicator');
+                    if (cartIndicator) {
+                        cartIndicator.classList.add('cart-updated');
+                        setTimeout(() => {
+                            cartIndicator.classList.remove('cart-updated');
+                        }, 800);
+                    }
+                    
+                    if (itemType === 'rank') {
+                        addedRanks.add(itemId);
+                        // Pour les rangs, garder le bouton désactivé
+                        submitButton.innerHTML = '<i class="fas fa-check"></i> Ajouté au Panier';
+                        submitButton.disabled = true;
+                        submitButton.style.opacity = '0.5';
+                        submitButton.style.cursor = 'not-allowed';
+                    } else {
+                        // Pour les autres items, réactiver le bouton
+                        submitButton.innerHTML = originalButtonText;
+                        submitButton.disabled = false;
+                        submitButton.classList.remove('processing');
+                        
+                        // Reset quantity pour les store items
+                        if (itemType === 'store_item') {
+                            const input = form.querySelector('input[name="quantity"]');
+                            if (input) {
+                                input.value = 1;
+                            }
+                        }
+                    }
+                } else {
+                    showMessage(data.error, 'error');
+                    console.error('Erreur lors de l\'ajout au panier:', data.error);
+                    
+                    // ✅ RESTAURER LE BOUTON EN CAS D'ERREUR
+                    submitButton.innerHTML = originalButtonText;
+                    submitButton.disabled = false;
+                    submitButton.classList.remove('processing');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur AJAX:', error);
+                showMessage('Une erreur est survenue lors de l\'ajout au panier.', 'error');
+                
+                // ✅ RESTAURER LE BOUTON EN CAS D'ERREUR
+                submitButton.innerHTML = originalButtonText;
+                submitButton.disabled = false;
+                submitButton.classList.remove('processing');
+            })
+            .finally(() => {
+                if (treasureCard) {
+                    treasureCard.style.opacity = '1';
+                }
+            });
+        });
+    });
+    
+    // ✅ FONCTION AMÉLIORÉE : Afficher un message temporaire
+    function showMessage(message, status) {
+        const messageElement = document.createElement('div');
+        messageElement.className = `ajax-message ajax-message-${status}`;
+        messageElement.innerHTML = `
+            <div class="ajax-message-content">
+                <span>${message}</span>
+                <button class="ajax-message-close">×</button>
+            </div>
+        `;
+        
+        document.body.appendChild(messageElement);
+        
+        setTimeout(() => {
+            messageElement.classList.add('show');
+        }, 10);
+        
+        const closeButton = messageElement.querySelector('.ajax-message-close');
+        closeButton.addEventListener('click', () => {
+            messageElement.classList.remove('show');
+            setTimeout(() => {
+                messageElement.remove();
+            }, 300);
+        });
+        
+        setTimeout(() => {
+            messageElement.classList.remove('show');
+            setTimeout(() => {
+                messageElement.remove();
+            }, 300);
+        }, 4000);
+    }
+});
+</script>
+{% endblock %}

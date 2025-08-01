@@ -1,0 +1,114 @@
+{% extends 'minecraft_app/base.html' %}
+{% load static %}
+
+{% block title %}Paiement Annulé - Serveur Novania Towny Earth{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/payment_cancel.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Section Héro Annulation de Paiement -->
+<section class="payment-cancel-hero">
+    <div class="payment-cancel-particles" id="payment-cancel-particles"></div>
+    <div class="payment-cancel-hero-content">
+        <h1 class="payment-cancel-hero-title">Paiement Annulé</h1>
+        <p class="payment-cancel-hero-subtitle">Votre transaction a été annulée</p>
+    </div>
+</section>
+
+<!-- Section Principale Annulation de Paiement -->
+<section class="payment-cancel-main-section">
+    <div class="container">
+        <div class="payment-cancel-container">
+            <div class="payment-cancel-icon">
+                <i class="fas fa-times-circle"></i>
+            </div>
+            
+            <h2 class="payment-cancel-heading">Transaction Annulée</h2>
+            <p class="payment-cancel-description">Votre paiement a été annulé. Aucun montant n'a été débité de votre compte.</p>
+            
+            <div class="payment-cancel-details">
+                <div class="details-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="details-content">
+                    <h3>Que s'est-il passé ?</h3>
+                    <p>Vous avez décidé d'annuler le processus de paiement. C'est tout à fait normal, et votre carte ou compte n'a pas été débité.</p>
+                </div>
+            </div>
+            
+            <div class="payment-cancel-actions">
+                <a href="{% url 'store' %}" class="btn-primary">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Retour à la Boutique</span>
+                </a>
+                <a href="{% url 'home' %}" class="btn-secondary">
+                    <i class="fas fa-home"></i>
+                    <span>Retour à l'Accueil</span>
+                </a>
+            </div>
+            
+            <div class="payment-cancel-support">
+                <h3>Besoin d'Aide ?</h3>
+                <p>Si vous avez rencontré des problèmes ou si vous avez des questions concernant nos rangs et articles, notre équipe de support est là pour vous aider.</p>
+                <a href="{% url 'contact' %}" class="support-link">
+                    <i class="fas fa-headset"></i>
+                    <span>Contacter le Support</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Créer des particules pour le hero d'annulation de paiement
+        createParticles('payment-cancel-particles', 40);
+        
+        // Fonction pour créer des particules
+        function createParticles(containerId, count) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            const particleCount = window.innerWidth < 768 ? Math.floor(count / 2) : count;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Taille aléatoire
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Position aléatoire
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.left = Math.random() * 100 + '%';
+                
+                // Opacité aléatoire
+                particle.style.opacity = Math.random() * 0.5 + 0.2;
+                
+                // Délai d'animation
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Effets de survol des boutons
+        const buttons = document.querySelectorAll('.btn-primary, .btn-secondary');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.classList.add('btn-hover');
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.classList.remove('btn-hover');
+            });
+        });
+    });
+</script>
+{% endblock %}

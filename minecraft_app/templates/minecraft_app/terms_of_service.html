@@ -1,0 +1,236 @@
+{% extends 'minecraft_app/base.html' %}
+{% load static %}
+
+{% block title %}Conditions d'Utilisation - Serveur Novania Towny Earth{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/legal.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Section Hero des Conditions d'Utilisation -->
+<section class="legal-hero">
+    <div class="legal-particles" id="legal-particles"></div>
+    <div class="legal-hero-content">
+        <h1 class="legal-hero-title">Conditions d'Utilisation</h1>
+        <p class="legal-hero-subtitle">Règles et conditions d'utilisation du serveur Novania</p>
+    </div>
+</section>
+
+<!-- Section Principale des Conditions d'Utilisation -->
+<section class="legal-main-section">
+    <div class="container">
+        <div class="legal-container">
+            <div class="legal-content">
+                
+                <div class="legal-section">
+                    <h2>1. Acceptation des conditions</h2>
+                    <div class="legal-text">
+                        <p>En accédant et en utilisant le serveur Novania, vous acceptez d'être lié par ces conditions d'utilisation.</p>
+                        <p>Si vous n'acceptez pas ces conditions, vous ne devez pas utiliser nos services.</p>
+                        <p>Nous nous réservons le droit de modifier ces conditions à tout moment. Les modifications prennent effet immédiatement après leur publication.</p>
+                    </div>
+                </div>
+
+                <div class="legal-section">
+                    <h2>2. Description du service</h2>
+                    <div class="legal-text">
+                        <p>Novania est un serveur Minecraft communautaire proposant une expérience de jeu Towny sur une carte de la Terre à l'échelle 1:1000.</p>
+                        <p>Nous proposons également une boutique en ligne permettant l'achat de grades et d'objets virtuels pour améliorer l'expérience de jeu.</p>
+                    </div>
+                </div>
+
+                <div class="legal-section">
+                    <h2>3. Inscription et compte utilisateur</h2>
+                    <div class="legal-text">
+                        <p><strong>Conditions d'inscription :</strong></p>
+                        <ul>
+                            <li>Vous devez posséder une copie légale de Minecraft Java Edition ou Bedrock Edition</li>
+                            <li>Vous devez fournir des informations exactes lors de l'inscription</li>
+                            <li>Vous êtes responsable de la sécurité de votre compte</li>
+                            <li>Un seul compte par personne est autorisé</li>
+                        </ul>
+                        <p><strong>Obligations :</strong> Vous vous engagez à ne pas partager vos identifiants et à nous signaler toute utilisation non autorisée de votre compte.</p>
+                    </div>
+                </div>
+
+                <div class="legal-section">
+                    <h2>4. Règles de conduite</h2>
+                    <div class="legal-text">
+                        <p><strong>Comportements interdits :</strong></p>
+                        <ul>
+                            <li>Harcèlement, intimidation ou discrimination</li>
+                            <li>Spam, flood ou messages répétitifs</li>
+                            <li>Utilisation de langage offensant ou inapproprié</li>
+                            <li>Publicité non autorisée</li>
+                            <li>Partage d'informations personnelles d'autres joueurs</li>
+                            <li>Tentatives de contournement des systèmes de sécurité</li>
+                        </ul>
+                        <p><strong>Utilisation de mods et clients :</strong></p>
+                        <ul>
+                            <li>Les mods cosmétiques et d'optimisation sont autorisés</li>
+                            <li>Les mods donnant un avantage de jeu déloyal sont interdits</li>
+                            <li>L'utilisation de bots ou de programmes automatisés est strictement interdite</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="legal-section">
+                    <h2>5. Système économique et achats</h2>
+                    <div class="legal-text">
+                        <p><strong>Grades et objets virtuels :</strong></p>
+                        <ul>
+                            <li>Les achats effectués sur la boutique concernent des biens virtuels</li>
+                            <li>Les grades et objets n'ont aucune valeur monétaire réelle</li>
+                            <li>Aucun remboursement n'est possible sauf cas exceptionnel</li>
+                            <li>Les prix peuvent être modifiés à tout moment</li>
+                            <li>Les grades ou avantages en jeu acheté sont tenu compte pour la V1 du serveur, à l'ouverture de la V2, tous vos achats seront réinitialisés</li>
+                        </ul>
+                        <p><strong>Paiements :</strong> Tous les paiements sont traités de manière sécurisée par Stripe. Nous ne stockons aucune information bancaire.</p>
+                    </div>
+                </div>
+
+                <div class="legal-section">
+                    <h2>6. Sanctions et modération</h2>
+                    <div class="legal-text">
+                        <p><strong>Procédures disciplinaires :</strong></p>
+                        <ul>
+                            <li>Avertissement verbal ou écrit</li>
+                            <li>Exclusion temporaire (kick/mute)</li>
+                            <li>Bannissement temporaire</li>
+                            <li>Bannissement définitif</li>
+                        </ul>
+                        <p>Les sanctions sont appliquées à la discrétion de l'équipe de modération selon la gravité des infractions.</p>
+                        <p><strong>Recours :</strong> Vous pouvez contester une sanction en contactant l'administration via Discord ou email.</p>
+                    </div>
+                </div>
+
+                <div class="legal-section">
+                    <h2>7. Propriété intellectuelle</h2>
+                    <div class="legal-text">
+                        <p><strong>Contenu utilisateur :</strong></p>
+                        <ul>
+                            <li>Vous conservez vos droits sur les créations que vous réalisez sur le serveur</li>
+                            <li>Vous accordez à Novania le droit d'utiliser vos créations à des fins promotionnelles</li>
+                            <li>Vous ne devez pas reproduire des œuvres protégées par le droit d'auteur</li>
+                        </ul>
+                        <p><strong>Contenu du serveur :</strong> Les plugins, configurations et contenus spécifiques au serveur sont la propriété de Novania.</p>
+                    </div>
+                </div>
+
+                <div class="legal-section">
+                    <h2>8. Disponibilité du service</h2>
+                    <div class="legal-text">
+                        <p>Nous nous efforçons de maintenir le serveur accessible 24h/24, 7j/7, mais nous ne garantissons pas une disponibilité continue.</p>
+                        <p><strong>Interruptions possibles :</strong></p>
+                        <ul>
+                            <li>Maintenance programmée ou d'urgence</li>
+                            <li>Problèmes techniques imprévisibles</li>
+                            <li>Mises à jour du serveur ou des plugins</li>
+                        </ul>
+                        <p>Aucune compensation ne sera accordée pour les interruptions de service.</p>
+                    </div>
+                </div>
+
+                <div class="legal-section">
+                    <h2>9. Protection des données</h2>
+                    <div class="legal-text">
+                        <p>Nous collectons et traitons vos données personnelles conformément à notre politique de confidentialité et au RGPD.</p>
+                        <p><strong>Vos droits :</strong></p>
+                        <ul>
+                            <li>Droit d'accès à vos données</li>
+                            <li>Droit de rectification</li>
+                            <li>Droit à l'effacement</li>
+                            <li>Droit à la portabilité</li>
+                        </ul>
+                        <p>Pour exercer ces droits, contactez-nous à l'adresse : contact@novania.fr</p>
+                    </div>
+                </div>
+
+                <div class="legal-section">
+                    <h2>10. Limitation de responsabilité</h2>
+                    <div class="legal-text">
+                        <p>Novania ne peut être tenu responsable :</p>
+                        <ul>
+                            <li>Des dommages directs ou indirects liés à l'utilisation du service</li>
+                            <li>De la perte de données de jeu</li>
+                            <li>Des interactions entre joueurs</li>
+                            <li>Des interruptions de service</li>
+                        </ul>
+                        <p>L'utilisation du serveur se fait à vos propres risques.</p>
+                    </div>
+                </div>
+
+                <div class="legal-section">
+                    <h2>11. Résiliation</h2>
+                    <div class="legal-text">
+                        <p><strong>Par l'utilisateur :</strong> Vous pouvez cesser d'utiliser nos services à tout moment en supprimant votre compte.</p>
+                        <p><strong>Par Novania :</strong> Nous nous réservons le droit de suspendre ou fermer votre compte en cas de violation de ces conditions.</p>
+                        <p>En cas de fermeture définitive du serveur, un préavis de 30 jours sera donné aux utilisateurs.</p>
+                    </div>
+                </div>
+
+                <div class="legal-section">
+                    <h2>12. Contact et litiges</h2>
+                    <div class="legal-text">
+                        <p><strong>Contact :</strong> Pour toute question, réclamation ou litige, contactez-nous à :</p>
+                        <ul>
+                            <li>Email : contact@novania.fr</li>
+                            <li>Discord : Serveur officiel Novania</li>
+                            <li>Formulaire de contact sur le site web</li>
+                        </ul>
+                        <p><strong>Résolution des conflits :</strong> En cas de litige, nous privilégions la résolution amiable. À défaut, les tribunaux français seront compétents.</p>
+                    </div>
+                </div>
+
+                <div class="legal-footer">
+                    <p class="legal-update">Dernière mise à jour : 26 mai 2025</p>
+                    <div class="legal-actions">
+                        <a href="{% url 'legal' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Mentions légales
+                        </a>
+                        <a href="{% url 'store' %}" class="btn btn-primary">
+                            Retour à la boutique <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Création de particules pour le conteneur legal-particles
+        const particlesContainer = document.getElementById('legal-particles');
+        if (particlesContainer) {
+            const particleCount = window.innerWidth < 768 ? 15 : 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Taille aléatoire
+                const size = Math.random() * 3 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Position aléatoire
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.left = Math.random() * 100 + '%';
+                
+                // Opacité aléatoire
+                particle.style.opacity = Math.random() * 0.4 + 0.2;
+                
+                // Délai d'animation
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+    });
+</script>
+{% endblock %}

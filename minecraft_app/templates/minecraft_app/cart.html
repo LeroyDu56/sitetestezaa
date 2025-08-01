@@ -1,0 +1,812 @@
+{% extends 'minecraft_app/base.html' %}
+{% load static %}
+
+{% block title %}Panier - Serveur Novania Towny Earth{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/store.css' %}">
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Section Hero du Panier -->
+<section class="cart-hero">
+    <div class="cart-particles" id="cart-particles"></div>
+    <div class="cart-hero-content">
+        <h1 class="cart-hero-title">Panier</h1>
+        <p class="cart-hero-subtitle">Vérifiez vos articles avant de passer commande</p>
+    </div>
+</section>
+
+<!-- Section Principale du Panier -->
+<section class="cart-main-section">
+    <div class="container">
+        <div class="cart-container">
+            {% if cart_items %}
+                <div class="cart-items">
+                    <div class="cart-header">
+                        <div class="cart-header-item product">Produit</div>
+                        <div class="cart-header-item price">Prix</div>
+                        <div class="cart-header-item quantity">Qté</div>
+                        <div class="cart-header-item subtotal">Sous-total</div>
+                        <div class="cart-header-item actions">Actions</div>
+                    </div>
+                    
+                    {% for item in cart_items %}
+                    <div class="cart-item {% if item.is_gift %}gift-item{% endif %}">
+                        <div class="item-info">
+                            {% if item.is_gift %}
+                                <!-- Affichage spécial pour les cadeaux -->
+                                <div class="gift-badge">
+                                    <i class="fas fa-gift"></i> CADEAU
+                                </div>
+                                <h3 class="item-name">
+                                    {% if item.rank %}
+                                        Grade {{ item.rank.name }}
+                                    {% elif item.store_item %}
+                                        {{ item.store_item.name }}
+                                    {% elif item.bundle %}
+                                        Bundle {{ item.bundle.name }}
+                                    {% endif %}
+                                </h3>
+                                <p class="gift-recipient">
+                                    <i class="fas fa-arrow-right"></i> 
+                                    Pour : <strong>{{ item.gift_recipient_username }}</strong>
+                                </p>
+                                {% if item.metadata.is_upgrade %}
+                                    <p class="upgrade-info">
+                                        <i class="fas fa-arrow-up"></i> 
+                                        Upgrade (au lieu de €{{ item.metadata.original_price }})
+                                    </p>
+                                {% endif %}
+                            {% else %}
+                                <!-- Affichage normal pour les achats personnels -->
+                                <h3 class="item-name">
+                                    {% if item.rank %}
+                                        {{ item.rank.name }}
+                                    {% elif item.store_item %}
+                                        {{ item.store_item.name }}
+                                    {% elif item.bundle %}
+                                        {{ item.bundle.name }}
+                                    {% endif %}
+                                </h3>
+                                {% if item.metadata.is_upgrade %}
+                                    <p class="upgrade-info">
+                                        <i class="fas fa-arrow-up"></i> 
+                                        Upgrade (au lieu de €{{ item.metadata.original_price }})
+                                    </p>
+                                {% endif %}
+                            {% endif %}
+                            
+                            {% if item.rank %}
+                                <p class="item-description">{{ item.rank.description }}</p>
+                            {% elif item.store_item %}
+                                <p class="item-description">{{ item.store_item.description }}</p>
+                            {% elif item.bundle %}
+                                <p class="item-description">{{ item.bundle.description }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="item-controls">
+                            {% if not item.rank and not item.bundle %}
+                                <!-- Contrôles de quantité seulement pour les store items -->
+                                <div class="quantity-control">
+                                    <button class="quantity-btn minus" data-item-id="{{ item.id }}">-</button>
+                                    <input type="number" class="quantity-input" data-item-id="{{ item.id }}" 
+                                        value="{{ item.quantity }}" min="1" max="99">
+                                    <button class="quantity-btn plus" data-item-id="{{ item.id }}">+</button>
+                                </div>
+                            {% else %}
+                                <span class="quantity-display">Quantité : 1</span>
+                            {% endif %}
+                            
+                            <div class="item-price">
+                                €{{ item.get_subtotal }}
+                            </div>
+                            
+                            <a href="{% url 'remove_from_cart' item.id %}" class="remove-btn" 
+                            onclick="return confirm('Êtes-vous sûr de vouloir retirer cet article du panier ?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="cart-summary">
+                    <h2 class="summary-title">Résumé de la commande</h2>
+                    
+                    <div class="summary-items">
+                        <div class="summary-item">
+                            <span class="summary-label">Articles ({{ cart_items|length }}):</span>
+                            <span class="summary-value">€{{ total }}</span>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <span class="summary-label">Réduction:</span>
+                            <span class="summary-value">€0.00</span>
+                        </div>
+                        
+                        <div class="summary-divider"></div>
+                        
+                        <div class="summary-item total">
+                            <span class="summary-label">Total:</span>
+                            <span class="summary-value">€{{ total }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="continue-shopping">
+                        <a href="{% url 'store' %}" class="continue-shopping-link">
+                            <i class="fas fa-arrow-left"></i> Continuer les achats
+                        </a>
+                    </div>
+
+                                        <!-- Section Code Promo -->
+                    <div class="promo-code-section">
+                        <h3 class="promo-title">
+                            <i class="fas fa-tag"></i>
+                            Code Promo
+                        </h3>
+                        
+                        {% if promo_info %}
+                            <!-- Code promo appliqué -->
+                            <div class="promo-applied">
+                                <div class="promo-code-display">
+                                    <span class="promo-code-badge">{{ promo_info.code }}</span>
+                                    <span class="promo-discount">-€{{ discount_amount }}</span>
+                                    <button type="button" class="remove-promo-btn" onclick="removePromoCode()">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="promo-success-message">
+                                    <i class="fas fa-check-circle"></i>
+                                    Code promo appliqué avec succès !
+                                </div>
+                            </div>
+                        {% else %}
+                            <!-- Formulaire d'application de code promo -->
+                            <div class="promo-form">
+                                <div class="promo-input-group">
+                                    <input type="text" 
+                                           id="promo-code-input" 
+                                           placeholder="Code promo" 
+                                           maxlength="50"
+                                           autocomplete="off">
+                                    <button type="button" 
+                                            class="apply-promo-btn" 
+                                            onclick="applyPromoCode()">
+                                        <i class="fas fa-check"></i>
+                                        Appliquer
+                                    </button>
+                                </div>
+                                <div class="promo-message" id="promo-message" style="display: none;"></div>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Mise à jour de la section résumé pour inclure le code promo -->
+                    <div class="summary-items">
+                        <div class="summary-item">
+                            <span class="summary-label">Sous-total ({{ cart_items|length }}):</span>
+                            <span class="summary-value">€{{ total }}</span>
+                        </div>
+                        
+                        {% if promo_info %}
+                            <div class="summary-item promo-discount">
+                                <span class="summary-label">
+                                    <i class="fas fa-tag"></i>
+                                    Code {{ promo_info.code }}:
+                                </span>
+                                <span class="summary-value">-€{{ discount_amount }}</span>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="summary-divider"></div>
+                        
+                        <div class="summary-item total">
+                            <span class="summary-label">Total:</span>
+                            <span class="summary-value">€{{ final_total|default:total }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Legal Agreement Section -->
+                    <div class="legal-agreement">
+                        <div class="legal-checkboxes">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="accept-terms" class="legal-checkbox" required>
+                                <label for="accept-terms" class="checkbox-label">
+                                    <span class="checkbox-custom"></span>
+                                    <span class="checkbox-text">
+                                        J'accepte les 
+                                        <a href="{% url 'terms' %}" target="_blank" class="legal-link">conditions d'utilisation</a>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="accept-legal" class="legal-checkbox" required>
+                                <label for="accept-legal" class="checkbox-label">
+                                    <span class="checkbox-custom"></span>
+                                    <span class="checkbox-text">
+                                        J'ai lu les 
+                                        <a href="{% url 'legal' %}" target="_blank" class="legal-link">mentions légales</a>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="legal-notice">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Vous devez accepter les conditions pour procéder au paiement</span>
+                        </div>
+                    </div>
+
+                    <form action="{% url 'checkout_cart' %}" method="POST" class="checkout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="checkout-btn" id="checkout-btn" disabled>
+                            <i class="fas fa-lock"></i> Procéder au paiement
+                        </button>
+                        <a href="{% url 'checkout_cart' %}?qr_code=true" class="bancontact-btn" id="bancontact-btn" style="pointer-events: none; opacity: 0.5;">
+                            <i class="fas fa-credit-card"></i> Payer avec Bancontact
+                        </a>
+                    </form>
+                </div>
+            {% else %}
+                <div class="empty-cart">
+                    <div class="empty-cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h2>Votre panier est vide</h2>
+                    <p>Il semble que vous n'ayez pas encore ajouté d'articles à votre panier.</p>
+                    <a href="{% url 'store' %}" class="continue-shopping-btn">
+                        Continuer les achats
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Section Moyens de Paiement -->
+<section class="cart-payment-section">
+    <div class="container">
+        <div class="payment-info">
+            <h2>Paiement Sécurisé</h2>
+            <p>Nous utilisons Stripe pour traiter tous les paiements de manière sécurisée. Vos informations de paiement ne sont jamais stockées sur nos serveurs.</p>
+            
+            <div class="payment-methods">
+                <div class="payment-method visa">
+                    <i class="fab fa-cc-visa"></i>
+                </div>
+                <div class="payment-method mastercard">
+                    <i class="fab fa-cc-mastercard"></i>
+                </div>
+                <div class="payment-method bancontact">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <div class="payment-method amex">
+                    <i class="fab fa-cc-amex"></i>
+                </div>
+                <div class="payment-method stripe">
+                    <i class="fab fa-stripe"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+       // Création de particules pour le conteneur cart-particles
+       const particlesContainer = document.getElementById('cart-particles');
+       if (particlesContainer) {
+           const particleCount = window.innerWidth < 768 ? 20 : 40;
+           
+           for (let i = 0; i < particleCount; i++) {
+               const particle = document.createElement('div');
+               particle.className = 'particle';
+               
+               // Taille aléatoire
+               const size = Math.random() * 4 + 2;
+               particle.style.width = size + 'px';
+               particle.style.height = size + 'px';
+               
+               // Position aléatoire
+               particle.style.top = Math.random() * 100 + '%';
+               particle.style.left = Math.random() * 100 + '%';
+               
+               // Opacité aléatoire
+               particle.style.opacity = Math.random() * 0.5 + 0.3;
+               
+               // Délai d'animation
+               particle.style.animationDelay = Math.random() * 5 + 's';
+               
+               particlesContainer.appendChild(particle);
+           }
+       }
+       
+       // ✅ FONCTIONNALITÉ DE MISE À JOUR DE QUANTITÉ AJAX CORRIGÉE
+       function updateQuantity(itemId, quantity, button) {
+           console.log("Mise à jour de la quantité pour l'ID d'article:", itemId, "à", quantity);
+           
+           // Trouver le conteneur de l'article du panier
+           const cartItem = button.closest('.cart-item');
+           if (!cartItem) {
+               console.error("Conteneur d'article de panier non trouvé");
+               return;
+           }
+           
+           // Trouver le formulaire dans l'article du panier
+           const form = cartItem.querySelector('form.quantity-form');
+           if (!form) {
+               console.error("Formulaire non trouvé dans l'article du panier");
+               return;
+           }
+           
+           // Obtenir le jeton CSRF du formulaire
+           const csrfToken = form.querySelector('input[name="csrfmiddlewaretoken"]').value;
+           
+           // Créer des données de formulaire pour la requête
+           const formData = new FormData();
+           formData.append('item_id', itemId);
+           formData.append('quantity', quantity);
+           formData.append('csrfmiddlewaretoken', csrfToken);
+           
+           // Afficher l'indicateur de chargement
+           cartItem.style.opacity = '0.7';
+           
+           // Envoyer une requête AJAX
+           fetch('/cart/update/', {
+               method: 'POST',
+               body: formData,
+               headers: {
+                   'X-Requested-With': 'XMLHttpRequest'
+               }
+           })
+           .then(response => {
+               console.log("Statut de la réponse:", response.status);
+               return response.json();
+           })
+           .then(data => {
+               console.log("Données de réponse:", data);
+               
+               if (data.success) {
+                   // Formater les nombres à 2 décimales
+                   const formattedSubtotal = data.item_subtotal ? parseFloat(data.item_subtotal).toFixed(2) : '0.00';
+                   const formattedCartTotal = data.cart_total ? parseFloat(data.cart_total).toFixed(2) : '0.00';
+                   const formattedFinalTotal = data.final_total ? parseFloat(data.final_total).toFixed(2) : formattedCartTotal;
+                   const formattedDiscountAmount = data.discount_amount ? parseFloat(data.discount_amount).toFixed(2) : '0.00';
+                   
+                   // Mettre à jour l'affichage du sous-total de l'article
+                   const subtotalElement = cartItem.querySelector('.cart-item-subtotal');
+                   if (subtotalElement) {
+                       subtotalElement.textContent = '€' + formattedSubtotal;
+                       console.log("Sous-total mis à jour à:", formattedSubtotal);
+                   }
+                   
+                   // ✅ NOUVEAU : Mettre à jour le sous-total dans le résumé
+                   const summarySubtotalElement = document.querySelector('.summary-item:first-child .summary-value');
+                   if (summarySubtotalElement) {
+                       summarySubtotalElement.textContent = '€' + formattedCartTotal;
+                   }
+                   
+                   // ✅ NOUVEAU : Gérer l'affichage du code promo
+                   if (data.promo_active && parseFloat(formattedDiscountAmount) > 0) {
+                       // Le code promo est toujours actif
+                       const promoSection = document.querySelector('.promo-applied');
+                       if (promoSection) {
+                           promoSection.style.display = 'block';
+                           
+                           // Mettre à jour le montant de la réduction
+                           const discountElement = promoSection.querySelector('.promo-discount');
+                           if (discountElement) {
+                               discountElement.textContent = '-€' + formattedDiscountAmount;
+                           }
+                       }
+                       
+                       // Mettre à jour le total final avec la réduction
+                       const totalElement = document.querySelector('.summary-item.total .summary-value');
+                       if (totalElement) {
+                           totalElement.textContent = '€' + formattedFinalTotal;
+                           console.log("Total final mis à jour à:", formattedFinalTotal);
+                       }
+                   } else {
+                       // ✅ NOUVEAU : Le code promo n'est plus valide
+                       const promoSection = document.querySelector('.promo-applied');
+                       if (promoSection) {
+                           promoSection.style.display = 'none';
+                       }
+                       
+                       // Afficher le formulaire d'application de code promo
+                       const promoFormSection = document.querySelector('.promo-code-section');
+                       if (promoFormSection) {
+                           promoFormSection.style.display = 'block';
+                       }
+                       
+                       // Mettre à jour le total sans réduction
+                       const totalElement = document.querySelector('.summary-item.total .summary-value');
+                       if (totalElement) {
+                           totalElement.textContent = '€' + formattedCartTotal;
+                           console.log("Total mis à jour à (sans promo):", formattedCartTotal);
+                       }
+                       
+                       // ✅ NOUVEAU : Afficher un message d'information
+                       if (data.promo_code) {
+                           showPromoMessage('Le code promo a été supprimé car le montant minimum n\'est plus atteint.', 'warning');
+                       }
+                   }
+                   
+                   // Synchroniser l'input avec la quantité réelle
+                   const input = form.querySelector('input[name="quantity"]');
+                   if (input && data.current_quantity) {
+                       input.value = data.current_quantity;
+                       console.log("Quantité de l'input mise à jour à:", data.current_quantity);
+                   }
+                   
+                   console.log('Quantité mise à jour avec succès');
+               } else {
+                   console.error('Erreur lors de la mise à jour de la quantité:', data.error);
+                   const input = form.querySelector('input[name="quantity"]');
+                   if (input && data.current_quantity) {
+                       input.value = data.current_quantity;
+                   }
+                   alert(data.error);
+               }
+           })
+           .catch(error => {
+               console.error('Erreur AJAX:', error);
+               alert('Erreur lors de la mise à jour du panier');
+           })
+           .finally(() => {
+               // Supprimer l'indicateur de chargement
+               cartItem.style.opacity = '1';
+           });
+       }
+       
+       // Gestion avancée des boutons de quantité
+       console.log("Correctif des boutons de quantité avancés chargé");
+       
+       // Gestionnaire direct pour tous les événements de clic
+       document.body.addEventListener('click', function(event) {
+           // Gestion des clics sur le bouton moins
+           if (event.target.classList.contains('minus') || 
+               (event.target.parentElement && event.target.parentElement.classList.contains('minus'))) {
+               
+               const button = event.target.classList.contains('minus') ? event.target : event.target.parentElement;
+               console.log("Bouton moins cliqué:", button);
+               
+               // Trouver l'article du panier
+               const cartItem = button.closest('.cart-item');
+               if (!cartItem) {
+                   console.error("Article du panier non trouvé pour le bouton moins");
+                   return;
+               }
+               
+               // Trouver l'ID de l'article à partir du formulaire
+               const form = cartItem.querySelector('form.quantity-form');
+               if (!form) {
+                   console.error("Formulaire non trouvé dans l'article du panier");
+                   return;
+               }
+               
+               const itemId = form.querySelector('input[name="item_id"]').value;
+               console.log("ID de l'article depuis l'input caché:", itemId);
+               
+               // Trouver l'élément input
+               const input = button.closest('.quantity-control').querySelector('input[type="number"]');
+               if (input) {
+                   console.log("Input trouvé:", input, "Valeur actuelle:", input.value);
+                   
+                   const currentValue = parseInt(input.value) || 1;
+                   const minValue = parseInt(input.min) || 1;
+                   
+                   if (currentValue > minValue) {
+                       // Mettre à jour la valeur
+                       input.value = currentValue - 1;
+                       console.log("Valeur diminuée à:", input.value);
+                       
+                       // Envoyer une requête AJAX pour mettre à jour la quantité
+                       updateQuantity(itemId, input.value, button);
+                   } else {
+                       console.log("Déjà à la valeur minimale");
+                   }
+               }
+           }
+           
+           // Gestion des clics sur le bouton plus
+           if (event.target.classList.contains('plus') || 
+               (event.target.parentElement && event.target.parentElement.classList.contains('plus'))) {
+               
+               const button = event.target.classList.contains('plus') ? event.target : event.target.parentElement;
+               console.log("Bouton plus cliqué:", button);
+               
+               // Trouver l'article du panier
+               const cartItem = button.closest('.cart-item');
+               if (!cartItem) {
+                   console.error("Article du panier non trouvé pour le bouton plus");
+                   return;
+               }
+               
+               // Trouver l'ID de l'article à partir du formulaire
+               const form = cartItem.querySelector('form.quantity-form');
+               if (!form) {
+                   console.error("Formulaire non trouvé dans l'article du panier");
+                   return;
+               }
+               
+               const itemId = form.querySelector('input[name="item_id"]').value;
+               console.log("ID de l'article depuis l'input caché:", itemId);
+               
+               // Trouver l'élément input
+               const input = button.closest('.quantity-control').querySelector('input[type="number"]');
+               if (input) {
+                   console.log("Input trouvé:", input, "Valeur actuelle:", input.value);
+                   
+                   const currentValue = parseInt(input.value) || 1;
+                   const maxValue = 99;  // Définir une valeur élevée fixe
+                   
+                   if (currentValue < maxValue) {
+                       // Mettre à jour la valeur
+                       input.value = currentValue + 1;
+                       console.log("Valeur augmentée à:", input.value);
+                       
+                       // Envoyer une requête AJAX pour mettre à jour la quantité
+                       updateQuantity(itemId, input.value, button);
+                   } else {
+                       console.log("Déjà à la valeur maximale");
+                   }
+               }
+           }
+       });
+       
+       // ✅ FONCTIONS POUR LA GESTION DES CODES PROMO CORRIGÉES ✅
+       window.applyPromoCode = function() {
+           const input = document.getElementById('promo-code-input');
+           const button = document.querySelector('.apply-promo-btn');
+           const messageDiv = document.getElementById('promo-message');
+           
+           const promoCode = input.value.trim().toUpperCase();
+           
+           if (!promoCode) {
+               showPromoMessage('Veuillez entrer un code promo', 'error');
+               return;
+           }
+           
+           // Désactiver le bouton et afficher le chargement
+           button.disabled = true;
+           button.classList.add('loading');
+           button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Application...';
+           
+           // Masquer les messages précédents
+           if (messageDiv) {
+               messageDiv.style.display = 'none';
+           }
+           
+           // Obtenir le jeton CSRF
+           const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+           
+           // Envoyer la requête AJAX
+           fetch('/cart/apply-promo/', {
+               method: 'POST',
+               headers: {
+                   'Content-Type': 'application/x-www-form-urlencoded',
+                   'X-CSRFToken': csrfToken,
+                   'X-Requested-With': 'XMLHttpRequest'
+               },
+               body: `promo_code=${encodeURIComponent(promoCode)}`
+           })
+           .then(response => response.json())
+           .then(data => {
+               if (data.success) {
+                   // Succès - recharger la page pour afficher le code appliqué
+                   showPromoMessage(data.message, 'success');
+                   setTimeout(() => {
+                       window.location.reload();
+                   }, 1500);
+               } else {
+                   // Erreur
+                   showPromoMessage(data.error, 'error');
+                   resetPromoButton();
+               }
+           })
+           .catch(error => {
+               console.error('Erreur lors de l\'application du code promo:', error);
+               showPromoMessage('Erreur lors de l\'application du code promo', 'error');
+               resetPromoButton();
+           });
+       };
+
+       window.removePromoCode = function() {
+           if (!confirm('Êtes-vous sûr de vouloir supprimer ce code promo ?')) {
+               return;
+           }
+           
+           // Obtenir le jeton CSRF
+           const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+           
+           // Envoyer la requête AJAX
+           fetch('/cart/remove-promo/', {
+               method: 'POST',
+               headers: {
+                   'Content-Type': 'application/x-www-form-urlencoded',
+                   'X-CSRFToken': csrfToken,
+                   'X-Requested-With': 'XMLHttpRequest'
+               }
+           })
+           .then(response => response.json())
+           .then(data => {
+               if (data.success) {
+                   // Succès - recharger la page
+                   window.location.reload();
+               } else {
+                   alert('Erreur lors de la suppression du code promo');
+               }
+           })
+           .catch(error => {
+               console.error('Erreur lors de la suppression du code promo:', error);
+               alert('Erreur lors de la suppression du code promo');
+           });
+       };
+
+       // ✅ FONCTION UTILITAIRE POUR AFFICHER LES MESSAGES PROMO
+       function showPromoMessage(message, type) {
+           const messageDiv = document.getElementById('promo-message');
+           if (messageDiv) {
+               messageDiv.textContent = message;
+               messageDiv.className = `promo-message ${type}`;
+               messageDiv.style.display = 'block';
+               
+               // Masquer automatiquement après 5 secondes pour les messages de succès
+               if (type === 'success') {
+                   setTimeout(() => {
+                       messageDiv.style.display = 'none';
+                   }, 5000);
+               }
+           } else {
+               // Fallback : créer un message temporaire
+               const tempMessage = document.createElement('div');
+               tempMessage.style.cssText = `
+                   position: fixed;
+                   top: 20px;
+                   right: 20px;
+                   padding: 10px 20px;
+                   border-radius: 5px;
+                   color: white;
+                   font-weight: bold;
+                   z-index: 1000;
+                   max-width: 300px;
+                   background-color: ${type === 'success' ? '#28a745' : type === 'warning' ? '#ffc107' : '#dc3545'};
+               `;
+               tempMessage.textContent = message;
+               document.body.appendChild(tempMessage);
+               
+               setTimeout(() => {
+                   document.body.removeChild(tempMessage);
+               }, 5000);
+           }
+       }
+
+       function resetPromoButton() {
+           const button = document.querySelector('.apply-promo-btn');
+           if (button) {
+               button.disabled = false;
+               button.classList.remove('loading');
+               button.innerHTML = '<i class="fas fa-check"></i> Appliquer';
+           }
+       }
+
+       // Permettre l'application du code promo en appuyant sur Entrée
+       const promoInput = document.getElementById('promo-code-input');
+       if (promoInput) {
+           promoInput.addEventListener('keypress', function(e) {
+               if (e.key === 'Enter') {
+                   e.preventDefault();
+                   applyPromoCode();
+               }
+           });
+           
+           // Convertir automatiquement en majuscules
+           promoInput.addEventListener('input', function(e) {
+               e.target.value = e.target.value.toUpperCase();
+           });
+       }
+
+       // Animation d'apparition pour la section code promo
+       const promoSection = document.querySelector('.promo-code-section');
+       if (promoSection) {
+           promoSection.style.opacity = '0';
+           promoSection.style.transform = 'translateY(20px)';
+           
+           setTimeout(() => {
+               promoSection.style.transition = 'all 0.5s ease-out';
+               promoSection.style.opacity = '1';
+               promoSection.style.transform = 'translateY(0)';
+           }, 100);
+       }
+       
+       // ✅ GESTION DE LA VALIDATION DES CONDITIONS LÉGALES ✅
+       function checkLegalAgreement() {
+           const termsCheckbox = document.getElementById('accept-terms');
+           const legalCheckbox = document.getElementById('accept-legal');
+           const checkoutBtn = document.getElementById('checkout-btn');
+           const bancontactBtn = document.getElementById('bancontact-btn');
+           
+           if (termsCheckbox && legalCheckbox && checkoutBtn && bancontactBtn) {
+               const bothChecked = termsCheckbox.checked && legalCheckbox.checked;
+               
+               // Activer/désactiver le bouton de paiement par carte
+               checkoutBtn.disabled = !bothChecked;
+               
+               // Activer/désactiver le bouton Bancontact
+               if (bothChecked) {
+                   bancontactBtn.style.pointerEvents = 'auto';
+                   bancontactBtn.style.opacity = '1';
+               } else {
+                   bancontactBtn.style.pointerEvents = 'none';
+                   bancontactBtn.style.opacity = '0.5';
+               }
+           }
+       }
+       
+       // Ajouter les event listeners pour les checkboxes
+       const termsCheckbox = document.getElementById('accept-terms');
+       const legalCheckbox = document.getElementById('accept-legal');
+       
+       if (termsCheckbox) {
+           termsCheckbox.addEventListener('change', checkLegalAgreement);
+       }
+       
+       if (legalCheckbox) {
+           legalCheckbox.addEventListener('change', checkLegalAgreement);
+       }
+       
+       // Vérification initiale au chargement de la page
+       checkLegalAgreement();
+       
+       // Prévenir la soumission du formulaire si les conditions ne sont pas acceptées
+       const checkoutForm = document.querySelector('.checkout-form');
+       if (checkoutForm) {
+           checkoutForm.addEventListener('submit', function(e) {
+               const termsCheckbox = document.getElementById('accept-terms');
+               const legalCheckbox = document.getElementById('accept-legal');
+               
+               if (!termsCheckbox || !legalCheckbox || !termsCheckbox.checked || !legalCheckbox.checked) {
+                   e.preventDefault();
+                   alert('Veuillez accepter les conditions d\'utilisation et les mentions légales avant de procéder au paiement.');
+                   return false;
+               }
+           });
+       }
+       
+       // Prévenir le clic sur le bouton Bancontact si les conditions ne sont pas acceptées
+       const bancontactBtn = document.getElementById('bancontact-btn');
+       if (bancontactBtn) {
+           bancontactBtn.addEventListener('click', function(e) {
+               const termsCheckbox = document.getElementById('accept-terms');
+               const legalCheckbox = document.getElementById('accept-legal');
+               
+               if (!termsCheckbox || !legalCheckbox || !termsCheckbox.checked || !legalCheckbox.checked) {
+                   e.preventDefault();
+                   alert('Veuillez accepter les conditions d\'utilisation et les mentions légales avant de procéder au paiement.');
+                   return false;
+               }
+           });
+       }
+       
+       // Animation des checkboxes pour un meilleur feedback utilisateur
+       document.querySelectorAll('.legal-checkbox').forEach(checkbox => {
+           checkbox.addEventListener('change', function() {
+               const label = this.nextElementSibling;
+               if (this.checked) {
+                   label.style.transform = 'scale(1.05)';
+                   setTimeout(() => {
+                       label.style.transform = 'scale(1)';
+                   }, 150);
+               }
+           });
+       });
+       
+       console.log("Script de validation légale et codes promo chargé avec succès");
+   });
+</script>
+{% endblock %}

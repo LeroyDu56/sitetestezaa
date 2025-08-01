@@ -1,0 +1,221 @@
+{% extends 'minecraft_app/base.html' %}
+{% load static %}
+
+{% block title %}Paiement Échoué - Serveur Novania Towny Earth{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/payment_failed.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Section Héro Échec de Paiement -->
+<section class="payment-failed-hero">
+    <div class="payment-failed-particles" id="payment-failed-particles"></div>
+    <div class="payment-failed-hero-content">
+        <h1 class="payment-failed-hero-title">Paiement Échoué</h1>
+        <p class="payment-failed-hero-subtitle">Nous avons rencontré un problème avec votre paiement</p>
+    </div>
+</section>
+
+<!-- Section Principale Échec de Paiement -->
+<section class="payment-failed-main-section">
+    <div class="container">
+        <div class="payment-failed-container">
+            <div class="payment-failed-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            
+            <h2 class="payment-failed-heading">Votre paiement n'a pas pu être traité</h2>
+            <p class="payment-failed-description">Ne vous inquiétez pas, aucun montant n'a été débité de votre compte. Un problème est survenu lors du traitement de votre paiement.</p>
+            
+            <div class="payment-failed-reasons">
+                <h3>Causes Fréquentes d'Échec de Paiement</h3>
+                <div class="reasons-grid">
+                    <div class="reason-item">
+                        <div class="reason-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="reason-content">
+                            <h4>Fonds Insuffisants</h4>
+                            <p>Votre carte peut ne pas disposer de fonds suffisants pour la transaction.</p>
+                        </div>
+                    </div>
+                    <div class="reason-item">
+                        <div class="reason-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="reason-content">
+                            <h4>Vérification de Sécurité Bancaire</h4>
+                            <p>Votre banque a peut-être refusé la transaction par mesure de sécurité.</p>
+                        </div>
+                    </div>
+                    <div class="reason-item">
+                        <div class="reason-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <div class="reason-content">
+                            <h4>Problème Technique</h4>
+                            <p>Une erreur technique a pu survenir pendant le traitement du paiement.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="payment-failed-steps">
+                <h3>Que Pouvez-Vous Faire ?</h3>
+                <ul class="steps-list">
+                    <li>
+                        <span class="step-number">1</span>
+                        <span class="step-text">Vérifiez que vos informations de paiement sont correctes</span>
+                    </li>
+                    <li>
+                        <span class="step-number">2</span>
+                        <span class="step-text">Assurez-vous que votre carte dispose de fonds suffisants</span>
+                    </li>
+                    <li>
+                        <span class="step-number">3</span>
+                        <span class="step-text">Essayez à nouveau avec une méthode de paiement différente</span>
+                    </li>
+                    <li>
+                        <span class="step-number">4</span>
+                        <span class="step-text">Contactez votre banque si le problème persiste</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="payment-failed-actions">
+                <a href="{% url 'store' %}" class="btn-primary">
+                    <i class="fas fa-redo"></i>
+                    <span>Réessayer</span>
+                </a>
+                <a href="{% url 'contact' %}" class="btn-secondary">
+                    <i class="fas fa-headset"></i>
+                    <span>Contacter le Support</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section FAQ -->
+<section class="faq-section">
+    <div class="container">
+        <div class="faq-container">
+            <h2 class="faq-title">Foire Aux Questions</h2>
+            
+            <div class="faq-items">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Ma carte a-t-elle été débitée ?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Non, votre carte n'a pas été débitée. Lorsqu'un paiement échoue, aucun montant n'est prélevé de votre compte. Il est possible que vous voyiez une autorisation temporaire, mais celle-ci devrait disparaître automatiquement dans les prochains jours.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Puis-je essayer un autre moyen de paiement ?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Oui, vous pouvez retourner à la boutique et essayer de finaliser votre achat avec une méthode de paiement différente. Nous acceptons diverses méthodes de paiement, notamment les cartes de crédit/débit et d'autres services de paiement en ligne.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Mon panier est-il toujours sauvegardé ?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Oui, les articles de votre panier sont toujours sauvegardés. Vous pouvez retourner à la boutique et procéder à nouveau au paiement sans avoir à rajouter vos articles.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Créer des particules pour le hero d'échec de paiement
+        createParticles('payment-failed-particles', 40);
+        
+        // Fonction pour créer des particules
+        function createParticles(containerId, count) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            const particleCount = window.innerWidth < 768 ? Math.floor(count / 2) : count;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Taille aléatoire
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Position aléatoire
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.left = Math.random() * 100 + '%';
+                
+                // Opacité aléatoire
+                particle.style.opacity = Math.random() * 0.5 + 0.2;
+                
+                // Délai d'animation
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Effets de survol des boutons
+        const buttons = document.querySelectorAll('.btn-primary, .btn-secondary');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.classList.add('btn-hover');
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.classList.remove('btn-hover');
+            });
+        });
+        
+        // Fonctionnalité d'accordéon FAQ
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', function() {
+                const faqItem = this.parentElement;
+                const answer = this.nextElementSibling;
+                const icon = this.querySelector('.faq-icon i');
+                
+                // Vérifier si cet élément FAQ est déjà actif
+                const isActive = faqItem.classList.contains('active');
+                
+                // Fermer d'abord tous les éléments FAQ
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                    const itemAnswer = item.querySelector('.faq-answer');
+                    itemAnswer.style.maxHeight = null;
+                    const itemIcon = item.querySelector('.faq-icon i');
+                    itemIcon.className = 'fas fa-chevron-down';
+                });
+                
+                // Si l'élément cliqué n'était pas actif, l'ouvrir
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                    icon.className = 'fas fa-chevron-up';
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,159 @@
+/* Correction du badge de comptage des avantages */
+.features-count {
+    position: static !important;
+    right: auto !important;
+    display: inline-block !important;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 2px 8px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-left: 8px !important;
+    margin-right: 8px !important;
+}
+
+/* Modification du conteneur du bouton toggle-features */
+.toggle-features {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    padding: 10px 15px !important;
+}
+
+/* ========== CORRECTIONS POUR LES BOUTONS ========== */
+
+/* Footer des produits - Layout amélioré */
+.product-footer {
+    padding: 25px 20px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 0 0 10px 10px;
+    margin-top: auto;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+
+/* Styles pour tous les boutons de la boutique */
+.btn-purchase {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    height: 50px !important;
+    padding: 12px 20px !important;
+    border-radius: 30px !important;
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    text-decoration: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Bouton Ajouter au panier */
+.btn-purchase.add-cart-btn {
+    background: linear-gradient(135deg, #3498db, #2980b9) !important;
+    color: white !important;
+}
+
+.btn-purchase.add-cart-btn:hover {
+    background: linear-gradient(135deg, #2980b9, #1f5f8b) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4) !important;
+    color: white !important;
+}
+
+/* Bouton Offrir ce rang */
+.btn-purchase.gift-btn {
+    background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
+    color: white !important;
+}
+
+.btn-purchase.gift-btn:hover {
+    background: linear-gradient(135deg, #c0392b, #a93226) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4) !important;
+    color: white !important;
+}
+
+/* Bouton désactivé */
+.btn-purchase[disabled] {
+    background: linear-gradient(135deg, #7f8c8d, #95a5a6) !important;
+    cursor: not-allowed !important;
+    opacity: 0.6 !important;
+    transform: none !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.btn-purchase[disabled]:hover {
+    transform: none !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Icônes dans les boutons */
+.btn-purchase i {
+    font-size: 0.9rem !important;
+    flex-shrink: 0 !important;
+}
+
+/* Assurer que les formulaires et liens prennent toute la largeur */
+.product-footer form,
+.product-footer a {
+    width: 100% !important;
+    display: flex !important;
+}
+
+/* IMPORTANT: Masquer le bouton Jouer Maintenant sur mobile */
+@media (max-width: 768px) {
+    header .play-now-btn,
+    .header-actions .play-now-btn,
+    a.play-now-btn,
+    .btn.play-now-btn {
+        display: none !important;
+    }
+    
+    .header-actions {
+        gap: 8px !important;
+    }
+    
+    .auth-buttons {
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    
+    /* Footer reste en colonne sur mobile */
+    .product-footer {
+        padding: 20px 15px !important;
+        gap: 10px !important;
+    }
+    
+    .btn-purchase {
+        height: 45px !important;
+        font-size: 0.85rem !important;
+        padding: 10px 15px !important;
+    }
+    
+    .features-count {
+        font-size: 0.65rem !important;
+        padding: 1px 6px !important;
+    }
+}
+
+/* Très petits écrans */
+@media (max-width: 400px) {
+    .btn-purchase {
+        font-size: 0.8rem !important;
+        padding: 8px 12px !important;
+        height: 42px !important;
+    }
+}

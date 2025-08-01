@@ -1,0 +1,16 @@
+INFO 2025-04-22 19:37:09,610 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 19:38:37,455 autoreload /app/minecraft_app/minecraft_service.py changed, reloading.
+INFO 2025-04-22 19:38:37,931 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 19:38:39,748 autoreload /app/minecraft_app/minecraft_service.py changed, reloading.
+INFO 2025-04-22 19:38:40,235 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 19:40:19,394 minecraft_service Connexion RCON à wed-assured.joinmc.link:25575
+ERROR 2025-04-22 19:40:19,426 minecraft_service Erreur RCON détaillée: [Errno -5] No address associated with hostname
+Traceback (most recent call last):
+  File "/app/minecraft_app/minecraft_service.py", line 30, in apply_rank_to_player
+    with MCRcon(
+  File "/usr/local/lib/python3.11/site-packages/mcrcon.py", line 57, in __enter__
+    self.connect()
+  File "/usr/local/lib/python3.11/site-packages/mcrcon.py", line 77, in connect
+    self.socket.connect((self.host, self.port))
+socket.gaierror: [Errno -5] No address associated with hostname
+INFO 2025-04-22 19:40:46,480 autoreload /app/minecraft_site/settings.py changed, reloading.

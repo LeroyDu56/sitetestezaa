@@ -1,0 +1,350 @@
+{% extends 'minecraft_app/base.html' %}
+{% load static %}
+
+{% block title %}Contactez-nous - Serveur Novania Towny Earth{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/contact.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Section Hero Contact -->
+<section class="contact-hero">
+    <div class="contact-particles" id="contact-particles"></div>
+    <div class="contact-hero-content">
+        <h1 class="contact-hero-title">Contactez-nous</h1>
+        <p class="contact-hero-subtitle">Entrez en contact avec notre équipe</p>
+    </div>
+</section>
+
+<!-- Section Principale Contact -->
+<section class="contact-main-section">
+    <div class="container">
+        <div class="contact-intro">
+            <h2 class="section-title">Prenez Contact</h2>
+            <p class="section-subtitle">Vous avez des questions, des suggestions ou besoin d'aide ? Nous sommes là pour vous aider !</p>
+        </div>
+        
+        <div class="contact-container">
+            <div class="contact-sidebar">
+                <div class="contact-card">
+                    <div class="contact-card-icon">
+                        <i class="fab fa-discord"></i>
+                    </div>
+                    <h3 class="contact-card-title">Discord</h3>
+                    <p class="contact-card-text">Rejoignez notre serveur Discord pour un support en temps réel et des discussions communautaires</p>
+                    <a href="https://discord.gg/9JQ6ePj7CT" class="contact-card-link" target="_blank">
+                        <span>discord.gg/9JQ6ePj7CT</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-card-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <h3 class="contact-card-title">Support In-Game</h3>
+                    <p class="contact-card-text">Obtenez de l'aide pendant que vous jouez sur notre serveur</p>
+                    <div class="contact-command">
+                        <code>/helpop votre message</code>
+                        <button class="copy-command" data-command="/helpop votre message">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-card-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="contact-card-title">Ticket de Support</h3>
+                    <p class="contact-card-text">Ouvrez un ticket sur notre Discord pour une assistance directe de notre équipe staff</p>
+                    <a href="https://discord.gg/9JQ6ePj7CT" class="contact-card-link" target="_blank">
+                        <span>Ouvrir un Ticket sur Discord</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="contact-form-container">
+                <div class="contact-form-header">
+                    <div class="contact-form-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h2 class="contact-form-title">Envoyez-nous un Message</h2>
+                    <p class="contact-form-subtitle">Nous vous répondrons dès que possible</p>
+                </div>
+                
+                <form class="contact-form" method="post">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="name" class="form-label">
+                            <i class="fas fa-user"></i> Votre Nom *
+                        </label>
+                        <input type="text" id="name" name="name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="minecraft_username" class="form-label">
+                            <i class="fas fa-cube"></i> Pseudo Minecraft
+                        </label>
+                        <input type="text" id="minecraft_username" name="minecraft_username" class="form-control">
+                        <div class="form-help-text">Si vous nous contactez concernant un problème en jeu</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="discord_username" class="form-label">
+                            <i class="fab fa-discord"></i> Pseudo Discord
+                        </label>
+                        <input type="text" id="discord_username" name="discord_username" class="form-control" placeholder="username#0000">
+                        <div class="form-help-text">Nous vous contacterons via Discord si fourni</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject" class="form-label">
+                            <i class="fas fa-tag"></i> Sujet *
+                        </label>
+                        <select id="subject" name="subject" class="form-control" required>
+                            <option value="">Sélectionnez un sujet</option>
+                            <option value="general">Question Générale</option>
+                            <option value="support">Support Technique</option>
+                            <option value="report">Signaler un Problème</option>
+                            <option value="suggestion">Suggestion</option>
+                            <option value="business">Demande Professionnelle</option>
+                            <option value="other">Autre</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message" class="form-label">
+                            <i class="fas fa-comment-alt"></i> Votre Message *
+                        </label>
+                        <textarea id="message" name="message" class="form-control" rows="6" required></textarea>
+                    </div>
+                    
+                    <div class="form-action">
+                        <button type="submit" class="form-submit">
+                            <span>Envoyer le Message</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="staff-contact-section">
+            <h3>Vous cherchez quelqu'un en particulier ?</h3>
+            <p>Consultez notre <a href="{% url 'staff' %}">page staff</a> pour trouver la bonne personne pour votre demande.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Section Discord -->
+<section class="discord-section">
+    <div class="discord-particles" id="discord-particles"></div>
+    <div class="container">
+        <div class="discord-content">
+            <h2 class="discord-title">Rejoignez Notre Communauté</h2>
+            <p class="discord-text">Connectez-vous avec d'autres joueurs, obtenez de l'aide et restez informé des actualités du serveur</p>
+            <a href="https://discord.gg/9JQ6ePj7CT" class="discord-btn" target="_blank">
+                <i class="fab fa-discord"></i>
+                <span>Rejoindre Notre Discord</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Section Lien FAQ -->
+<section class="faq-link-section">
+    <div class="container">
+        <h2>Trouvez des Réponses Rapides</h2>
+        <p>Avant de nous contacter, vous pourriez trouver une réponse immédiate à votre question dans notre section Foire Aux Questions.</p>
+        <a href="{% url 'faq' %}" class="btn faq-btn">
+            <i class="fas fa-question-circle"></i>
+            <span>Consulter notre FAQ</span>
+        </a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Fonction pour créer un select personnalisé
+    function createCustomSelect(selectElement) {
+        // Créer la structure de base
+        const wrapper = document.createElement('div');
+        wrapper.className = 'custom-select-container';
+        
+        // Cacher le select original mais le garder dans le DOM pour l'accessibilité
+        selectElement.style.display = 'none';
+        selectElement.parentNode.insertBefore(wrapper, selectElement);
+        wrapper.appendChild(selectElement);
+        
+        // Créer le déclencheur
+        const trigger = document.createElement('div');
+        trigger.className = 'custom-select-trigger';
+        trigger.tabIndex = 0;
+        trigger.textContent = selectElement.options[selectElement.selectedIndex]?.textContent || 'Sélectionnez une option';
+        wrapper.appendChild(trigger);
+        
+        // Créer le conteneur d'options
+        const optionsContainer = document.createElement('div');
+        optionsContainer.className = 'custom-options';
+        wrapper.appendChild(optionsContainer);
+        
+        // Ajouter les options
+        Array.from(selectElement.options).forEach((option, index) => {
+            const customOption = document.createElement('div');
+            customOption.className = 'custom-option';
+            customOption.setAttribute('data-value', option.value);
+            customOption.setAttribute('data-index', index);
+            customOption.textContent = option.textContent;
+            
+            if (index === selectElement.selectedIndex) {
+                customOption.classList.add('selection');
+            }
+            
+            customOption.addEventListener('click', function() {
+                // Mettre à jour le select original
+                selectElement.selectedIndex = this.getAttribute('data-index');
+                
+                // Déclencher l'événement change
+                const event = new Event('change', { bubbles: true });
+                selectElement.dispatchEvent(event);
+                
+                // Mettre à jour l'affichage
+                trigger.textContent = this.textContent;
+                
+                // Mettre à jour la classe selection
+                optionsContainer.querySelectorAll('.custom-option').forEach(opt => {
+                    opt.classList.remove('selection');
+                });
+                this.classList.add('selection');
+                
+                // Fermer le menu
+                wrapper.classList.remove('open');
+            });
+            
+            optionsContainer.appendChild(customOption);
+        });
+        
+        // Gestion de l'ouverture/fermeture
+        trigger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            closeAllCustomSelects();
+            wrapper.classList.toggle('open');
+        });
+        
+        // Gestion du clavier pour l'accessibilité
+        trigger.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                wrapper.classList.toggle('open');
+            } else if (e.key === 'Escape') {
+                wrapper.classList.remove('open');
+            } else if (e.key === 'ArrowDown' && wrapper.classList.contains('open')) {
+                e.preventDefault();
+                const firstOption = optionsContainer.querySelector('.custom-option');
+                if (firstOption) firstOption.focus();
+            }
+        });
+        
+        // Mettre à jour le custom select lors du changement du select original
+        selectElement.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            trigger.textContent = selectedOption ? selectedOption.textContent : '';
+            
+            optionsContainer.querySelectorAll('.custom-option').forEach(opt => {
+                opt.classList.remove('selection');
+                if (opt.getAttribute('data-index') == this.selectedIndex) {
+                    opt.classList.add('selection');
+                }
+            });
+        });
+    }
+    
+    // Fermer tous les selects personnalisés ouverts
+    function closeAllCustomSelects() {
+        document.querySelectorAll('.custom-select-container.open').forEach(select => {
+            select.classList.remove('open');
+        });
+    }
+    
+    // Fermer les selects lors d'un clic extérieur
+    document.addEventListener('click', closeAllCustomSelects);
+    
+    // Initialiser tous les selects du formulaire de contact
+    document.querySelectorAll('.contact-form select.form-control').forEach(createCustomSelect);
+});
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Créer des particules pour le hero de contact
+        createParticles('contact-particles', 40);
+        
+        // Créer des particules pour la section discord
+        createParticles('discord-particles', 30);
+        
+        // Fonction pour créer des particules
+        function createParticles(containerId, count) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            const particleCount = window.innerWidth < 768 ? Math.floor(count / 2) : count;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Taille aléatoire
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Position aléatoire
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.left = Math.random() * 100 + '%';
+                
+                // Opacité aléatoire
+                particle.style.opacity = Math.random() * 0.5 + 0.2;
+                
+                // Délai d'animation
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Fonctionnalité de copie de commande
+        const copyButtons = document.querySelectorAll('.copy-command');
+        copyButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const command = this.getAttribute('data-command');
+                navigator.clipboard.writeText(command).then(() => {
+                    // Afficher le retour de copie
+                    const originalIcon = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i>';
+                    
+                    setTimeout(() => {
+                        this.innerHTML = originalIcon;
+                    }, 2000);
+                });
+            });
+        });
+        
+        // Animation du bouton d'envoi
+        const submitBtn = document.querySelector('.form-submit');
+        if (submitBtn) {
+            submitBtn.addEventListener('mouseenter', function() {
+                this.classList.add('btn-hover');
+            });
+            
+            submitBtn.addEventListener('mouseleave', function() {
+                this.classList.remove('btn-hover');
+            });
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,215 @@
+{% extends 'minecraft_app/base.html' %}
+{% load static %}
+
+{% block title %}Paiement Réussi - Serveur Novania Towny Earth{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/payment_success.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Section Héro Paiement Réussi -->
+<section class="payment-success-hero">
+    <div class="payment-success-particles" id="payment-success-particles"></div>
+    <div class="payment-success-hero-content">
+        <h1 class="payment-success-hero-title">Paiement Réussi !</h1>
+        <p class="payment-success-hero-subtitle">Merci de soutenir notre serveur</p>
+    </div>
+</section>
+
+<!-- Section Principale Paiement Réussi -->
+<section class="payment-success-main-section">
+    <div class="container">
+        <div class="payment-success-container">
+            <div class="payment-success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            
+            <h2 class="payment-success-heading">Votre achat a été finalisé</h2>
+            <p class="payment-success-description">Votre transaction a réussi et vos articles ont été ajoutés à votre compte. Merci de soutenir Novania !</p>
+            
+            <!-- Section Détails d'Achat -->
+            <div class="purchase-details">
+                <h3 class="details-title">Détails de l'Achat</h3>
+                
+                <div class="details-grid">
+                    {% if rank_purchases %}
+                        <div class="details-section">
+                            <h4 class="section-title">Achats de Rangs</h4>
+                            <div class="purchased-items">
+                                {% for purchase in rank_purchases %}
+                                    <div class="purchased-item">
+                                        <div class="item-badge" style="background-color: {{ purchase.rank.color_code }}">
+                                            <i class="fas fa-crown"></i>
+                                        </div>
+                                        <div class="item-info">
+                                            <div class="item-name">Rang {{ purchase.rank.name }}</div>
+                                            <div class="item-price">€{{ purchase.amount }}</div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    
+                    {% if store_item_purchases %}
+                        <div class="details-section">
+                            <h4 class="section-title">Achats d'Articles</h4>
+                            <div class="purchased-items">
+                                {% for purchase in store_item_purchases %}
+                                    <div class="purchased-item">
+                                        <div class="item-badge" style="background-color: {{ purchase.store_item.color_code }}">
+                                            <i class="fas fa-gift"></i>
+                                        </div>
+                                        <div class="item-info">
+                                            <div class="item-name">{{ purchase.store_item.name }}</div>
+                                            <div class="item-meta">
+                                                <span class="item-quantity">x{{ purchase.quantity }}</span>
+                                                <span class="item-price">€{{ purchase.amount }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="purchase-total">
+                    <div class="total-label">Montant Total :</div>
+                    <div class="total-value">€{{ total_amount|default:"0.00" }}</div>
+                </div>
+            </div>
+            
+            <div class="what-next">
+                <h3>Et Maintenant ?</h3>
+                <div class="next-steps">
+                    <div class="step">
+                        <div class="step-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>Rejoindre le Serveur</h4>
+                            <p>Vos achats ont été appliqués à votre compte. Connectez-vous au serveur pour profiter de vos nouveaux avantages !</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">
+                            <i class="fas fa-discord"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>Rejoindre Notre Discord</h4>
+                            <p>Connectez-vous avec d'autres joueurs et restez informé des actualités et événements du serveur.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="payment-success-actions">
+                <a href="{% url 'home' %}#join" class="btn-primary">
+                    <i class="fas fa-play-circle"></i>
+                    <span>Jouer Maintenant</span>
+                </a>
+                <a href="{% url 'store' %}" class="btn-secondary">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Continuer les Achats</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section Rejoindre la Communauté -->
+<section class="join-community-section">
+    <div class="container">
+        <div class="join-community-content">
+            <h2>Rejoignez Notre Communauté</h2>
+            <p>Connectez-vous avec d'autres joueurs, partagez vos expériences et obtenez de l'aide de notre équipe !</p>
+            <a href="https://discord.gg/9JQ6ePj7CT" class="discord-btn" target="_blank">
+                <i class="fab fa-discord"></i>
+                <span>Rejoindre Discord</span>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Créer des particules pour le hero de paiement réussi
+        createParticles('payment-success-particles', 40);
+        
+        // Fonction pour créer des particules
+        function createParticles(containerId, count) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            const particleCount = window.innerWidth < 768 ? Math.floor(count / 2) : count;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Taille aléatoire
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Position aléatoire
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.left = Math.random() * 100 + '%';
+                
+                // Opacité aléatoire
+                particle.style.opacity = Math.random() * 0.5 + 0.2;
+                
+                // Délai d'animation
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Effets de survol des boutons
+        const buttons = document.querySelectorAll('.btn-primary, .btn-secondary, .discord-btn');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.classList.add('btn-hover');
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.classList.remove('btn-hover');
+            });
+        });
+        
+        // Ajouter un effet de confettis automatique pour célébrer l'achat
+        function createConfetti() {
+            const confettiContainer = document.createElement('div');
+            confettiContainer.className = 'confetti-container';
+            document.body.appendChild(confettiContainer);
+            
+            const colors = ['#3498db', '#2ecc71', '#f1c40f', '#e74c3c', '#9b59b6', '#1abc9c'];
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                confetti.style.opacity = Math.random() + 0.5;
+                confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                
+                confettiContainer.appendChild(confetti);
+            }
+            
+            setTimeout(() => {
+                confettiContainer.remove();
+            }, 6000);
+        }
+        
+        setTimeout(createConfetti, 500);
+    });
+</script>
+{% endblock %}

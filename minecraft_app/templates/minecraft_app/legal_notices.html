@@ -1,0 +1,168 @@
+{% extends 'minecraft_app/base.html' %}
+{% load static %}
+
+{% block title %}Mentions Légales - Serveur Novania Towny Earth{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/legal.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Section Hero des Mentions Légales -->
+<section class="legal-hero">
+    <div class="legal-particles" id="legal-particles"></div>
+    <div class="legal-hero-content">
+        <h1 class="legal-hero-title">Mentions Légales</h1>
+        <p class="legal-hero-subtitle">Informations légales concernant le serveur Novania</p>
+    </div>
+</section>
+
+<!-- Section Principale des Mentions Légales -->
+<section class="legal-main-section">
+    <div class="container">
+        <div class="legal-container">
+            <div class="legal-content">
+                
+                <div class="legal-section">
+                    <h2>1. Éditeur du site</h2>
+                    <div class="legal-text">
+                        <p><strong>Nom du site :</strong> Novania - Earth Towny</p>
+                        <p><strong>Adresse du site :</strong> play.Novania.fr</p>
+                        <p><strong>Type d'activité :</strong> Serveur de jeu Minecraft communautaire</p>
+                        <p><strong>Contact :</strong> novania.mc@gmail.com</p>
+                        
+                        <h3>Informations sur l'entreprise</h3>
+                        <p><strong>Dénomination :</strong> Enzo Leroy</p>
+                        <p><strong>Nom commercial :</strong> Novania</p>
+                        <p><strong>Forme juridique :</strong> Entrepreneur individuel</p>
+                        <p><strong>SIREN :</strong> 945 128 783</p>
+                        <p><strong>SIRET :</strong> 945 128 783 00012</p>
+                        <p><strong>Code APE :</strong> 6201Z - Programmation informatique</p>
+                        <p><strong>Date d'immatriculation :</strong> 02/06/2025</p>
+                        <p><strong>Adresse du siège social :</strong> 3 rue Anjela Duval, 56890 Saint-Avé, France</p>
+                    </div>
+                </div>
+
+                <div class="legal-section">
+                    <h2>2. Hébergement</h2>
+                    <div class="legal-text">
+                        <p>Le site est hébergé par un prestataire externe.</p>
+                        <p>Les serveurs de jeu sont hébergés en France.</p>
+                    </div>
+                </div>
+
+                <div class="legal-section">
+                    <h2>3. Propriété intellectuelle</h2>
+                    <div class="legal-text">
+                        <p>Le contenu du site (textes, images, graphismes, logo, icônes, etc.) est la propriété exclusive de Novania, à l'exception des marques, logos ou contenus appartenant à d'autres sociétés partenaires ou tiers.</p>
+                        <p>Minecraft est une marque déposée de Mojang Studios. Novania n'est pas affilié à Mojang Studios.</p>
+                        <p>Toute reproduction, distribution, modification, adaptation, retransmission ou publication de ces différents éléments est strictement interdite sans l'accord exprès par écrit de Novania.</p>
+                    </div>
+                </div>
+
+                <div class="legal-section">
+                    <h2>4. Données personnelles</h2>
+                    <div class="legal-text">
+                        <p>Les données personnelles collectées sur ce site sont traitées conformément au Règlement Général sur la Protection des Données (RGPD).</p>
+                        <p><strong>Responsable du traitement :</strong> Enzo Leroy - Novania</p>
+                        <p><strong>Données collectées :</strong></p>
+                        <ul>
+                            <li>Nom d'utilisateur</li>
+                            <li>Adresse email</li>
+                            <li>Nom d'utilisateur Minecraft</li>
+                            <li>UUID Minecraft</li>
+                        </ul>
+                        <p><strong>Finalité du traitement :</strong> Gestion des comptes utilisateurs, traitement des commandes, amélioration des services.</p>
+                        <p><strong>Durée de conservation :</strong> Les données sont conservées pendant la durée nécessaire aux finalités pour lesquelles elles sont collectées.</p>
+                        <p><strong>Droits des utilisateurs :</strong> Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement, de portabilité et d'opposition concernant vos données personnelles. Pour exercer ces droits, contactez-nous à l'adresse : novania.mc@gmail.com</p>
+                    </div>
+                </div>
+
+                <div class="legal-section">
+                    <h2>5. Cookies</h2>
+                    <div class="legal-text">
+                        <p>Le site utilise des cookies techniques nécessaires au bon fonctionnement du service (session utilisateur, panier d'achat, préférences).</p>
+                        <p>Aucun cookie de tracking ou publicitaire n'est utilisé sans votre consentement explicite.</p>
+                    </div>
+                </div>
+
+                <div class="legal-section">
+                    <h2>6. Responsabilité</h2>
+                    <div class="legal-text">
+                        <p>Novania s'efforce de fournir des informations aussi précises que possible. Toutefois, il ne pourra être tenu responsable des omissions, des inexactitudes et des carences dans la mise à jour.</p>
+                        <p>Le serveur de jeu peut être temporairement indisponible pour des raisons de maintenance ou de problèmes techniques. Novania ne saurait être tenu responsable de ces interruptions.</p>
+                    </div>
+                </div>
+
+                <div class="legal-section">
+                    <h2>7. Loi applicable</h2>
+                    <div class="legal-text">
+                        <p>Les présentes mentions légales sont régies par la loi française.</p>
+                        <p>En cas de litige, les tribunaux français seront seuls compétents.</p>
+                    </div>
+                </div>
+
+                <div class="legal-section">
+                    <h2>8. Contact</h2>
+                    <div class="legal-text">
+                        <p>Pour toute question concernant ces mentions légales, vous pouvez nous contacter :</p>
+                        <ul>
+                            <li>Par email : novania.mc@gmail.com</li>
+                            <li>Par courrier : Enzo Leroy - Novania, 3 rue Anjela Duval, 56890 Saint-Avé, France</li>
+                            <li>Via notre <a href="{% url 'contact' %}" class="legal-link">formulaire de contact</a></li>
+                            <li>Sur notre serveur Discord</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="legal-footer">
+                    <p class="legal-update">Dernière mise à jour : 2 juin 2025</p>
+                    <div class="legal-actions">
+                        <a href="{% url 'store' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Retour à la boutique
+                        </a>
+                        <a href="{% url 'terms' %}" class="btn btn-primary">
+                            Voir les conditions d'utilisation <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Création de particules pour le conteneur legal-particles
+        const particlesContainer = document.getElementById('legal-particles');
+        if (particlesContainer) {
+            const particleCount = window.innerWidth < 768 ? 15 : 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Taille aléatoire
+                const size = Math.random() * 3 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Position aléatoire
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.left = Math.random() * 100 + '%';
+                
+                // Opacité aléatoire
+                particle.style.opacity = Math.random() * 0.4 + 0.2;
+                
+                // Délai d'animation
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+    });
+</script>
+{% endblock %}

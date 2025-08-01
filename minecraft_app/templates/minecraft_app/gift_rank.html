@@ -1,0 +1,363 @@
+{% extends 'minecraft_app/base.html' %}
+{% load static %}
+
+{% block title %}Offrir le Rang {{ rank.name }} - Novania{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/store.css' %}">
+<link rel="stylesheet" href="{% static 'css/gift_rank.css' %}">
+<style>
+.cart-info-section {
+    margin: 20px 0;
+}
+
+.info-box {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.info-box i {
+    font-size: 1.5rem;
+    color: #6c757d;
+    margin-top: 5px;
+}
+
+.info-content h4 {
+    margin: 0 0 10px 0;
+    color: #495057;
+    font-weight: 600;
+}
+
+.info-content p {
+    margin: 0 0 10px 0;
+    color: #6c757d;
+}
+
+.info-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.info-content li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+    color: #495057;
+    font-size: 0.9rem;
+}
+
+.info-content li i {
+    font-size: 0.8rem;
+    color: #28a745;
+    margin-top: 0;
+}
+
+.form-submit {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
+}
+
+.form-submit:hover:not(:disabled) {
+    background: linear-gradient(135deg, #20c997, #28a745);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+}
+
+.form-submit:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.username-verification {
+    margin-top: 8px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.verification-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.verification-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.upgrade-info {
+    color: #28a745;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 5px 0;
+}
+
+.upgrade-info i {
+    color: #2ecc71;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="store-hero">
+    <div class="store-particles" id="store-particles"></div>
+    <div class="store-hero-content">
+        <h1 class="store-title">Offrir un Rang</h1>
+        <p class="store-subtitle">Offrez le rang {{ rank.name }} à un autre joueur</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="gift-container">
+            <div class="gift-header">
+                <div class="gift-icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <h2>Offrir le Rang {{ rank.name }}</h2>
+                <div id="price-display">
+                    <p class="price" style="color: {{ rank.color_code }}">€{{ rank.price }}</p>
+                    <p class="upgrade-info" id="upgrade-info" style="display: none; font-size: 0.9em; color: #666;"></p>
+                </div>
+            </div>
+            
+            <div class="rank-description">
+                <p>{{ rank.description }}</p>
+            </div>
+            
+            <form method="POST" id="gift-form" class="gift-form">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="minecraft_username" class="form-label">
+                        <i class="fas fa-cube"></i> Pseudo Minecraft du destinataire
+                    </label>
+                    <input type="text" 
+                           id="minecraft_username" 
+                           name="minecraft_username" 
+                           class="form-control" 
+                           required
+                           placeholder="Entrez le pseudo Minecraft exact">
+                    <div id="username-verification" class="username-verification"></div>
+                    <small class="form-text text-muted">
+                        Le destinataire doit d'abord avoir un compte sur notre site.
+                    </small>
+                </div>
+                
+                <!-- Nouvelle section d'information sur l'ajout au panier -->
+                <div class="cart-info-section">
+                    <div class="info-box">
+                        <i class="fas fa-shopping-cart"></i>
+                        <div class="info-content">
+                            <h4>Ajout au panier</h4>
+                            <p>Ce cadeau sera ajouté à votre panier. Vous pourrez ensuite :</p>
+                            <ul>
+                                <li><i class="fas fa-tag"></i> Appliquer des codes promo</li>
+                                <li><i class="fas fa-plus"></i> Ajouter d'autres articles</li>
+                                <li><i class="fas fa-credit-card"></i> Procéder au paiement quand vous êtes prêt</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="form-submit" id="gift-submit" disabled>
+                    <i class="fas fa-cart-plus"></i> <span id="submit-text">Ajouter au Panier</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Créer des particules pour le hero du store
+    createParticles('store-particles', 80);
+
+    // Fonction pour créer des particules
+    function createParticles(containerId, count) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        
+        const particleCount = window.innerWidth < 768 ? Math.floor(count / 2) : count;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            // Taille aléatoire
+            const size = Math.random() * 4 + 2;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            
+            // Position horizontale aléatoire
+            particle.style.left = Math.random() * 100 + '%';
+            
+            // Commencer en bas
+            particle.style.transform = 'translateY(100vh)';
+            
+            // Durée d'animation aléatoire entre 5s et 15s
+            const duration = Math.random() * 10 + 5;
+            particle.style.animationDuration = duration + 's';
+            
+            // Opacité aléatoire
+            particle.style.opacity = Math.random() * 0.5 + 0.3;
+            
+            container.appendChild(particle);
+        }
+        
+        // Forcer le reflux pour déclencher les animations immédiatement
+        container.offsetHeight;
+    }
+
+    // Logique de vérification du nom d'utilisateur avec calcul du prix
+    const usernameInput = document.getElementById('minecraft_username');
+    const verificationDiv = document.getElementById('username-verification');
+    const submitButton = document.getElementById('gift-submit');
+    const priceDisplay = document.querySelector('.price');
+    const upgradeInfo = document.getElementById('upgrade-info');
+    const submitText = document.getElementById('submit-text');
+    
+    const originalPrice = {{ rank.price }};
+    const rankId = {{ rank.id }};
+    
+    let timeoutId;
+    
+    usernameInput.addEventListener('input', function() {
+        clearTimeout(timeoutId);
+        const username = this.value.trim();
+        
+        if (!username) {
+            verificationDiv.innerHTML = '';
+            verificationDiv.className = 'username-verification';
+            submitButton.disabled = true;
+            // Remettre le prix original
+            priceDisplay.textContent = '€' + originalPrice;
+            upgradeInfo.style.display = 'none';
+            submitText.textContent = 'Ajouter au Panier';
+            return;
+        }
+        
+        timeoutId = setTimeout(() => {
+            // D'abord vérifier si le joueur existe
+            fetch(`/verify-minecraft-username/?username=${encodeURIComponent(username)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.exists) {
+                        if (data.is_self) {
+                            verificationDiv.className = 'username-verification verification-error';
+                            verificationDiv.innerHTML = '<i class="fas fa-times-circle"></i> Vous ne pouvez pas vous offrir un rang à vous-même';
+                            submitButton.disabled = true;
+                            priceDisplay.textContent = '€' + originalPrice;
+                            upgradeInfo.style.display = 'none';
+                        } else {
+                            // Calculer le prix d'upgrade pour ce joueur
+                            fetch(`/api/calculate-gift-upgrade/?username=${encodeURIComponent(username)}&rank_id=${rankId}`)
+                                .then(response => response.json())
+                                .then(upgradeData => {
+                                    if (upgradeData.success) {
+                                        verificationDiv.className = 'username-verification verification-success';
+                                        verificationDiv.innerHTML = '<i class="fas fa-check-circle"></i> Joueur trouvé ! Vous pouvez offrir ce rang';
+                                        submitButton.disabled = false;
+                                        
+                                        if (upgradeData.upgrade_price < originalPrice) {
+                                            // C'est un upgrade
+                                            priceDisplay.textContent = '€' + upgradeData.upgrade_price;
+                                            upgradeInfo.innerHTML = `<i class="fas fa-arrow-up"></i> Upgrade depuis un rang existant (au lieu de €${originalPrice})`;
+                                            upgradeInfo.style.display = 'block';
+                                            upgradeInfo.style.color = '#28a745';
+                                            submitText.textContent = `Ajouter l'Upgrade au Panier (€${upgradeData.upgrade_price})`;
+                                        } else if (upgradeData.upgrade_price === 0) {
+                                            // Joueur a déjà un rang égal ou supérieur
+                                            verificationDiv.className = 'username-verification verification-error';
+                                            verificationDiv.innerHTML = '<i class="fas fa-times-circle"></i> Ce joueur possède déjà un grade égal ou supérieur';
+                                            submitButton.disabled = true;
+                                            priceDisplay.textContent = '€' + originalPrice;
+                                            upgradeInfo.style.display = 'none';
+                                        } else {
+                                            // Prix normal
+                                            priceDisplay.textContent = '€' + upgradeData.upgrade_price;
+                                            upgradeInfo.style.display = 'none';
+                                            submitText.textContent = 'Ajouter au Panier';
+                                        }
+                                    } else {
+                                        // Erreur dans le calcul
+                                        verificationDiv.className = 'username-verification verification-error';
+                                        verificationDiv.innerHTML = '<i class="fas fa-times-circle"></i> ' + (upgradeData.error || 'Erreur lors du calcul du prix');
+                                        submitButton.disabled = true;
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Erreur:', error);
+                                    verificationDiv.className = 'username-verification verification-success';
+                                    verificationDiv.innerHTML = '<i class="fas fa-check-circle"></i> Joueur trouvé ! Vous pouvez offrir ce rang';
+                                    submitButton.disabled = false;
+                                    priceDisplay.textContent = '€' + originalPrice;
+                                    upgradeInfo.style.display = 'none';
+                                    submitText.textContent = 'Ajouter au Panier';
+                                });
+                        }
+                    } else {
+                        verificationDiv.className = 'username-verification verification-error';
+                        verificationDiv.innerHTML = '<i class="fas fa-times-circle"></i> ' + (data.message || 'Joueur non trouvé');
+                        submitButton.disabled = true;
+                        priceDisplay.textContent = '€' + originalPrice;
+                        upgradeInfo.style.display = 'none';
+                        submitText.textContent = 'Ajouter au Panier';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    verificationDiv.className = 'username-verification verification-error';
+                    verificationDiv.innerHTML = '<i class="fas fa-times-circle"></i> Erreur lors de la vérification';
+                    submitButton.disabled = true;
+                });
+        }, 500);
+    });
+
+    // Gestion de la soumission du formulaire pour un feedback utilisateur
+    const giftForm = document.getElementById('gift-form');
+    giftForm.addEventListener('submit', function(e) {
+        const submitBtn = document.getElementById('gift-submit');
+        const originalText = submitBtn.innerHTML;
+        
+        // Désactiver le bouton et afficher un message de chargement
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Ajout en cours...';
+        
+        // En cas d'erreur (la page se recharge), remettre le bouton dans son état normal après un délai
+        setTimeout(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+        }, 5000);
+    });
+});
+</script>
+{% endblock %}

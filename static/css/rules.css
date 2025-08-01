@@ -1,0 +1,593 @@
+/* Rules Page Styles - Enhanced for Novania */
+
+/* Rules Hero Section */
+.rules-hero {
+    position: relative;
+    padding: 80px 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/rules-bg.jpg') center/cover no-repeat;
+    text-align: center;
+    overflow: hidden;
+}
+
+.rules-particles,
+.discord-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background-color: rgba(255, 215, 0, 0.7);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+    z-index: 1;
+    animation: floatAnimation 60s infinite linear;
+}
+
+.rules-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.rules-hero-title {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #ffd700;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+    animation: titleGlow 3s infinite alternate;
+}
+
+.rules-hero-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    color: var(--light);
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.rules-hero-description {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 15px;
+    margin: 0 auto 30px;
+    max-width: 600px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Rules Main Section */
+.rules-main-section {
+    padding: 60px 0;
+    position: relative;
+}
+
+.rules-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Rule Cards */
+.rule-card {
+    display: flex;
+    background-color: var(--darker);
+    border-radius: 15px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    z-index: 1;
+}
+
+.rule-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rule-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.rule-card:hover::before {
+    opacity: 1;
+}
+
+.rule-card-hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.rule-card-hover::before {
+    opacity: 1;
+}
+
+.rule-number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    min-width: 80px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.rule-number::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+    opacity: 0;
+    transition: opacity 0.5s, transform 5s;
+    transform: rotate(0deg);
+}
+
+.rule-card:hover .rule-number::before {
+    opacity: 1;
+    transform: rotate(180deg);
+}
+
+.rule-content {
+    padding: 25px 30px;
+    flex: 1;
+}
+
+.rule-title {
+    color: var(--primary);
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    transition: color 0.3s;
+}
+
+.rule-card:hover .rule-title {
+    color: #ffd700;
+}
+
+.rule-description {
+    color: var(--light);
+    line-height: 1.6;
+    font-size: 1.1rem;
+}
+
+/* Rules Note */
+.rules-note {
+    background: linear-gradient(135deg, rgba(243, 156, 18, 0.2), rgba(241, 196, 15, 0.1));
+    border-radius: 15px;
+    padding: 30px;
+    margin-top: 50px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(243, 156, 18, 0.3);
+}
+
+.rules-note::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../images/grid-overlay.png') repeat;
+    opacity: 0.05;
+    z-index: 0;
+}
+
+.note-icon {
+    font-size: 2.5rem;
+    color: var(--warning);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    animation: pulseWarning 2s infinite alternate;
+}
+
+.note-content {
+    position: relative;
+    z-index: 1;
+}
+
+.note-content h3 {
+    color: var(--warning);
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.note-content p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+/* Discord Section */
+.discord-section {
+    background: linear-gradient(rgba(114, 137, 218, 0.8), rgba(80, 100, 175, 0.8)), url('../images/discord-bg.jpg') center/cover no-repeat;
+    padding: 60px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.discord-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.discord-title {
+    font-size: 2.5rem;
+    color: white;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.discord-text {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 30px;
+}
+
+.discord-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: white;
+    color: #7289da;
+    padding: 15px 35px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+}
+
+.discord-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    color: #5e73bc;
+}
+
+.discord-btn i {
+    font-size: 1.4rem;
+}
+
+/* Animation Keyframes */
+@keyframes titleGlow {
+    0% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+    100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.5); }
+}
+
+@keyframes floatAnimation {
+    0% { transform: translateY(0) translateX(0); opacity: 0.3; }
+    25% { transform: translateY(-50px) translateX(30px); opacity: 0.7; }
+    50% { transform: translateY(-100px) translateX(-30px); opacity: 0.5; }
+    75% { transform: translateY(-50px) translateX(-50px); opacity: 0.7; }
+    100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+}
+
+@keyframes pulseWarning {
+    0% { text-shadow: 0 0 10px rgba(243, 156, 18, 0.5); transform: scale(1); }
+    100% { text-shadow: 0 0 20px rgba(243, 156, 18, 0.8); transform: scale(1.1); }
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .rules-container {
+        max-width: 95%;
+    }
+    
+    .rules-note {
+        max-width: 95%;
+    }
+}
+
+@media (max-width: 992px) {
+    .rules-hero-title,
+    .discord-title {
+        font-size: 2.8rem;
+    }
+    
+    .rules-hero-subtitle {
+        font-size: 1.3rem;
+    }
+    
+    .rules-hero-description {
+        max-width: 90%;
+    }
+    
+    .rules-note {
+        padding: 25px;
+        gap: 20px;
+    }
+    
+    .note-icon {
+        font-size: 2.2rem;
+    }
+    
+    .note-content h3 {
+        font-size: 1.4rem;
+    }
+    
+    .discord-text {
+        font-size: 1.1rem;
+    }
+    
+    .discord-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .rules-hero {
+        padding: 60px 0;
+    }
+    
+    .rules-hero-title,
+    .discord-title {
+        font-size: 2.5rem;
+    }
+    
+    .rules-hero-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .rules-hero-description {
+        max-width: 95%;
+        padding: 15px;
+    }
+    
+    .rules-main-section {
+        padding: 40px 0;
+    }
+    
+    .rule-card {
+        flex-direction: column;
+    }
+    
+    .rule-number {
+        width: 100%;
+        min-height: 60px;
+        font-size: 1.8rem;
+    }
+    
+    .rule-content {
+        padding: 20px;
+    }
+    
+    .rule-title {
+        font-size: 1.4rem;
+        text-align: center;
+    }
+    
+    .rule-description {
+        font-size: 1rem;
+        text-align: center;
+    }
+    
+    .rules-note {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        padding: 20px;
+    }
+    
+    .note-icon {
+        margin-bottom: 15px;
+        font-size: 2.5rem;
+    }
+    
+    .note-content h3 {
+        font-size: 1.4rem;
+    }
+    
+    .note-content p {
+        font-size: 1rem;
+    }
+    
+    .discord-section {
+        padding: 50px 0;
+    }
+    
+    .discord-title {
+        font-size: 2rem;
+    }
+    
+    .discord-text {
+        font-size: 1.1rem;
+        max-width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .discord-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+    
+    .discord-btn i {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .rules-hero {
+        padding: 50px 0;
+    }
+    
+    .rules-hero-title,
+    .discord-title {
+        font-size: 2rem;
+    }
+    
+    .rules-hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .rules-hero-description {
+        padding: 15px;
+        font-size: 0.95rem;
+    }
+    
+    .rules-main-section {
+        padding: 30px 0;
+    }
+    
+    .rule-card {
+        margin-bottom: 15px;
+    }
+    
+    .rule-number {
+        min-height: 50px;
+        font-size: 1.6rem;
+        padding: 15px;
+    }
+    
+    .rule-content {
+        padding: 15px;
+    }
+    
+    .rule-title {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+    
+    .rule-description {
+        font-size: 0.95rem;
+    }
+    
+    .rules-note {
+        padding: 20px 15px;
+        margin-top: 30px;
+    }
+    
+    .note-icon {
+        font-size: 2.2rem;
+        margin-bottom: 12px;
+    }
+    
+    .note-content h3 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+    
+    .note-content p {
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+    
+    .discord-section {
+        padding: 40px 0;
+    }
+    
+    .discord-title {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+    
+    .discord-text {
+        font-size: 1rem;
+        margin-bottom: 25px;
+    }
+    
+    .discord-btn {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+        width: 80%;
+        max-width: 280px;
+    }
+    
+    .discord-btn i {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .rules-hero-title,
+    .discord-title {
+        font-size: 1.8rem;
+    }
+    
+    .rules-hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .rule-number {
+        min-height: 45px;
+        font-size: 1.5rem;
+        padding: 12px;
+    }
+    
+    .rule-title {
+        font-size: 1.2rem;
+    }
+    
+    .rule-description {
+        font-size: 0.9rem;
+    }
+    
+    .note-icon {
+        font-size: 2rem;
+    }
+    
+    .note-content h3 {
+        font-size: 1.2rem;
+    }
+    
+    .note-content p {
+        font-size: 0.9rem;
+    }
+    
+    .discord-section {
+        padding: 30px 0;
+    }
+    
+    .discord-title {
+        font-size: 1.6rem;
+    }
+    
+    .discord-text {
+        font-size: 0.95rem;
+    }
+    
+    .discord-btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        width: 90%;
+    }
+    
+    .rule-card.rule-card-hover,
+    .rule-card:hover {
+        transform: translateY(-3px);
+    }
+}

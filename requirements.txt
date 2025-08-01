@@ -1,0 +1,16 @@
+asgiref==3.8.1
+certifi==2025.1.31
+charset-normalizer==3.4.1
+Django==4.2.7
+idna==3.10
+psycopg2-binary==2.9.9
+python-dotenv==1.1.0
+requests==2.31.0
+sqlparse==0.5.3
+urllib3==2.4.0
+stripe==10.3.0
+mcrcon==0.7.0
+rcon==2.3.9
+Pillow==10.0.0
+gunicorn==21.2.0
+qrcode==7.4.2

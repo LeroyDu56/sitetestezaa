@@ -1,0 +1,212 @@
+.gift-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: var(--darker);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.gift-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.gift-icon {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+
+.gift-form {
+    margin-top: 30px;
+}
+
+.username-verification {
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+.verification-success {
+    color: var(--success);
+}
+
+.verification-error {
+    color: var(--danger);
+}
+
+.store-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.particle {
+    position: absolute;
+    background: var(--primary);
+    border-radius: 50%;
+    animation: float linear infinite;
+    animation-play-state: running; /* Ensure animation starts immediately */
+    will-change: transform, opacity; /* Optimize animation performance */
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh);
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100vh);
+        opacity: 0.5;
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .gift-container {
+        max-width: 550px;
+    }
+}
+
+@media (max-width: 992px) {
+    .gift-container {
+        max-width: 500px;
+        padding: 25px;
+    }
+    
+    .gift-header {
+        margin-bottom: 25px;
+    }
+    
+    .gift-icon {
+        font-size: 2.5rem;
+        margin-bottom: 12px;
+    }
+    
+    .gift-header h2 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .gift-container {
+        max-width: 90%;
+        padding: 20px;
+    }
+    
+    .gift-icon {
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+    }
+    
+    .gift-header h2 {
+        font-size: 1.6rem;
+    }
+    
+    .gift-form {
+        margin-top: 20px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-label {
+        font-size: 0.95rem;
+    }
+    
+    .form-control {
+        padding: 10px 12px;
+        font-size: 0.95rem;
+    }
+    
+    .form-submit {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+    
+    .username-verification {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gift-container {
+        padding: 15px;
+    }
+    
+    .gift-icon {
+        font-size: 2rem;
+        margin-bottom: 8px;
+    }
+    
+    .gift-header h2 {
+        font-size: 1.4rem;
+    }
+    
+    .rank-description p {
+        font-size: 0.9rem;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-label {
+        font-size: 0.9rem;
+    }
+    
+    .form-control {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+        border-radius: 6px;
+    }
+    
+    .form-text {
+        font-size: 0.8rem;
+        margin-top: 5px;
+    }
+    
+    .form-submit {
+        padding: 10px 15px;
+        font-size: 0.95rem;
+    }
+    
+    .username-verification {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .gift-container {
+        padding: 12px;
+    }
+    
+    .gift-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .form-submit i {
+        display: none;
+    }
+    
+    .form-group {
+        margin-bottom: 12px;
+    }
+    
+    .gift-icon {
+        font-size: 1.8rem;
+    }
+    
+    /* Ajuster les particules pour de meilleures performances */
+    .particle {
+        animation-duration: 70s;
+    }
+}

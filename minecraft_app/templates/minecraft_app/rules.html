@@ -1,0 +1,136 @@
+{% extends 'minecraft_app/base.html' %}
+{% load static %}
+
+{% block title %}Règles du Serveur - Serveur Novania Towny Earth{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/rules.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Section Héro Règles -->
+<section class="rules-hero">
+    <div class="rules-particles" id="rules-particles"></div>
+    <div class="rules-hero-content">
+        <h1 class="rules-hero-title">Règles du Serveur</h1>
+        <p class="rules-hero-subtitle">Directives pour une expérience juste et agréable</p>
+        
+        <div class="rules-hero-description">
+            <p>Notre serveur est fondé sur le respect, l'équité et le plaisir. Respecter ces règles nous aide à maintenir une expérience équilibrée, respectueuse et agréable pour tous. La violation de ces règles peut entraîner des avertissements ou des bannissements, selon la gravité et la fréquence de l'infraction.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Section Principale Règles -->
+<section class="rules-main-section">
+    <div class="container">
+        <div class="rules-container">
+            {% for rule in rules %}
+                <div class="rule-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:100 }}">
+                    <div class="rule-number">{{ forloop.counter }}</div>
+                    <div class="rule-content">
+                        <h3 class="rule-title">{{ rule.title }}</h3>
+                        <p class="rule-description">{{ rule.description }}</p>
+                    </div>
+                </div>
+            {% empty %}
+                <!-- Fallback in case no rules are in the database -->
+                <div class="rule-card">
+                    <div class="rule-number">1</div>
+                    <div class="rule-content">
+                        <h3 class="rule-title">Respecter les Autres Joueurs</h3>
+                        <p class="rule-description">Pas de Harcèlement ou d'Intimidation : Toute forme de harcèlement, d'intimidation ou de comportement abusif envers d'autres joueurs est strictement interdite. Traitez les autres avec respect.</p>
+                    </div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-number">2</div>
+                    <div class="rule-content">
+                        <h3 class="rule-title">Pas de Langage Offensant</h3>
+                        <p class="rule-description">Gardez un langage approprié. Évitez d'utiliser un langage offensant, discriminatoire ou explicite dans le chat public ou les messages privés.</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <div class="rules-note">
+            <div class="note-icon">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <div class="note-content">
+                <h3>Note Importante</h3>
+                <p>Ces règles peuvent être mises à jour si nécessaire pour garantir un environnement juste et agréable. Il est de votre responsabilité de vous tenir informé des règles actuelles. Les membres du staff ont l'autorité finale sur l'interprétation et l'application des règles.</p>
+                <p>Si vous êtes témoin de violations des règles, veuillez les signaler à un membre du staff via notre serveur Discord plutôt que de confronter directement les joueurs.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section CTA Discord -->
+<section class="discord-section">
+    <div class="discord-particles" id="discord-particles"></div>
+    <div class="container">
+        <div class="discord-content">
+            <h2 class="discord-title">Des Questions sur Nos Règles ?</h2>
+            <p class="discord-text">Rejoignez notre serveur Discord pour des clarifications ou pour signaler des violations des règles</p>
+            <a href="https://discord.gg/9JQ6ePj7CT" class="discord-btn" target="_blank">
+                <i class="fab fa-discord"></i>
+                <span>Rejoindre Notre Discord</span>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Créer des particules pour le hero des règles
+        createParticles('rules-particles', 40);
+        
+        // Créer des particules pour la section discord
+        createParticles('discord-particles', 30);
+        
+        // Fonction pour créer des particules
+        function createParticles(containerId, count) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            const particleCount = window.innerWidth < 768 ? Math.floor(count / 2) : count;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Taille aléatoire
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Position aléatoire
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.left = Math.random() * 100 + '%';
+                
+                // Opacité aléatoire
+                particle.style.opacity = Math.random() * 0.5 + 0.2;
+                
+                // Délai d'animation
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Ajouter des effets de survol aux cartes de règles
+        const ruleCards = document.querySelectorAll('.rule-card');
+        ruleCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.classList.add('rule-card-hover');
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.classList.remove('rule-card-hover');
+            });
+        });
+    });
+</script>
+{% endblock %}

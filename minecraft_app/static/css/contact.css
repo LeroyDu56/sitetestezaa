@@ -1,0 +1,927 @@
+/* Contact Page Styles - Enhanced for Novania */
+
+/* Contact Hero Section */
+.contact-hero {
+    position: relative;
+    height: 250px;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/contact-bg.jpg') center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.contact-particles,
+.discord-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background-color: rgba(255, 215, 0, 0.7);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+    z-index: 1;
+    animation: floatAnimation 60s infinite linear;
+}
+
+.contact-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.contact-hero-title {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: #ffd700;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+    animation: titleGlow 3s infinite alternate;
+}
+
+.contact-hero-subtitle {
+    font-size: 1.5rem;
+    color: var(--light);
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+/* Contact Main Section */
+.contact-main-section {
+    padding: 60px 0;
+    background: url('../images/subtle-pattern.png') repeat;
+    min-height: calc(100vh - 450px);
+}
+
+.contact-intro {
+    max-width: 800px;
+    margin: 0 auto 40px;
+    text-align: center;
+}
+
+/* Contact Container */
+.contact-container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto 60px;
+}
+
+/* Contact Sidebar */
+.contact-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contact-card {
+    background-color: var(--darker);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.contact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.contact-card-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(52, 152, 219, 0.2) 100%);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    color: var(--primary);
+    transition: all 0.3s ease;
+}
+
+.contact-card:hover .contact-card-icon {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.2) 0%, rgba(52, 152, 219, 0.4) 100%);
+    transform: scale(1.1);
+}
+
+.contact-card-title {
+    font-size: 1.3rem;
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+
+.contact-card-text {
+    margin-bottom: 20px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+    flex-grow: 1;
+}
+
+.contact-card-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 15px;
+    background-color: rgba(52, 152, 219, 0.1);
+    border-radius: 8px;
+    color: var(--primary);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.contact-card-link:hover {
+    background-color: rgba(52, 152, 219, 0.2);
+    color: var(--light);
+}
+
+.contact-command {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: monospace;
+}
+
+.contact-command code {
+    color: #ffd700;
+}
+
+.copy-command {
+    background: none;
+    border: none;
+    color: var(--primary);
+    cursor: pointer;
+    font-size: 1rem;
+    opacity: 0.7;
+    transition: all 0.3s;
+}
+
+.copy-command:hover {
+    opacity: 1;
+    color: var(--light);
+}
+
+/* Contact Form Container */
+.contact-form-container {
+    background-color: var(--darker);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.contact-form-header {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    padding: 30px;
+    text-align: center;
+    position: relative;
+}
+
+.contact-form-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../images/grid-overlay.png') repeat;
+    opacity: 0.1;
+    z-index: 0;
+}
+
+.contact-form-icon {
+    width: 70px;
+    height: 70px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 20px;
+    font-size: 2rem;
+    color: var(--primary);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.contact-form-title {
+    color: white;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+    font-size: 1.8rem;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.contact-form-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    position: relative;
+    z-index: 1;
+}
+
+.contact-form {
+    padding: 30px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.form-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--light);
+}
+
+.form-label i {
+    color: var(--primary);
+    width: 20px;
+    text-align: center;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--light);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+/* Solution ultra-radicale pour le problème de select dans Firefox */
+
+/* Créer un conteneur de sélection personnalisé */
+.custom-select-container {
+    position: relative;
+    width: 100%;
+    font-family: inherit;
+}
+
+/* Masquer le select natif tout en le gardant accessible */
+.custom-select-container select {
+    display: none;
+}
+
+/* Créer un élément personnalisé pour remplacer le select */
+.custom-select-trigger {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: var(--light);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
+    font-size: 1rem;
+}
+
+/* Ajouter une flèche */
+.custom-select-trigger::after {
+    content: '';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid white;
+    transition: transform 0.3s;
+}
+
+/* Rotation de la flèche quand ouvert */
+.custom-select-container.open .custom-select-trigger::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* Style du conteneur d'options */
+.custom-options {
+    position: absolute;
+    display: none;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #1a2530;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    margin-top: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* Afficher les options quand le conteneur est ouvert */
+.custom-select-container.open .custom-options {
+    display: block;
+}
+
+/* Style des options individuelles */
+.custom-option {
+    position: relative;
+    display: block;
+    padding: 12px 15px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.custom-option:hover,
+.custom-option.selection {
+    background-color: #3498db;
+}
+
+/* Style du scrollbar dans le menu d'options */
+.custom-options::-webkit-scrollbar {
+    width: 7px;
+}
+
+.custom-options::-webkit-scrollbar-track {
+    background: #1a2530;
+}
+
+.custom-options::-webkit-scrollbar-thumb {
+    background: #3498db;
+    border-radius: 10px;
+}
+
+/* Assurer l'accessibilité avec focus */
+.custom-select-trigger:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+}
+
+.custom-option:focus {
+    outline: none;
+    background-color: #3498db;
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    outline: none;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-help-text {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 5px;
+}
+
+.form-action {
+    margin-top: 30px;
+}
+
+.form-submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px 20px;
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.form-submit::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+}
+
+.form-submit:hover,
+.form-submit.btn-hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.form-submit:hover::before,
+.form-submit.btn-hover::before {
+    transform: translateX(100%);
+}
+
+.form-submit:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.form-submit i {
+    transition: transform 0.3s ease;
+}
+
+.form-submit:hover i,
+.form-submit.btn-hover i {
+    transform: translateX(5px);
+}
+
+/* Staff Contact Section */
+.staff-contact-section {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 40px;
+    background-color: var(--darker);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.staff-contact-section h3 {
+    color: var(--primary);
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.staff-contact-section p {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.staff-contact-section a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.staff-contact-section a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+}
+
+/* Discord Section */
+.discord-section {
+    background: linear-gradient(rgba(114, 137, 218, 0.8), rgba(80, 100, 175, 0.8)), url('../images/discord-bg.jpg') center/cover no-repeat;
+    padding: 60px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.discord-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.discord-title {
+    font-size: 2.5rem;
+    color: white;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.discord-text {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 30px;
+}
+
+.discord-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: white;
+    color: #7289da;
+    padding: 15px 35px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+}
+
+.discord-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+}
+
+.discord-btn i {
+    font-size: 1.4rem;
+}
+
+/* FAQ Link Section */
+.faq-link-section {
+    background-color: var(--darker);
+    padding: 60px 0;
+    text-align: center;
+}
+
+.faq-link-section h2 {
+    color: var(--primary);
+    margin-bottom: 15px;
+    font-size: 2rem;
+}
+
+.faq-link-section p {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 25px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.faq-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: var(--primary);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: all 0.3s;
+    text-decoration: none;
+}
+
+.faq-btn:hover {
+    background-color: var(--secondary);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+.faq-btn i {
+    font-size: 1.2rem;
+}
+
+/* Animation Keyframes */
+@keyframes titleGlow {
+    0% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+    100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.5); }
+}
+
+@keyframes floatAnimation {
+    0% { transform: translateY(0) translateX(0); opacity: 0.3; }
+    25% { transform: translateY(-50px) translateX(30px); opacity: 0.7; }
+    50% { transform: translateY(-100px) translateX(-30px); opacity: 0.5; }
+    75% { transform: translateY(-50px) translateX(-50px); opacity: 0.7; }
+    100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+}
+
+/* Responsive Styles */
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .contact-container {
+        max-width: 95%;
+    }
+}
+
+@media (max-width: 992px) {
+    .contact-hero-title {
+        font-size: 2.8rem;
+    }
+    
+    .contact-hero-subtitle {
+        font-size: 1.3rem;
+    }
+    
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    
+    .contact-sidebar {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+    
+    .contact-form-container {
+        max-width: 100%;
+    }
+    
+    .discord-title {
+        font-size: 2.2rem;
+    }
+    
+    .discord-text {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-hero {
+        height: 220px;
+    }
+    
+    .contact-hero-title {
+        font-size: 2.2rem;
+    }
+    
+    .contact-hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .contact-main-section {
+        padding: 40px 0;
+    }
+    
+    .contact-intro {
+        margin-bottom: 30px;
+    }
+    
+    .contact-sidebar {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .contact-card {
+        padding: 20px;
+    }
+    
+    .contact-card-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+    
+    .contact-card-title {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+    
+    .contact-card-text {
+        font-size: 0.95rem;
+        margin-bottom: 15px;
+    }
+    
+    .contact-form-header {
+        padding: 25px 20px;
+    }
+    
+    .contact-form-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+    
+    .contact-form-title {
+        font-size: 1.5rem;
+    }
+    
+    .contact-form {
+        padding: 20px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-label {
+        font-size: 0.95rem;
+    }
+    
+    .form-control {
+        padding: 10px 12px;
+        font-size: 0.95rem;
+    }
+    
+    .form-submit {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+    
+    .discord-section {
+        padding: 40px 0;
+    }
+    
+    .discord-title {
+        font-size: 1.8rem;
+    }
+    
+    .discord-text {
+        font-size: 1rem;
+    }
+    
+    .discord-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+    
+    .faq-link-section h2 {
+        font-size: 1.6rem;
+    }
+    
+    .faq-link-section p {
+        font-size: 0.95rem;
+    }
+    
+    .faq-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-hero {
+        height: 180px;
+    }
+    
+    .contact-hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .contact-hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .contact-main-section {
+        padding: 30px 0;
+    }
+    
+    .section-title {
+        font-size: 1.6rem;
+    }
+    
+    .section-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .contact-card {
+        padding: 15px;
+    }
+    
+    .contact-card-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+        margin-bottom: 12px;
+    }
+    
+    .contact-card-title {
+        font-size: 1.1rem;
+    }
+    
+    .contact-form-header {
+        padding: 20px 15px;
+    }
+    
+    .contact-form-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+    }
+    
+    .contact-form-title {
+        font-size: 1.3rem;
+    }
+    
+    .contact-form-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .contact-form {
+        padding: 15px;
+    }
+    
+    .form-label {
+        font-size: 0.9rem;
+    }
+    
+    .form-control {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+        border-radius: 6px;
+    }
+    
+    textarea.form-control {
+        min-height: 100px;
+    }
+    
+    .form-help-text {
+        font-size: 0.8rem;
+    }
+    
+    .form-submit {
+        padding: 10px 15px;
+        font-size: 0.95rem;
+    }
+    
+    .staff-contact-section {
+        padding: 20px 15px;
+    }
+    
+    .staff-contact-section h3 {
+        font-size: 1.2rem;
+    }
+    
+    .discord-title {
+        font-size: 1.6rem;
+    }
+    
+    .discord-text {
+        font-size: 0.9rem;
+    }
+    
+    .discord-btn {
+        width: 100%;
+        padding: 10px 20px;
+        font-size: 0.95rem;
+    }
+    
+    .faq-link-section h2 {
+        font-size: 1.4rem;
+    }
+    
+    .faq-btn {
+        padding: 10px 15px;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .contact-hero-title {
+        font-size: 1.6rem;
+    }
+    
+    .contact-form-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+    }
+    
+    .contact-form-title {
+        font-size: 1.2rem;
+    }
+    
+    .contact-card-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    
+    .contact-card-title {
+        font-size: 1rem;
+    }
+    
+    .contact-command {
+        padding: 10px;
+        font-size: 0.85rem;
+    }
+    
+    .form-submit i {
+        display: none;
+    }
+    
+    .discord-btn i {
+        font-size: 1.2rem;
+    }
+}

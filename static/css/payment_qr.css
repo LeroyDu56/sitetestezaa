@@ -1,0 +1,723 @@
+/* Payment QR Styles - Enhanced for Novania */
+
+/* Payment QR Hero Section */
+.payment-qr-hero {
+    position: relative;
+    height: 250px;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/success-bg.jpg') center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.payment-qr-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background-color: rgba(255, 215, 0, 0.7);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+    z-index: 1;
+    animation: floatAnimation 60s infinite linear;
+}
+
+.payment-qr-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.payment-qr-hero-title {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: #ffd700;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+    animation: titleGlow 3s infinite alternate;
+}
+
+.payment-qr-hero-subtitle {
+    font-size: 1.5rem;
+    color: var(--light);
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+/* Payment QR Main Section */
+.payment-qr-main-section {
+    padding: 60px 0;
+    background: url('../images/subtle-pattern.png') repeat;
+}
+
+.payment-qr-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: var(--darker);
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.payment-qr-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../images/grid-overlay.png') repeat;
+    opacity: 0.05;
+    z-index: 0;
+}
+
+.payment-qr-icon {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.2), rgba(52, 152, 219, 0.1));
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 30px;
+    position: relative;
+    z-index: 1;
+}
+
+.payment-qr-icon i {
+    font-size: 3.5rem;
+    color: #3498db;
+    animation: pulseIcon 2s infinite alternate;
+}
+
+@keyframes pulseIcon {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.1); opacity: 1; }
+}
+
+.payment-qr-heading {
+    font-size: 2.2rem;
+    color: var(--light);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.payment-qr-description {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+/* QR Code Section */
+.qr-code-section {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.qr-code-wrapper {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 300px;
+    margin: 0 auto 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.qr-code-wrapper:hover {
+    transform: scale(1.02);
+}
+
+.qr-code-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.payment-amount {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    margin-top: 20px;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.amount-label {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--light);
+}
+
+.amount-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2ecc71;
+}
+
+/* QR Instructions */
+.qr-instructions {
+    margin: 30px 0 40px;
+    position: relative;
+    z-index: 1;
+    text-align: left;
+}
+
+.qr-instructions h3 {
+    color: var(--primary);
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.instructions-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.step {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.step:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.step-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(52, 152, 219, 0.2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--primary);
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.step-number {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 25px;
+    height: 25px;
+    background-color: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-content h4 {
+    margin-bottom: 10px;
+    color: var(--light);
+    font-size: 1.2rem;
+}
+
+.step-content p {
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+}
+
+/* Payment Security */
+.payment-security {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(46, 204, 113, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    border: 1px solid rgba(46, 204, 113, 0.2);
+}
+
+.security-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(46, 204, 113, 0.2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.security-icon i {
+    font-size: 1.5rem;
+    color: #2ecc71;
+}
+
+.security-text {
+    flex: 1;
+    text-align: left;
+}
+
+.security-text h4 {
+    color: #2ecc71;
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+}
+
+.security-text p {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.5;
+}
+
+/* Payment Alternatives */
+.payment-alternatives {
+    margin-top: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.payment-alternatives h3 {
+    color: var(--light);
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.payment-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.btn-primary, 
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: linear-gradient(to right, #3498db, #2980b9);
+    color: white;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--light);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-primary.btn-hover,
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+    color: white;
+}
+
+.btn-secondary.btn-hover,
+.btn-secondary:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+}
+
+/* Payment Support Section */
+.payment-support-section {
+    background: linear-gradient(to right, rgba(114, 137, 218, 0.8), rgba(80, 100, 175, 0.8)), url('../images/discord-bg.jpg') center/cover no-repeat;
+    padding: 60px 0;
+    text-align: center;
+    margin-top: 60px;
+}
+
+.payment-support-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.payment-support-content h2 {
+    font-size: 2.2rem;
+    color: white;
+    margin-bottom: 15px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.payment-support-content p {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 25px;
+}
+
+.discord-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: white;
+    color: #7289da;
+    padding: 15px 35px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+}
+
+.discord-btn:hover,
+.discord-btn.btn-hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    color: #5e73bc;
+}
+
+.discord-btn i {
+    font-size: 1.4rem;
+}
+
+/* Animation Keyframes */
+@keyframes titleGlow {
+    0% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+    100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.5); }
+}
+
+@keyframes floatAnimation {
+    0% { transform: translateY(0) translateX(0); opacity: 0.3; }
+    25% { transform: translateY(-50px) translateX(30px); opacity: 0.7; }
+    50% { transform: translateY(-100px) translateX(-30px); opacity: 0.5; }
+    75% { transform: translateY(-50px) translateX(-50px); opacity: 0.7; }
+    100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .payment-qr-container {
+        max-width: 750px;
+    }
+    
+    .payment-support-content {
+        max-width: 700px;
+    }
+}
+
+@media (max-width: 992px) {
+    .payment-qr-hero-title {
+        font-size: 2.8rem;
+    }
+    
+    .payment-qr-hero-subtitle {
+        font-size: 1.3rem;
+    }
+    
+    .payment-qr-container {
+        max-width: 90%;
+        padding: 35px;
+    }
+    
+    .payment-qr-heading {
+        font-size: 2rem;
+    }
+    
+    .payment-qr-description {
+        font-size: 1.1rem;
+    }
+    
+    .payment-support-content {
+        max-width: 90%;
+    }
+    
+    .payment-support-content h2 {
+        font-size: 2rem;
+    }
+    
+    .payment-support-content p {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .payment-qr-hero {
+        height: 220px;
+    }
+    
+    .payment-qr-hero-title {
+        font-size: 2.2rem;
+    }
+    
+    .payment-qr-hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .payment-qr-main-section {
+        padding: 40px 0;
+    }
+    
+    .payment-qr-container {
+        padding: 30px 20px;
+    }
+    
+    .payment-qr-icon {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 20px;
+    }
+    
+    .payment-qr-icon i {
+        font-size: 3rem;
+    }
+    
+    .payment-qr-heading {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+    
+    .payment-qr-description {
+        font-size: 1rem;
+        margin-bottom: 30px;
+    }
+    
+    .qr-code-section {
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .step {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 15px;
+    }
+    
+    .step-icon {
+        margin-bottom: 15px;
+    }
+    
+    .payment-security {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .security-text {
+        text-align: center;
+    }
+    
+    .payment-actions {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .btn-primary, 
+    .btn-secondary {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 1rem;
+        justify-content: center;
+    }
+    
+    .payment-support-section {
+        padding: 40px 0;
+        margin-top: 40px;
+    }
+    
+    .payment-support-content h2 {
+        font-size: 1.6rem;
+    }
+    
+    .payment-support-content p {
+        font-size: 1rem;
+    }
+    
+    .discord-btn {
+        width: 100%;
+        max-width: 280px;
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .payment-qr-hero {
+        height: 180px;
+    }
+    
+    .payment-qr-hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .payment-qr-hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .payment-qr-main-section {
+        padding: 30px 0;
+    }
+    
+    .payment-qr-container {
+        padding: 25px 15px;
+    }
+    
+    .payment-qr-icon {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 15px;
+    }
+    
+    .payment-qr-icon i {
+        font-size: 2.5rem;
+    }
+    
+    .payment-qr-heading {
+        font-size: 1.6rem;
+        margin-bottom: 12px;
+    }
+    
+    .payment-qr-description {
+        font-size: 0.95rem;
+        margin-bottom: 25px;
+    }
+    
+    .qr-code-section {
+        padding: 15px;
+        margin-bottom: 25px;
+        border-radius: 12px;
+    }
+    
+    .qr-code-wrapper {
+        padding: 15px;
+    }
+    
+    .amount-label {
+        font-size: 1rem;
+    }
+    
+    .amount-value {
+        font-size: 1.2rem;
+    }
+    
+    .qr-instructions h3 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+    
+    .step {
+        padding: 12px;
+    }
+    
+    .step-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+    }
+    
+    .step-content h4 {
+        font-size: 1rem;
+        margin-bottom: 5px;
+    }
+    
+    .step-content p {
+        font-size: 0.9rem;
+    }
+    
+    .payment-security {
+        padding: 15px;
+    }
+    
+    .security-icon {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .security-icon i {
+        font-size: 1.3rem;
+    }
+    
+    .security-text h4 {
+        font-size: 1.1rem;
+    }
+    
+    .security-text p {
+        font-size: 0.9rem;
+    }
+    
+    .payment-alternatives h3 {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+    }
+    
+    .payment-support-content h2 {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+    }
+    
+    .payment-support-content p {
+        font-size: 0.95rem;
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 360px) {
+    .payment-qr-hero-title {
+        font-size: 1.6rem;
+    }
+    
+    .payment-qr-hero-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .qr-code-wrapper {
+        padding: 10px;
+    }
+    
+    .step-content h4 {
+        font-size: 0.95rem;
+    }
+    
+    .payment-alternatives h3 {
+        font-size: 1rem;
+    }
+}

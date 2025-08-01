@@ -1,0 +1,242 @@
+{% extends 'minecraft_app/base.html' %}
+{% load static %}
+
+{% block title %}FAQ - Serveur Novania Towny Earth{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/faq.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Section Hero FAQ -->
+<section class="faq-hero">
+    <div class="faq-particles" id="faq-particles"></div>
+    <div class="faq-hero-content">
+        <h1 class="faq-hero-title">Foire Aux Questions</h1>
+        <p class="faq-hero-subtitle">Trouvez les réponses aux questions courantes sur notre serveur</p>
+    </div>
+</section>
+
+<!-- Section Principale FAQ -->
+<section class="faq-main-section">
+    <div class="container">
+        <div class="faq-intro">
+            <h2 class="section-title">Des Questions ? Nous Avons des Réponses</h2>
+            <p class="section-subtitle">Trouvez les réponses aux questions les plus fréquentes sur notre serveur</p>
+        </div>
+        
+        <div class="faq-categories">
+            <button class="category-button active" data-category="general">Général</button>
+            <button class="category-button" data-category="gameplay">Gameplay</button>
+            <button class="category-button" data-category="towny">Towny</button>
+            <button class="category-button" data-category="economy">Économie</button>
+            <button class="category-button" data-category="technical">Technique</button>
+        </div>
+        
+        <div class="faq-container">
+            <!-- FAQ Générales -->
+            <div class="faq-category active" id="general">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>De quoi s'agit-il ?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Nous sommes 3 joueurs originaires d'earthMC, nous aimons le concept et avons décidé de créer un serveur qui ressemble davantage à l'ancien earthMC sur terra nova.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Je veux jouer tout de suite, que dois-je faire ?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Vous avez besoin de MC 1.21.4, puis vous devez vous rendre sur un continent de votre choix avec /rtp, et c'est parti !</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FAQ Gameplay -->
+            <div class="faq-category" id="gameplay">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Quel est l'objectif de ce serveur ?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Il est principalement basé sur le plugin Towny, qui vous permet de créer et de rejoindre des villes et des nations. Vous pouvez réclamer des chunks pour protéger ces zones contre les autres joueurs, afin que vous et vos citoyens puissiez construire ce que vous voulez, où vous voulez.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FAQ Towny -->
+            <div class="faq-category" id="towny">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Quelles sont les commandes pour gérer une ville ?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Vous pouvez consulter les commandes avec /t help</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Comment puis-je claim un chunk ?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Vous avez besoin d'or et de citoyens dans votre ville pour le faire. Un chunk coûte 16 or et vous avez une limite sur le nombre que vous pouvez réclamer, vous pouvez la vérifier avec /t. Une fois que vous savez, vous pouvez faire /t claim.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FAQ Économie -->
+            <div class="faq-category" id="economy">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Comment puis-je obtenir de l'or ?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Il existe de nombreuses façons de gagner de l'or : miner, vendre des objets à d'autres joueurs, certaines récompenses quotidiennes vous donnent de l'or, essayez de tuer d'autres joueurs et prendre leur butin.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FAQ Techniques -->
+            <div class="faq-category" id="technical">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Le serveur est fermé, que se passe-t-il ?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Cela peut être dû à différents problèmes, probablement en maintenance, consultez le Discord pour avoir des informations supplémentaires.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Si j'ai un problème, qui puis-je contacter ?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Vous pouvez nous contacter sur Discord, nous avons un bot de tickets à cet effet.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="faq-contact">
+            <div class="faq-contact-inner">
+                <div class="contact-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <h3>Vous avez encore des questions ?</h3>
+                <p>Si vous n'avez pas trouvé la réponse que vous cherchez, n'hésitez pas à demander sur notre serveur Discord ou à contacter directement notre équipe staff.</p>
+                <div class="faq-contact-buttons">
+                    <a href="https://discord.gg/9JQ6ePj7CT" class="btn discord-btn" target="_blank"><i class="fab fa-discord"></i> Rejoindre Discord</a>
+                    <a href="{% url 'contact' %}" class="btn contact-btn"><i class="fas fa-envelope"></i> Nous Contacter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Créer des particules pour le hero FAQ
+        createParticles('faq-particles', 40);
+        
+        // Fonction pour créer des particules
+        function createParticles(containerId, count) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            const particleCount = window.innerWidth < 768 ? Math.floor(count / 2) : count;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Taille aléatoire
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Position aléatoire
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.left = Math.random() * 100 + '%';
+                
+                // Opacité aléatoire
+                particle.style.opacity = Math.random() * 0.5 + 0.2;
+                
+                // Délai d'animation
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Bascules FAQ
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', function() {
+                const faqItem = this.parentElement;
+                const answer = this.nextElementSibling;
+                const icon = this.querySelector('.faq-icon i');
+                
+                // Vérifier si cet élément FAQ est déjà actif
+                const isActive = faqItem.classList.contains('active');
+                
+                // Fermer d'abord tous les éléments FAQ
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                    const itemAnswer = item.querySelector('.faq-answer');
+                    itemAnswer.style.maxHeight = null;
+                    const itemIcon = item.querySelector('.faq-icon i');
+                    itemIcon.className = 'fas fa-chevron-down';
+                });
+                
+                // Si l'élément cliqué n'était pas actif, l'ouvrir
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                    icon.className = 'fas fa-chevron-up';
+                }
+            });
+        });
+        
+        // Onglets de catégorie
+        const categoryButtons = document.querySelectorAll('.category-button');
+        const faqCategories = document.querySelectorAll('.faq-category');
+        
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Supprimer la classe active de tous les boutons
+                categoryButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Ajouter la classe active au bouton cliqué
+                this.classList.add('active');
+                
+                // Masquer toutes les catégories
+                faqCategories.forEach(category => {
+                    category.classList.remove('active');
+                });
+                
+                // Afficher la catégorie sélectionnée
+                const categoryId = this.getAttribute('data-category');
+                document.getElementById(categoryId).classList.add('active');
+            });
+        });
+    });
+</script>
+{% endblock %}

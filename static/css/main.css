@@ -1,0 +1,1556 @@
+/* Main CSS for Novania website */
+
+/* Variables */
+:root {
+    --primary: #3498db;
+    --secondary: #2980b9;
+    --accent: #f1c40f;
+    --success: #2ecc71;
+    --warning: #f39c12;
+    --danger: #e74c3c;
+    --light: #ecf0f1;
+    --dark: #2c3e50;
+    --darker: #1a2530;
+}
+
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--light);
+    background-color: var(--dark);
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: var(--secondary);
+}
+
+/* Header */
+header {
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 12px 0;
+    transition: background 0.3s, padding 0.3s;
+}
+
+/* Header modifié lors du défilement */
+header.scrolled {
+    background: rgba(10, 15, 30, 0.95);
+    padding: 8px 0;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+    width: 100%;
+    flex-wrap: nowrap;
+    position: relative;
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary);
+    position: static;  /* Changé de absolute à static */
+    margin-right: 30px;  /* Espace après le logo */
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 60px;  /* Logo plus grand */
+    width: auto;
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    justify-content: flex-start;  /* Alignement à gauche au lieu de centré */
+    flex-grow: 1;
+}
+
+.nav-links a {
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    transition: color 0.3s, transform 0.2s;
+    padding: 8px 0;
+    position: relative;
+    font-size: 1.1rem;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: #ffd700;
+    transform: translateY(-2px);
+}
+
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #ffd700;
+    transition: width 0.3s;
+}
+
+.nav-links a:hover::after, .nav-links a.active::after {
+    width: 100%;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--primary);
+    color: white;
+    border-radius: 5px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: var(--secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-accent {
+    background-color: var(--accent);
+    color: var(--dark);
+}
+
+.btn-accent:hover {
+    background-color: #d4ac0d;
+}
+
+/* Sections */
+section {
+    padding: 50px 0;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.section-subtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    opacity: 0.8;
+    margin-bottom: 40px;
+}
+
+/* Page Headers */
+.page-header {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/header-bg.jpg') center/cover no-repeat;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.page-header h1 {
+    font-size: 3rem;
+    color: var(--light);
+    margin-bottom: 0;
+}
+
+/* Grids */
+.grid {
+    display: grid;
+    gap: 30px;
+}
+
+.grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.social-link.tiktok:hover {
+    background-color: #000000;
+    color: #ff0050;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Server Status */
+.server-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--danger);
+}
+
+.status-online {
+    background-color: var(--success);
+}
+
+.status-offline {
+    background-color: var(--danger);
+}
+
+.player-count {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.server-ip {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-family: monospace;
+    text-align: center;
+    margin: 15px 0;
+    font-size: 1.2rem;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+/* Simplified Footer Styles */
+.enhanced-footer {
+    position: relative;
+    background-color: var(--darker);
+    color: var(--light);
+}
+
+.footer-main {
+    background-color: var(--darker);
+    padding: 60px 0 40px;
+    position: relative;
+}
+
+.footer-main::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../images/stars-bg.png') repeat;
+    opacity: 0.05;
+    z-index: 0;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+.footer-heading {
+    color: var(--primary);
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    position: relative;
+}
+
+.footer-heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(to right, var(--primary), transparent);
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 12px;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s;
+}
+
+.footer-links a i {
+    color: var(--primary);
+    opacity: 0.7;
+    width: 20px;
+    transition: all 0.3s;
+}
+
+.footer-links a:hover {
+    color: white;
+    transform: translateX(5px);
+}
+
+.footer-links a:hover i {
+    opacity: 1;
+    color: #ffd700;
+}
+
+.footer-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 8px 15px;
+    border-radius: 30px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.status-icon {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--danger);
+}
+
+.status-icon.status-online {
+    background-color: var(--success);
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.7);
+    animation: statusPulse 2s infinite;
+}
+
+@keyframes statusPulse {
+    0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+}
+
+.player-count-info, .server-version {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.player-count-info i, .server-version i {
+    color: var(--primary);
+    width: 20px;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.social-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: var(--light);
+    transition: all 0.3s;
+    font-size: 1.2rem;
+}
+
+.social-link:hover {
+    transform: translateY(-5px);
+}
+
+.social-link.discord:hover {
+    background-color: #7289da;
+    color: white;
+    box-shadow: 0 5px 15px rgba(114, 137, 218, 0.4);
+}
+
+.social-link.twitter:hover {
+    background-color: #1da1f2;
+    color: white;
+    box-shadow: 0 5px 15px rgba(29, 161, 242, 0.4);
+}
+
+.social-link.instagram:hover {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    color: white;
+    box-shadow: 0 5px 15px rgba(225, 48, 108, 0.4);
+}
+
+.social-link.youtube:hover {
+    background-color: #ff0000;
+    color: white;
+    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+}
+
+.discord-join {
+    margin-top: 15px;
+}
+
+.discord-join p {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.discord-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #7289da;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.discord-btn:hover {
+    background-color: #5e77c9;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(114, 137, 218, 0.4);
+    color: white;
+}
+
+.footer-bottom {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 20px 0;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.copyright {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.footer-disclaimer {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.8rem;
+}
+
+/* Utilities */
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }
+.mt-5 { margin-top: 2.5rem; }
+
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+.mb-5 { margin-bottom: 2.5rem; }
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+
+/* Header Actions */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: auto;
+    position: static;
+}
+
+.play-now-btn {
+    background: linear-gradient(to right, #ffc107, #ff9800);
+    color: #1a1a2e;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 25px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+    white-space: nowrap;
+}
+
+.play-now-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 193, 7, 0.4);
+    background: linear-gradient(to right, #ffca28, #ffa000);
+    color: #1a1a2e;
+}
+
+/* Authentication Styles */
+.auth-section {
+    position: relative;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-auth {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn-auth.login {
+    background-color: transparent;
+    border: 1px solid rgba(52, 152, 219, 0.5);
+    color: var(--primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-auth.login:hover {
+    border-color: var(--primary);
+    background-color: rgba(52, 152, 219, 0.1);
+    transform: translateY(-3px);
+}
+
+.btn-auth.register {
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    border: none;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-auth.register::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+}
+
+.btn-auth.register:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+}
+
+.btn-auth.register:hover::before {
+    transform: translateX(100%);
+}
+
+/* User Profile Dropdown */
+.user-profile-dropdown {
+    position: relative;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid var(--primary);
+    transition: all 0.3s;
+}
+
+.user-avatar:hover {
+    transform: scale(1.1);
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 55px;
+    right: 0;
+    background-color: var(--darker);
+    border-radius: 8px;
+    width: 240px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    display: none;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.dropdown-menu.active {
+    display: block;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-user-info {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 10px;
+    border: 3px solid var(--primary);
+}
+
+.dropdown-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dropdown-username {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.dropdown-minecraft {
+    font-size: 0.9rem;
+    color: var(--primary);
+    opacity: 0.9;
+}
+
+.dropdown-links {
+    padding: 10px 0;
+}
+
+.dropdown-links a {
+    display: block;
+    padding: 10px 20px;
+    color: var(--light);
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.dropdown-links a:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--primary);
+}
+
+.dropdown-links i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+/* Messages styles */
+.messages-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 350px;
+}
+
+.message {
+    background-color: var(--darker);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.message-info {
+    background-color: var(--primary);
+}
+
+.message-success {
+    background-color: var(--success);
+}
+
+.message-warning {
+    background-color: var(--warning);
+}
+
+.message-error {
+    background-color: var(--danger);
+}
+
+.message-close {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.message-close:hover {
+    opacity: 1;
+}
+
+/* Form elements (general) */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    color: var(--light);
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
+}
+
+.form-help-text {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 5px;
+}
+
+.form-error {
+    color: var(--danger);
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+.form-submit {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.form-submit:hover {
+    background-color: var(--secondary);
+}
+
+/* Ensure the mobile menu works correctly */
+.navbar.mobile-open {
+    flex-wrap: wrap;
+}
+
+.navbar.mobile-open .header-actions {
+    order: 2;
+    margin-top: 15px;
+}
+
+.navbar.mobile-open .nav-links {
+    order: 3;
+    margin-top: 15px;
+}
+/* ======= RESPONSIVE STYLES ======= */
+/* Styles de base pour le menu hamburger */
+.mobile-menu-toggle {
+    display: none; /* Caché par défaut sur desktop */
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    cursor: pointer;
+    margin-left: 15px; /* Espace entre les boutons et l'hamburger */
+    z-index: 1001;
+    position: relative; /* Pour le positionnement absolu des barres */
+}
+
+.mobile-menu-toggle span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    position: absolute; /* Position absolue pour meilleur contrôle */
+    left: 0;
+}
+
+/* Positionnement précis des barres pour bien centrer */
+.mobile-menu-toggle span:nth-child(1) {
+    top: 0;
+}
+
+.mobile-menu-toggle span:nth-child(2) {
+    top: 9px; /* Exactement au milieu pour 21px de hauteur */
+}
+
+.mobile-menu-toggle span:nth-child(3) {
+    top: 18px; /* 21px - 3px de hauteur */
+}
+
+/* Animation parfaite de la croix quand ouvert */
+.navbar.mobile-open .mobile-menu-toggle span:nth-child(1) {
+    top: 9px; /* Se centre exactement */
+    transform: rotate(45deg);
+}
+
+.navbar.mobile-open .mobile-menu-toggle span:nth-child(2) {
+    opacity: 0;
+}
+
+.navbar.mobile-open .mobile-menu-toggle span:nth-child(3) {
+    top: 9px; /* Se centre exactement */
+    transform: rotate(-45deg);
+}
+
+/* Grand écran : 1200px et plus */
+@media (min-width: 1201px) {
+    .container {
+        width: 90%;
+        max-width: 1200px;
+    }
+    
+    .navbar {
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+    
+    .nav-links {
+        display: flex;
+    }
+    
+    .logo img {
+        height: 60px;
+    }
+    
+    .header-actions {
+        margin-left: auto;
+    }
+}
+
+/* Écrans larges : 992px à 1200px */
+@media (max-width: 1200px) {
+    .container {
+        width: 95%;
+    }
+    
+    h1 {
+        font-size: 2.8rem;
+    }
+    
+    h2 {
+        font-size: 2.2rem;
+    }
+    
+    h3 {
+        font-size: 1.8rem;
+    }
+
+    .navbar .logo img {
+        height: 55px;
+    }
+    
+    .nav-links {
+        gap: 20px;
+    }
+    
+    .footer-grid {
+        gap: 25px;
+    }
+}
+
+/* Tablettes : 768px à 992px */
+@media (max-width: 992px) {
+    .navbar {
+        padding: 10px 0;
+    }
+    
+    .logo {
+        margin-right: 15px;
+    }
+    
+    .logo img {
+        height: 50px;
+    }
+    
+    .nav-links {
+        gap: 15px;
+    }
+    
+    .nav-links a {
+        font-size: 1rem;
+    }
+    
+    .play-now-btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+    
+    .btn-auth {
+        padding: 6px 14px;
+        font-size: 0.85rem;
+    }
+    
+    /* Grilles adaptées */
+    .grid-3, .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+    
+    /* Typographie réduite */
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    h2 {
+        font-size: 2rem;
+    }
+    
+    h3 {
+        font-size: 1.6rem;
+    }
+    
+    .page-header {
+        padding: 60px 0;
+    }
+    
+    .page-header h1 {
+        font-size: 2.5rem;
+    }
+}
+
+/* Mobile : 480px à 768px */
+@media (max-width: 768px) {
+    /* Structure du header réorganisée */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        position: relative;
+    }
+    
+    /* Logo à gauche */
+    .navbar .logo {
+        order: 1;
+        z-index: 1001;
+        flex: 0 0 auto;
+    }
+    
+    .navbar .logo img {
+        height: 45px;
+    }
+    
+    /* Boutons d'authentification au milieu - bien alignés */
+    .header-actions {
+        order: 2;
+        margin-left: auto;
+        margin-right: 0;
+        z-index: 1001;
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%); /* Centre parfaitement */
+    }
+    
+    /* Menu hamburger tout à droite */
+    .mobile-menu-toggle {
+        display: flex;
+        order: 3;
+        margin-left: auto;
+        flex: 0 0 auto;
+    }
+    
+    /* Menu de navigation sous le header */
+    .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 0;
+        padding: 0;
+        gap: 0;
+        order: 4;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: var(--darker);
+        border-radius: 0 0 8px 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+    }
+    
+    .navbar.mobile-open .nav-links {
+        display: flex;
+    }
+    
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .nav-links a {
+        display: block;
+        padding: 12px 0;
+        font-size: 1rem;
+        width: 100%;
+    }
+    
+    .nav-links a:hover, .nav-links a.active {
+        transform: none;
+    }
+    
+    .nav-links a::after {
+        display: none;
+    }
+    
+    /* Styles des boutons auth */
+    .auth-buttons {
+        gap: 8px;
+        display: flex;
+    }
+    
+    .btn-auth {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+    
+    .play-now-btn {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+        margin-right: 10px;
+    }
+    
+    /* User Menu */
+    .user-avatar {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .dropdown-menu {
+        right: 0;
+        width: 220px;
+    }
+    
+    /* En-tête du menu mobile - pour la X */
+    .mobile-menu-header {
+        display: flex;
+        justify-content: flex-end;
+        padding: 10px 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .mobile-menu-close {
+        color: white;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+    
+    /* Typographie réduite */
+    h1 {
+        font-size: 2.2rem;
+    }
+    
+    h2 {
+        font-size: 1.8rem;
+    }
+    
+    h3 {
+        font-size: 1.4rem;
+    }
+    
+    p {
+        font-size: 0.95rem;
+    }
+    
+    /* Grilles simplifiées */
+    .grid, .grid-2, .grid-3, .grid-4 {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    /* Page Header */
+    .page-header {
+        padding: 50px 0;
+    }
+    
+    .page-header h1 {
+        font-size: 2.2rem;
+    }
+    
+    /* Section spacing */
+    section {
+        padding: 40px 0;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 8px;
+    }
+    
+    .section-subtitle {
+        font-size: 1rem;
+        margin-bottom: 25px;
+    }
+    
+    /* Buttons */
+    .btn {
+        padding: 8px 16px;
+        font-size: 0.95rem;
+    }
+    
+    /* Messages */
+    .messages-container {
+        max-width: 300px;
+        top: 70px; /* Sous le header fixe */
+    }
+    
+    /* Footer simplifié */
+    .footer-main {
+        padding: 40px 0 30px;
+    }
+    
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    
+    .footer-heading {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+    
+    .footer-links li {
+        margin-bottom: 10px;
+    }
+    
+    .social-links {
+        gap: 10px;
+        justify-content: center;
+    }
+    
+    .discord-btn {
+        width: 100%;
+        font-size: 0.9rem;
+    }
+    
+    .footer-bottom {
+        padding: 15px 0;
+    }
+    
+    .copyright, .footer-disclaimer {
+        text-align: center;
+    }
+}
+
+/* Petit mobile : jusqu'à 480px */
+@media (max-width: 480px) {
+    .container {
+        width: 92%;
+    }
+    
+    /* Header compact mais avec espacement amélioré */
+    .navbar {
+        padding: 6px 0;
+    }
+    
+    .navbar .logo img {
+        height: 40px;
+    }
+    
+    .mobile-menu-toggle {
+        width: 25px;
+        height: 18px;
+        margin-left: 10px; /* Réduit légèrement l'espace sur petit écran */
+    }
+    
+    /* Mise à jour des positions exactes pour l'animation de la croix */
+    .mobile-menu-toggle span:nth-child(1) {
+        top: 0;
+    }
+    
+    .mobile-menu-toggle span:nth-child(2) {
+        top: 7.5px; /* Exactement au milieu pour 18px de hauteur */
+    }
+    
+    .mobile-menu-toggle span:nth-child(3) {
+        top: 15px; /* 18px - 3px de hauteur */
+    }
+    
+    /* Animation parfaite de la croix quand ouvert - ajustée pour 18px */
+    .navbar.mobile-open .mobile-menu-toggle span:nth-child(1) {
+        top: 7.5px; /* Se centre exactement */
+        transform: rotate(45deg);
+    }
+    
+    .navbar.mobile-open .mobile-menu-toggle span:nth-child(3) {
+        top: 7.5px; /* Se centre exactement */
+        transform: rotate(-45deg);
+    }
+    
+    /* Ajustements des boutons auth - centré parfaitement */
+    .header-actions {
+        /* Reste centré mais avec ajustements pour petit écran */
+        transform: translateX(-50%);
+    }
+    
+    .auth-buttons {
+        gap: 5px;
+    }
+    
+    .btn-auth {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+    }
+    
+    /* On masque le bouton jouer sur très petit écran */
+    .play-now-btn {
+        display: none;
+    }
+    
+    /* Avatar et menu dropdown réduits */
+    .user-avatar {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .dropdown-menu {
+        width: 200px;
+        right: 0;
+    }
+    
+    .dropdown-avatar {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .dropdown-username {
+        font-size: 1rem;
+    }
+    
+    .dropdown-links a {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+    
+    /* Typographie très réduite */
+    h1 {
+        font-size: 1.8rem;
+        margin-bottom: 12px;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    
+    h3 {
+        font-size: 1.3rem;
+        margin-bottom: 8px;
+    }
+    
+    p {
+        font-size: 0.9rem;
+        margin-bottom: 12px;
+    }
+    
+    /* Page Header plus compacte */
+    .page-header {
+        padding: 40px 0;
+    }
+    
+    .page-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    /* Sections plus compactes */
+    section {
+        padding: 30px 0;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+    
+    .section-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+    
+    /* Boutons plus petits */
+    .btn {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        border-radius: 4px;
+    }
+    
+    /* Formulaires optimisés */
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-label {
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+    }
+    
+    .form-control {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+    }
+    
+    .form-submit {
+        padding: 10px;
+        font-size: 0.95rem;
+    }
+    
+    /* Messages plus compacts */
+    .messages-container {
+        max-width: 280px;
+        top: 65px;
+        right: 15px;
+    }
+    
+    .message {
+        padding: 12px 15px;
+        font-size: 0.85rem;
+    }
+    
+    /* Footer très compact */
+    .footer-main {
+        padding: 30px 0 20px;
+    }
+    
+    .footer-heading {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+    }
+    
+    .footer-links li {
+        margin-bottom: 8px;
+    }
+    
+    .footer-links a {
+        font-size: 0.9rem;
+    }
+    
+    .footer-status-badge,
+    .player-count-info,
+    .server-version {
+        font-size: 0.85rem;
+    }
+    
+    .social-link {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    
+    .discord-btn {
+        padding: 7px 12px;
+        font-size: 0.85rem;
+    }
+    
+    .copyright {
+        font-size: 0.8rem;
+    }
+    
+    .footer-disclaimer {
+        font-size: 0.7rem;
+    }
+}
+
+/* Très petit mobile : jusqu'à 360px */
+@media (max-width: 360px) {
+    .container {
+        width: 90%;
+    }
+    
+    /* Header ultra-compact mais toujours avec bon espacement */
+    .navbar .logo img {
+        height: 35px;
+    }
+    
+    .mobile-menu-toggle {
+        width: 22px;
+        height: 16px;
+        margin-left: 8px;
+    }
+    
+    /* Ajustements fins pour l'animation de la croix en très petit format */
+    .mobile-menu-toggle span:nth-child(1) {
+        top: 0;
+    }
+    
+    .mobile-menu-toggle span:nth-child(2) {
+        top: 6.5px; /* Exactement au milieu pour 16px de hauteur */
+    }
+    
+    .mobile-menu-toggle span:nth-child(3) {
+        top: 13px; /* 16px - 3px de hauteur */
+    }
+    
+    .navbar.mobile-open .mobile-menu-toggle span:nth-child(1) {
+        top: 6.5px;
+    }
+    
+    .navbar.mobile-open .mobile-menu-toggle span:nth-child(3) {
+        top: 6.5px;
+    }
+    
+    /* Boutons auth très compacts mais bien alignés */
+    .auth-buttons {
+        gap: 3px;
+    }
+    
+    .btn-auth {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+    }
+    
+    /* Typographie minimaliste */
+    h1 {
+        font-size: 1.6rem;
+    }
+    
+    h2 {
+        font-size: 1.4rem;
+    }
+    
+    h3 {
+        font-size: 1.2rem;
+    }
+    
+    p {
+        font-size: 0.85rem;
+    }
+    
+    /* Navigation mobile optimisée */
+    .nav-links a {
+        padding: 10px 0;
+        font-size: 0.95rem;
+    }
+    
+    /* Footer minimaliste */
+    .footer-heading {
+        font-size: 1rem;
+    }
+    
+    .footer-links a {
+        font-size: 0.85rem;
+    }
+    
+    .social-link {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+    
+    /* Marges réduites */
+    .mt-1 { margin-top: 0.3rem; }
+    .mt-2 { margin-top: 0.6rem; }
+    .mt-3 { margin-top: 0.9rem; }
+    .mt-4 { margin-top: 1.2rem; }
+    .mt-5 { margin-top: 1.5rem; }
+    
+    .mb-1 { margin-bottom: 0.3rem; }
+    .mb-2 { margin-bottom: 0.6rem; }
+    .mb-3 { margin-bottom: 0.9rem; }
+    .mb-4 { margin-bottom: 1.2rem; }
+    .mb-5 { margin-bottom: 1.5rem; }
+}

@@ -1,0 +1,278 @@
+{% extends 'minecraft_app/base.html' %}
+{% load static %}
+
+{% block title %}Mon Profil - Serveur Novania Towny Earth{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Section Héro Profil -->
+<section class="profile-hero">
+    <div class="profile-particles" id="profile-particles"></div>
+    <div class="profile-hero-content">
+        <h1 class="profile-hero-title">Mon Profil</h1>
+        <p class="profile-hero-subtitle">Gérez votre compte et vos paramètres</p>
+    </div>
+</section>
+
+<!-- Section Principale Profil -->
+<section class="profile-main-section">
+    <div class="container">
+        <div class="profile-container">
+            <!-- Barre Latérale Profil -->
+            <div class="profile-sidebar">
+                <div class="profile-avatar-wrapper">
+                    <div class="profile-avatar">
+                        {% if profile.minecraft_uuid %}
+                            <img src="https://mc-heads.net/avatar/{{ profile.minecraft_uuid }}/200" alt="{{ user.username }}">
+                        {% elif profile.minecraft_username %}
+                            <img src="https://mc-heads.net/avatar/{{ profile.minecraft_username }}/200" alt="{{ user.username }}">
+                        {% else %}
+                            <img src="https://mc-heads.net/avatar/MHF_Steve/200" alt="{{ user.username }}">
+                        {% endif %}
+                    </div>
+                    <div class="avatar-overlay"></div>
+                </div>
+                
+                <div class="profile-user-info">
+                    <h2 class="profile-username">{{ user.username }}</h2>
+                    {% if profile.minecraft_username %}
+                        <div class="profile-minecraft">{{ profile.minecraft_username }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <div class="profile-stat-value">
+                            {% if profile.minecraft_username %}
+                                <i class="fas fa-check" aria-hidden="true"></i>
+                            {% else %}
+                                <i class="fas fa-times" aria-hidden="true"></i>
+                            {% endif %}
+                        </div>
+                        <div class="profile-stat-label">Minecraft</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="profile-stat-value">
+                            {% if profile.discord_username %}
+                                <i class="fas fa-check" aria-hidden="true"></i>
+                            {% else %}
+                                <i class="fas fa-times" aria-hidden="true"></i>
+                            {% endif %}
+                        </div>
+                        <div class="profile-stat-label">Discord</div>
+                    </div>
+                </div>
+                
+                <div class="profile-links">
+                    <a href="{% url 'store' %}" class="profile-link">
+                        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        <span>Boutique</span>
+                    </a>
+                    <a href="{% url 'logout' %}" class="profile-link logout">
+                        <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                        <span>Déconnexion</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Contenu Profil -->
+            <div class="profile-content">
+                <!-- Onglets Profil -->
+                <div class="profile-tabs">
+                    <button class="profile-tab active" data-tab="account">
+                        <i class="fas fa-user" aria-hidden="true"></i>
+                        <span>Compte</span>
+                    </button>
+                    <button class="profile-tab" data-tab="ranks">
+                        <i class="fas fa-crown" aria-hidden="true"></i>
+                        <span>Mes Rangs</span>
+                    </button>
+                    <button class="profile-tab" data-tab="activity">
+                        <i class="fas fa-history" aria-hidden="true"></i>
+                        <span>Activité</span>
+                    </button>
+                </div>
+                
+                <!-- Contenu des Onglets -->
+                <div class="tab-content">
+                    <!-- Onglet Compte -->
+                    <div class="tab-pane active" id="account">
+                        <div class="profile-section">
+                            <h3 class="profile-section-title">Informations du Compte</h3>
+                            
+                            <form method="post" class="profile-form">
+                                {% csrf_token %}
+                                
+                                <div class="form-group">
+                                    <label for="minecraft_username" class="form-label">
+                                        <i class="fas fa-cube" aria-hidden="true"></i>
+                                        Pseudo Minecraft
+                                    </label>
+                                    <input type="text" 
+                                           id="minecraft_username" 
+                                           name="minecraft_username" 
+                                           class="form-control" 
+                                           value="{{ profile.minecraft_username }}"
+                                           data-original-value="{{ profile.minecraft_username }}"
+                                           autocomplete="off">
+                                    <div class="form-help-text">Ce pseudo sera utilisé pour afficher votre tête Minecraft.</div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="discord_username" class="form-label">
+                                        <i class="fab fa-discord" aria-hidden="true"></i>
+                                        Pseudo Discord
+                                    </label>
+                                    <input type="text" id="discord_username" name="discord_username" class="form-control" value="{{ profile.discord_username }}">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="bio" class="form-label">
+                                        <i class="fas fa-comment-alt" aria-hidden="true"></i>
+                                        Biographie
+                                    </label>
+                                    <textarea id="bio" name="bio" class="form-control" rows="5">{{ profile.bio }}</textarea>
+                                </div>
+                                
+                                <div class="form-action">
+                                    <button type="submit" class="form-submit">
+                                        <span>Mettre à Jour le Profil</span>
+                                        <i class="fas fa-save" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Onglet Rangs -->
+                    <div class="tab-pane" id="ranks">
+                        <div class="profile-section">
+                            <h3 class="profile-section-title">Mes Rangs</h3>
+                            
+                            {% if purchases %}
+                                <div class="ranks-list">
+                                    {% for purchase in purchases %}
+                                        <div class="rank-item">
+                                            <div class="rank-badge" style="background-color: {{ purchase.rank.color_code }}">
+                                                <i class="fas fa-crown" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="rank-details">
+                                                <div class="rank-name" style="color: {{ purchase.rank.color_code }}">
+                                                    {{ purchase.rank.name }}
+                                                </div>
+                                                <div class="rank-date">
+                                                    Acheté le {{ purchase.created_at|date:"d/m/Y" }}
+                                                </div>
+                                            </div>
+                                            <div class="rank-status">
+                                                <span class="status-badge active">Actif</span>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="empty-ranks">
+                                    <div class="empty-icon">
+                                        <i class="fas fa-crown" aria-hidden="true"></i>
+                                    </div>
+                                    <p>Vous n'avez pas encore acheté de rangs.</p>
+                                    <a href="{% url 'store' %}" class="btn">Visiter la Boutique</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Onglet Activité -->
+                    <div class="tab-pane" id="activity">
+                        <div class="profile-section">
+                            <h3 class="profile-section-title">Activité Récente</h3>
+                            
+                            <div class="empty-activity">
+                                <div class="empty-icon">
+                                    <i class="fas fa-history" aria-hidden="true"></i>
+                                </div>
+                                <p>Aucune activité récente à afficher.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Créer des particules pour le hero de profil
+        createParticles('profile-particles', 30);
+        
+        // Fonction pour créer des particules
+        function createParticles(containerId, count) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            const particleCount = window.innerWidth < 768 ? Math.floor(count / 2) : count;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Taille aléatoire
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Position aléatoire
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.left = Math.random() * 100 + '%';
+                
+                // Opacité aléatoire
+                particle.style.opacity = Math.random() * 0.5 + 0.2;
+                
+                // Délai d'animation
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Fonctionnalité de changement d'onglet
+        const tabs = document.querySelectorAll('.profile-tab');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Retirer la classe active de tous les onglets
+                tabs.forEach(t => t.classList.remove('active'));
+                
+                // Ajouter la classe active à l'onglet cliqué
+                this.classList.add('active');
+                
+                // Masquer tous les panneaux d'onglets
+                tabPanes.forEach(pane => pane.classList.remove('active'));
+                
+                // Afficher le panneau d'onglet sélectionné
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Animation du bouton de soumission
+        const submitBtn = document.querySelector('.form-submit');
+        if (submitBtn) {
+            submitBtn.addEventListener('mouseenter', function() {
+                this.classList.add('btn-hover');
+            });
+            
+            submitBtn.addEventListener('mouseleave', function() {
+                this.classList.remove('btn-hover');
+            });
+        }
+    });
+</script>
+{% endblock %}

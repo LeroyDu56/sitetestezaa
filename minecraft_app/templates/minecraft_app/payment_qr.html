@@ -1,0 +1,176 @@
+{% extends 'minecraft_app/base.html' %}
+{% load static %}
+
+{% block title %}Paiement Bancontact - Serveur Novania Towny Earth{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/payment_qr.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Section Héro Paiement QR -->
+<section class="payment-qr-hero">
+    <div class="payment-qr-particles" id="payment-qr-particles"></div>
+    <div class="payment-qr-hero-content">
+        <h1 class="payment-qr-hero-title">Paiement Bancontact</h1>
+        <p class="payment-qr-hero-subtitle">Finalisez votre achat rapidement et en toute sécurité</p>
+    </div>
+</section>
+
+<!-- Section Principale Paiement QR -->
+<section class="payment-qr-main-section">
+    <div class="container">
+        <div class="payment-qr-container">
+            <div class="payment-qr-icon">
+                <i class="fas fa-qrcode"></i>
+            </div>
+            
+            <h2 class="payment-qr-heading">Scannez le QR Code Bancontact</h2>
+            <p class="payment-qr-description">Utilisez l'appareil photo de votre téléphone pour scanner ce QR code et payer facilement via Bancontact</p>
+            
+            <!-- Section QR Code -->
+            <div class="qr-code-section">
+                <div class="qr-code-wrapper">
+                    <img src="{{ qr_code_url }}" alt="QR Code Bancontact" class="qr-code-image">
+                </div>
+                
+                <!-- Montant du Paiement -->
+                {% if total_amount %}
+                <div class="payment-amount">
+                    <div class="amount-label">Montant Total :</div>
+                    <div class="amount-value">€{{ total_amount|default:"0.00" }}</div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Instructions QR -->
+            <div class="qr-instructions">
+                <h3>Comment Payer avec Bancontact</h3>
+                <div class="instructions-steps">
+                    <div class="step">
+                        <div class="step-icon">
+                            <i class="fas fa-camera"></i>
+                            <div class="step-number">1</div>
+                        </div>
+                        <div class="step-content">
+                            <h4>Scannez avec l'Appareil Photo</h4>
+                            <p>Ouvrez l'appareil photo de votre téléphone (pas l'application Bancontact) et pointez-le vers le QR code ci-dessus.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                            <div class="step-number">2</div>
+                        </div>
+                        <div class="step-content">
+                            <h4>Suivez le Lien</h4>
+                            <p>Appuyez sur la notification qui apparaît sur votre écran. Vous serez redirigé vers la page de paiement Bancontact.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="step-number">3</div>
+                        </div>
+                        <div class="step-content">
+                            <h4>Confirmez le Paiement</h4>
+                            <p>L'application Bancontact s'ouvrira automatiquement. Confirmez le paiement avec votre code PIN ou empreinte digitale.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section Sécurité -->
+            <div class="payment-security">
+                <div class="security-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="security-text">
+                    <h4>Paiement Sécurisé via Bancontact</h4>
+                    <p>Votre transaction est sécurisée selon les standards bancaires les plus stricts. Vos données sont cryptées et protégées.</p>
+                </div>
+            </div>
+            
+            <!-- Alternatives de Paiement -->
+            <div class="payment-alternatives">
+                <h3>Vous ne pouvez pas scanner le code ?</h3>
+                <div class="payment-actions">
+                    <a href="{{ checkout_url }}" class="btn-primary">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payer via le Navigateur</span>
+                    </a>
+                    <a href="{% url 'store' %}" class="btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Retour à la Boutique</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section Support -->
+<section class="payment-support-section">
+    <div class="container">
+        <div class="payment-support-content">
+            <h2>Besoin d'Aide ?</h2>
+            <p>Si vous rencontrez des difficultés avec votre paiement Bancontact, notre équipe de support est là pour vous aider !</p>
+            <a href="https://discord.gg/9JQ6ePj7CT" class="discord-btn" target="_blank">
+                <i class="fab fa-discord"></i>
+                <span>Assistance sur Discord</span>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Créer des particules pour le hero de paiement QR
+        createParticles('payment-qr-particles', 40);
+        
+        // Fonction pour créer des particules
+        function createParticles(containerId, count) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            const particleCount = window.innerWidth < 768 ? Math.floor(count / 2) : count;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Taille aléatoire
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Position aléatoire
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.left = Math.random() * 100 + '%';
+                
+                // Opacité aléatoire
+                particle.style.opacity = Math.random() * 0.5 + 0.2;
+                
+                // Délai d'animation
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Effets de survol des boutons
+        const buttons = document.querySelectorAll('.btn-primary, .btn-secondary, .discord-btn');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.classList.add('btn-hover');
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.classList.remove('btn-hover');
+            });
+        });
+    });
+</script>
+{% endblock %}

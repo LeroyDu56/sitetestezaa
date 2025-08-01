@@ -1,0 +1,352 @@
+{% extends 'minecraft_app/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Section Héro -->
+<section class="hero">
+    <div class="video-background">
+        <video id="background-video" autoplay loop muted playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback">
+            <source src="{% static 'videos/background_loop.mp4' %}" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+    
+    <div class="hero-content">
+        <div class="hero-title-image">
+            <img src="{% static 'images/TEXT_NOVANIA.png' %}" alt="Novania" class="text-logo">
+        </div>
+        <p class="hero-subtitle">Serveur Minecraft Towny sur Carte Terre</p>
+        <p class="hero-description">Créez votre ville, rejoignez une nation et façonnez l'histoire du monde à votre manière.</p>
+        <div class="hero-buttons">
+            <a href="#join" class="btn btn-accent glow-effect">Jouer Maintenant</a>
+            <a href="{% url 'dynmap' %}" class="btn glass-effect">Voir la Carte</a>
+        </div>
+    </div>
+</section>
+
+<!-- Section Rejoindre le Serveur -->
+<section id="join" class="join-section">
+    <div class="container">
+        <h2 class="section-title">Rejoignez l'Aventure</h2>
+        <p class="section-subtitle">Embarquez pour un voyage épique à travers notre monde à l'échelle de la Terre</p>
+        
+        <div class="server-info-card">
+            <div class="server-info-header">
+                <div class="server-name">Novania - Earth Towny</div>
+                <div class="server-status">
+                    <span class="status-indicator {% if server.status %}status-online{% else %}status-offline{% endif %}"></span>
+                    <span>{% if server.status %}En ligne{% else %}Hors ligne{% endif %}</span>
+                    <span class="player-count">{{ server.player_count }}/{{ server.max_players }}</span>
+                </div>
+            </div>
+            
+            <div class="server-content">
+                <p class="server-description">Rejoignez une communauté de bâtisseurs, commerçants et aventuriers sur notre carte Terre immersive à l'échelle 1:1000. Revendiquez votre territoire, construisez votre ville et façonnez l'histoire de notre monde virtuel.</p>
+                
+                <div id="server-ip" class="server-ip">play.novania.fr</div>
+                
+                <div class="join-now">
+                    
+                    <p>Copiez simplement l'adresse du serveur et ajoutez-la à votre liste de serveurs Minecraft</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Script pour copier l'IP au clic -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const serverIp = document.getElementById('server-ip');
+        const copyBtn = document.getElementById('copy-ip');
+        
+        // Fonction pour copier l'IP au clic
+        function copyIpToClipboard() {
+            const ip = 'play.novania.fr';
+            navigator.clipboard.writeText(ip).then(function() {
+                // Effet visuel pour indiquer la copie
+                copyBtn.textContent = 'IP Copiée !';
+                copyBtn.classList.add('copied');
+                
+                setTimeout(function() {
+                    copyBtn.textContent = 'Copier l\'adresse IP';
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+        
+        // Ajouter l'événement au clic sur le bouton et sur l'IP
+        copyBtn.addEventListener('click', copyIpToClipboard);
+        serverIp.addEventListener('click', copyIpToClipboard);
+    });
+</script>
+
+<!-- Section Fonctionnalités -->
+<section class="features-section">
+    <div class="container">
+        <h2 class="section-title">Découvrez Nos Fonctionnalités</h2>
+        <p class="section-subtitle">Ce qui rend Novania unique</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-globe-europe"></i>
+                </div>
+                <h3 class="feature-title">Carte Terre</h3>
+                <p class="feature-description">Explorez notre carte réaliste de la Terre à l'échelle 1:1000. Fondez des nations dans des lieux réels et revendiquez des territoires avec des avantages géographiques.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-landmark"></i>
+                </div>
+                <h3 class="feature-title">Système Towny</h3>
+                <p class="feature-description">Créez votre propre ville, rejoignez une nation et bâtissez des alliances. Engagez-vous dans la diplomatie, le commerce ou les guerres territoriales avec d'autres joueurs.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="feature-title">Communauté Active</h3>
+                <p class="feature-description">Rejoignez notre communauté accueillante de bâtisseurs, d'explorateurs et de stratèges qui travaillent ensemble pour recréer l'histoire ou forger de nouveaux chemins.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <h3 class="feature-title">Économie Dynamique</h3>
+                <p class="feature-description">Participez à notre économie dirigée par les joueurs et basée sur l'or avec des boutiques et des échanges entre joueurs. Bâtissez votre richesse grâce à la stratégie et la collaboration.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="feature-title">Protection du Territoire</h3>
+                <p class="feature-description">Vos claims sont entièrement protégés contre le griefing grâce à notre système de protection avancé tout en permettant un gameplay stratégique.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <h3 class="feature-title">Plugins Personnalisés</h3>
+                <p class="feature-description">Vivez une expérience de jeu unique avec nos plugins développés sur mesure, conçus pour améliorer l'expérience Earth Towny et rendre le gameplay plus immersif.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section Nations à la Une -->
+<section class="nations-section">
+    <div class="container">
+        <h2 class="section-title">Nations à la Une</h2>
+        <p class="section-subtitle">Les civilisations les plus puissantes qui façonnent notre monde</p>
+        
+        <div class="nations-grid">
+            {% for nation in nations|slice:":3" %}
+                <div class="nation-card">
+                    <div class="nation-banner">
+                        <div class="nation-flag">
+                            <img src="{{ nation.flag_image|default:'static/images/default-flag.jpg' }}" alt="Drapeau {{ nation.name }}">
+                        </div>
+                    </div>
+                    
+                    <div class="nation-content">
+                        <h3 class="nation-name">{{ nation.name }}</h3>
+                        <div class="nation-info">
+                            <div class="nation-info-item">
+                                <i class="fas fa-landmark"></i>
+                                <span>Capitale : {{ nation.capital }}</span>
+                            </div>
+                            <div class="nation-info-item">
+                                <i class="fas fa-crown"></i>
+                                <span>Leader : {{ nation.leader }}</span>
+                            </div>
+                            <div class="nation-info-item">
+                                <i class="fas fa-city"></i>
+                                <span>Villes : {{ nation.towns_count }}</span>
+                            </div>
+                        </div>
+                        
+                        {% if nation.description %}
+                        <p class="nation-description">{{ nation.description|truncatechars:100 }}</p>
+                        {% else %}
+                        <p class="nation-description">Une nation prospère avec une riche histoire et culture, qui marque de son empreinte le monde de Novania.</p>
+                        {% endif %}
+                        
+
+                    </div>
+                </div>
+            {% empty %}
+                <!-- Exactement 3 nations d'exemple si aucune donnée disponible -->
+                <div class="nation-card">
+                    <div class="nation-banner">
+                        <div class="nation-flag">
+                            <img src="{% static 'images/default-flag.jpg' %}" alt="Drapeau de Nation">
+                        </div>
+                    </div>
+                    
+                    <div class="nation-content">
+                        <h3 class="nation-name">Britannia</h3>
+                        <div class="nation-info">
+                            <div class="nation-info-item">
+                                <i class="fas fa-landmark"></i>
+                                <span>Capitale : London</span>
+                            </div>
+                            <div class="nation-info-item">
+                                <i class="fas fa-crown"></i>
+                                <span>Leader : KingArthur</span>
+                            </div>
+                            <div class="nation-info-item">
+                                <i class="fas fa-city"></i>
+                                <span>Villes : 7</span>
+                            </div>
+                        </div>
+                        
+                        <p class="nation-description">Une puissance navale aux ambitions coloniales, connue pour son système parlementaire et ses relations diplomatiques.</p>
+                        
+
+                    </div>
+                </div>
+                
+                <div class="nation-card">
+                    <div class="nation-banner">
+                        <div class="nation-flag">
+                            <img src="{% static 'images/default-flag.jpg' %}" alt="Drapeau de Nation">
+                        </div>
+                    </div>
+                    
+                    <div class="nation-content">
+                        <h3 class="nation-name">Nova Roma</h3>
+                        <div class="nation-info">
+                            <div class="nation-info-item">
+                                <i class="fas fa-landmark"></i>
+                                <span>Capitale : Roma</span>
+                            </div>
+                            <div class="nation-info-item">
+                                <i class="fas fa-crown"></i>
+                                <span>Leader : Caesar_Augustus</span>
+                            </div>
+                            <div class="nation-info-item">
+                                <i class="fas fa-city"></i>
+                                <span>Villes : 5</span>
+                            </div>
+                        </div>
+                        
+                        <p class="nation-description">Un empire dédié à préserver la gloire de la Rome antique avec une architecture grandiose et une puissance militaire.</p>
+                        
+
+                    </div>
+                </div>
+                
+                <div class="nation-card">
+                    <div class="nation-banner">
+                        <div class="nation-flag">
+                            <img src="{% static 'images/default-flag.jpg' %}" alt="Drapeau de Nation">
+                        </div>
+                    </div>
+                    
+                    <div class="nation-content">
+                        <h3 class="nation-name">Nippon</h3>
+                        <div class="nation-info">
+                            <div class="nation-info-item">
+                                <i class="fas fa-landmark"></i>
+                                <span>Capitale : Tokyo</span>
+                            </div>
+                            <div class="nation-info-item">
+                                <i class="fas fa-crown"></i>
+                                <span>Leader : ShogunTakeda</span>
+                            </div>
+                            <div class="nation-info-item">
+                                <i class="fas fa-city"></i>
+                                <span>Villes : 4</span>
+                            </div>
+                        </div>
+                        
+                        <p class="nation-description">Une nation insulaire connue pour sa belle architecture traditionnelle et ses avancées technologiques.</p>
+                        
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+
+<section class="cta-section">
+    <div class="cta-overlay"></div>
+    <div class="cta-particles"></div>
+    
+    <div class="container">
+        <div class="cta-container">
+            <div class="cta-content">
+                <h2 class="cta-title">Prêt à Commencer Votre Aventure ?</h2>
+                <p class="cta-text">Rejoignez notre communauté Discord pour vous connecter avec d'autres joueurs, obtenir de l'aide et rester informé des événements et annonces du serveur.</p>
+                
+                <div class="cta-actions">
+                    <a href="https://discord.gg/9JQ6ePj7CT" class="btn cta-discord-btn" target="_blank">
+                        <i class="fab fa-discord"></i>
+                        <span>Rejoindre Notre Discord</span>
+                    </a>
+                    <a href="{% url 'rules' %}" class="btn cta-rules-btn">
+                        <i class="fas fa-scroll"></i>
+                        <span>Lire les Règles</span>
+                    </a>
+                </div>
+                
+                <div class="cta-server-info">
+                    <div class="server-status-badge">
+                        <span class="status-indicator {% if server.status %}status-online{% else %}status-offline{% endif %}"></span>
+                        <span class="status-text">{% if server.status %}Serveur En Ligne{% else %}Serveur Hors Ligne{% endif %}</span>
+                    </div>
+                    <div class="player-count-badge">
+                        <i class="fas fa-users"></i>
+                        <span>{{ server.player_count }}/{{ server.max_players }} Joueurs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const video = document.getElementById('background-video');
+        
+        // Créer l'effet de fondu à la fin de chaque lecture
+        video.addEventListener('timeupdate', function() {
+            // Si la vidéo est proche de la fin (2 secondes avant)
+            if (video.currentTime >= video.duration - 2) {
+                // Commencer le fondu
+                video.style.opacity = 1 - ((video.duration - video.currentTime) / 2);
+            } else if (video.currentTime <= 2) {
+                // Fondu en entrée au début
+                video.style.opacity = video.currentTime / 2;
+            } else {
+                // Opacité normale pendant la lecture
+                video.style.opacity = 1;
+            }
+        });
+        
+        // Au redémarrage de la vidéo
+        video.addEventListener('seeked', function() {
+            if (video.currentTime === 0) {
+                video.style.opacity = 0;
+                setTimeout(() => {
+                    video.style.opacity = 1;
+                }, 10);
+            }
+        });
+    });
+</script>
+{% endblock %}

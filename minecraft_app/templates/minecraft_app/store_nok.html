@@ -1,0 +1,129 @@
+{% extends 'minecraft_app/base.html' %}
+{% load static %}
+
+{% block title %}Accès Restreint - Boutique Novania{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/store_nok.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Section Héro Accès Boutique -->
+<section class="store-access-hero">
+    <div class="store-access-particles" id="store-access-particles"></div>
+    <div class="store-access-hero-content">
+        <h1 class="store-access-title">Connexion Requise</h1>
+        <p class="store-access-subtitle">Pour accéder à notre boutique, veuillez vous connecter ou créer un compte</p>
+    </div>
+</section>
+
+<!-- Section Principale Accès Boutique -->
+<section class="store-access-main">
+    <div class="container">
+        <div class="store-access-container">
+            <div class="store-access-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            
+            <h2 class="store-access-heading">Rejoignez Novania pour Accéder à la Boutique</h2>
+            <p class="store-access-description">Notre boutique propose des rangs et des articles exclusifs pour améliorer votre expérience de jeu. Créez un compte ou connectez-vous pour découvrir nos offres premium et soutenir le serveur !</p>
+            
+            <div class="store-access-benefits">
+                <h3>Pourquoi Créer un Compte ?</h3>
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h4>Accès Exclusif</h4>
+                        <p>Parcourez notre sélection complète de rangs et d'articles</p>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-crown"></i>
+                        <h4>Rangs Premium</h4>
+                        <p>Achetez des rangs pour obtenir des avantages et privilèges spéciaux</p>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-gift"></i>
+                        <h4>Articles Uniques</h4>
+                        <p>Découvrez des trésors et des objets de collection exclusifs</p>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-headset"></i>
+                        <h4>Soutenez le Serveur</h4>
+                        <p>Aidez à maintenir et améliorer notre communauté</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="store-access-actions">
+                <a href="{% url 'register' %}" class="btn btn-primary btn-large">
+                    <i class="fas fa-user-plus"></i>
+                    Créer un Compte
+                </a>
+                <a href="{% url 'login' %}" class="btn btn-secondary btn-large">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Se Connecter
+                </a>
+            </div>
+            
+            <div class="store-preview">
+                <h3>Aperçu de la Boutique</h3>
+                <div class="preview-images">
+                    <div class="preview-item rank-preview">
+                        <div class="preview-image">
+                            <i class="fas fa-crown" style="color: #ffd700;"></i>
+                        </div>
+                        <h4>Rangs Premium</h4>
+                        <p>VIP, Premium, Elite, Legend</p>
+                    </div>
+                    <div class="preview-item treasure-preview">
+                        <div class="preview-image">
+                            <i class="fas fa-gem" style="color: #e91e63;"></i>
+                        </div>
+                        <h4>Trésors Exclusifs</h4>
+                        <p>Objets de collection, Cosmétiques, Utilitaires</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Créer des particules pour le hero d'accès à la boutique
+        createParticles('store-access-particles', 40);
+        
+        // Fonction pour créer des particules
+        function createParticles(containerId, count) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            const particleCount = window.innerWidth < 768 ? Math.floor(count / 2) : count;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Taille aléatoire
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Position aléatoire
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.left = Math.random() * 100 + '%';
+                
+                // Opacité aléatoire
+                particle.style.opacity = Math.random() * 0.5 + 0.2;
+                
+                // Délai d'animation
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                
+                container.appendChild(particle);
+            }
+        }
+    });
+</script>
+{% endblock %}

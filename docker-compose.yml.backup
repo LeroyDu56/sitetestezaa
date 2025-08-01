@@ -1,0 +1,55 @@
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: novania_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - ./static:/var/www/static:ro
+    restart: unless-stopped
+    depends_on:
+      - django
+    networks:
+      - novania_network
+
+  django:
+    build: .
+    container_name: novania_django
+    env_file:
+      - .env
+    environment:
+      - DEBUG=False
+      - ALLOWED_HOSTS=novania.fr,www.novania.fr,localhost
+    volumes:
+      - ./static:/app/static
+      - ./media:/app/media
+    expose:
+      - "8000"
+    restart: unless-stopped
+    depends_on:
+      - db
+    networks:
+      - novania_network
+
+  db:
+    image: postgres:15-alpine
+    container_name: novania_db
+    environment:
+      POSTGRES_DB: novania
+      POSTGRES_USER: novania
+      POSTGRES_PASSWORD: password123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - novania_network
+
+networks:
+  novania_network:
+    driver: bridge
+
+volumes:
+  postgres_data:

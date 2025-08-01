@@ -1,0 +1,81 @@
+{% extends 'minecraft_app/base.html' %}
+{% load static %}
+{% block title %}Carte - Serveur Novania Towny Earth{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/map.css' %}">
+{% endblock %}
+{% block content %}
+<!-- Section Héro Carte -->
+<section class="map-hero">
+    <div class="map-particles" id="map-particles"></div>
+    <div class="map-hero-content">
+        <h1 class="map-hero-title">Carte du Serveur</h1>
+        <p class="map-hero-subtitle">Explorez notre Monde Terre à l'échelle 1:1000</p>
+    </div>
+</section>
+<!-- Section Principale Carte -->
+<section class="map-main-section">
+    <div class="container">
+        <div class="map-coming-soon">
+            <div class="coming-soon-icon">
+                <i class="fas fa-globe-europe"></i>
+            </div>
+            <h2 class="coming-soon-title">Disponible à l'Ouverture du Serveur</h2>
+            <p class="coming-soon-text">Notre carte dynamique sera disponible lors de l'ouverture officielle du serveur. Vous pourrez explorer les villes, les nations et naviguer sur notre carte Terre à l'échelle 1:1000 en temps réel.</p>
+            <div class="coming-soon-features">
+                <div class="feature-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Positions des Villes en Direct</h3>
+                    <p>Visualisez toutes les villes et nations en temps réel</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-users"></i>
+                    <h3>Positions des Joueurs</h3>
+                    <p>Suivez les joueurs actifs sur la carte</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-landmark"></i>
+                    <h3>Territoires des Nations</h3>
+                    <p>Visualisez les territoires revendiqués et les frontières</p>
+                </div>
+            </div>
+            <div class="coming-soon-cta">
+                <a href="{% url 'home' %}#join" class="btn btn-primary">
+                    <i class="fas fa-play-circle"></i>
+                    <span>Rejoindre le Serveur</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Créer des particules pour le hero de carte
+        createParticles('map-particles', 40);
+        // Fonction pour créer des particules
+        function createParticles(containerId, count) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const particleCount = window.innerWidth < 768 ? Math.floor(count / 2) : count;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                // Taille aléatoire
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                // Position aléatoire
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.left = Math.random() * 100 + '%';
+                // Opacité aléatoire
+                particle.style.opacity = Math.random() * 0.5 + 0.2;
+                // Délai d'animation
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(particle);
+            }
+        }
+    });
+</script>
+{% endblock %}

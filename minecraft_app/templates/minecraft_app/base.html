@@ -1,0 +1,245 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Novania - Serveur Minecraft Towny Earth{% endblock %}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.png' %}">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/store-fixes.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- En-tête -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="{% url 'home' %}" class="logo">
+                    <img src="{% static 'images/LOGO_NOVANIA.png' %}" alt="Novania" height="40">
+                </a>
+                
+                <!-- Bouton Menu Hamburger -->
+                <div class="mobile-menu-toggle" aria-label="Basculer le menu de navigation" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                
+                <ul class="nav-links">
+                    <li><a href="{% url 'dynmap' %}">Carte</a></li>
+                    <li><a href="{% url 'staff' %}">Staff</a></li>
+                    <li><a href="{% url 'rules' %}">Règles</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    <li><a href="{% url 'store' %}">Boutique</a></li>
+                </ul>
+                
+                <!-- Bouton principal et auth -->
+                <div class="header-actions">
+                    <a href="#join" class="btn play-now-btn">Jouer Maintenant</a>
+                    
+                    <!-- Section Auth -->
+                    <div class="auth-section">
+                        {% if user.is_authenticated %}
+                            <div class="user-profile-dropdown">
+                                <div class="user-avatar" id="user-dropdown-toggle">
+                                    {% if user.profile.minecraft_uuid %}
+                                        <img src="https://mc-heads.net/avatar/{{ user.profile.minecraft_uuid }}/100" alt="{{ user.username }}">
+                                    {% elif user.profile.minecraft_username %}
+                                        <img src="https://mc-heads.net/avatar/{{ user.profile.minecraft_username }}/100" alt="{{ user.username }}">
+                                    {% else %}
+                                        <img src="https://mc-heads.net/avatar/MHF_Steve/100" alt="{{ user.username }}">
+                                    {% endif %}
+                                </div>
+                                <div class="dropdown-menu" id="user-dropdown-menu">
+                                    <div class="dropdown-user-info">
+                                        <div class="dropdown-avatar">
+                                            {% if user.profile.minecraft_uuid %}
+                                                <img src="https://mc-heads.net/avatar/{{ user.profile.minecraft_uuid }}/100" alt="{{ user.username }}">
+                                            {% elif user.profile.minecraft_username %}
+                                                <img src="https://mc-heads.net/avatar/{{ user.profile.minecraft_username }}/100" alt="{{ user.username }}">
+                                            {% else %}
+                                                <img src="https://mc-heads.net/avatar/MHF_Steve/100" alt="{{ user.username }}">
+                                            {% endif %}
+                                        </div>
+                                        <div class="dropdown-username">{{ user.username }}</div>
+                                        {% if user.profile.minecraft_username %}
+                                            <div class="dropdown-minecraft">{{ user.profile.minecraft_username }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="dropdown-links">
+                                        <a href="{% url 'profile' %}"><i class="fas fa-user"></i> Mon profil</a>
+                                        {% if user.is_staff %}
+                                            <a href="{% url 'admin:index' %}"><i class="fas fa-cog"></i> Administration</a>
+                                        {% endif %}
+                                        <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="auth-buttons">
+                                <a href="{% url 'login' %}" class="btn-auth login">Connexion</a>
+                                <a href="{% url 'register' %}" class="btn-auth register">Inscription</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Messages -->
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+            <div class="message message-{{ message.tags }}">
+                {{ message }}
+                <button class="message-close"><i class="fas fa-times"></i></button>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    {% block content %}{% endblock %}
+    
+
+<!-- Pied de page simplifié -->
+<footer class="enhanced-footer">
+    <div class="footer-main">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3 class="footer-heading">Liens Rapides</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> Accueil</a></li>
+                        <li><a href="{% url 'dynmap' %}"><i class="fas fa-map"></i> Carte</a></li>
+                        <li><a href="{% url 'store' %}"><i class="fas fa-shopping-cart"></i> Boutique</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Informations</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'rules' %}"><i class="fas fa-gavel"></i> Règles</a></li>
+                        <li><a href="{% url 'staff' %}"><i class="fas fa-users-cog"></i> Staff</a></li>
+                        <li><a href="{% url 'faq' %}"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                        <li><a href="{% url 'contact' %}"><i class="fas fa-envelope"></i> Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Statut du Serveur</h3>
+                    <div class="footer-status-badge">
+                        <span class="status-icon {% if server.status %}status-online{% else %}status-offline{% endif %}"></span>
+                        <span class="status-text">{% if server.status %}Serveur En Ligne{% else %}Serveur Hors Ligne{% endif %}</span>
+                    </div>
+                    <div class="player-count-info">
+                        <i class="fas fa-users"></i>
+                        <span class="player-count">{{ server.player_count }}/{{ server.max_players }}</span> joueurs en ligne
+                    </div>
+                    <div class="server-version">
+                        <i class="fas fa-code-branch"></i>
+                        Version: 1.21.4+
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Rejoignez-nous</h3>
+                    <div class="social-links">
+                        <a href="https://discord.gg/9JQ6ePj7CT" class="social-link discord" title="Discord" target="_blank">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@novania.tik?_t=ZN-8vrSE1hMpew&_r=1" class="social-link tiktok" title="TikTok" target="_blank">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <div class="container">
+            <p class="copyright">&copy; 2025 Novania. Tous droits réservés. Minecraft est une marque déposée de Mojang AB.</p>
+            <p class="footer-disclaimer">Ceci est un projet de fans et n'est pas affilié à Mojang Studios.</p>
+        </div>
+    </div>
+</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Fonction pour mettre à jour le statut du serveur
+        function updateServerStatus() {
+            fetch('/api/server-status/')
+                .then(response => response.json())
+                .then(data => {
+                    // Mise à jour du footer
+                    const statusIcon = document.querySelector('.footer-status-badge .status-icon');
+                    const statusText = document.querySelector('.footer-status-badge .status-text');
+                    const playerCount = document.querySelector('.player-count');
+                    
+                    if (statusIcon && statusText) {
+                        if (data.status) {
+                            statusIcon.classList.remove('status-offline');
+                            statusIcon.classList.add('status-online');
+                            statusText.textContent = 'Serveur En Ligne';
+                        } else {
+                            statusIcon.classList.remove('status-online');
+                            statusIcon.classList.add('status-offline');
+                            statusText.textContent = 'Serveur Hors Ligne';
+                        }
+                    }
+                    
+                    if (playerCount) {
+                        playerCount.textContent = `${data.player_count}/${data.max_players}`;
+                    }
+                    
+                    // Mise à jour de tous les éléments ayant la classe player-count
+                    const allPlayerCounts = document.querySelectorAll('.player-count');
+                    allPlayerCounts.forEach(element => {
+                        element.textContent = `${data.player_count}/${data.max_players}`;
+                    });
+                    
+                    // Mise à jour de la section CTA si elle existe
+                    const ctaStatusIcon = document.querySelector('.cta-server-info .status-indicator');
+                    const ctaStatusText = document.querySelector('.cta-server-info .status-text');
+                    const ctaPlayerCount = document.querySelector('.cta-server-info .player-count-badge span');
+                    
+                    if (ctaStatusIcon && ctaStatusText) {
+                        if (data.status) {
+                            ctaStatusIcon.classList.remove('status-offline');
+                            ctaStatusIcon.classList.add('status-online');
+                            ctaStatusText.textContent = 'Serveur En Ligne';
+                        } else {
+                            ctaStatusIcon.classList.remove('status-online');
+                            ctaStatusIcon.classList.add('status-offline');
+                            ctaStatusText.textContent = 'Serveur Hors Ligne';
+                        }
+                    }
+                    
+                    if (ctaPlayerCount) {
+                        ctaPlayerCount.textContent = `${data.player_count}/${data.max_players} Joueurs`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la mise à jour du statut du serveur:', error);
+                });
+        }
+        
+        // Mise à jour immédiate au chargement de la page
+        updateServerStatus();
+        
+        // Mise à jour toutes les 60 secondes
+        setInterval(updateServerStatus, 60000);
+    });
+</script>
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

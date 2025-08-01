@@ -1,0 +1,460 @@
+/* Map Page Styles - Enhanced for Novania */
+
+/* Map Hero Section */
+.map-hero {
+    position: relative;
+    height: 250px;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/map-bg.jpg') center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.map-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background-color: rgba(255, 215, 0, 0.7);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+    z-index: 1;
+    animation: floatAnimation 60s infinite linear;
+}
+
+.map-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.map-hero-title {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: #ffd700;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+    animation: titleGlow 3s infinite alternate;
+}
+
+.map-hero-subtitle {
+    font-size: 1.5rem;
+    color: var(--light);
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+/* Map Main Section */
+.map-main-section {
+    padding: 60px 0;
+    background: url('../images/subtle-pattern.png') repeat;
+    min-height: calc(100vh - 450px);
+}
+
+/* Coming Soon Container */
+.map-coming-soon {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: var(--darker);
+    border-radius: 15px;
+    padding: 50px 30px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.map-coming-soon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../images/grid-overlay.png') repeat;
+    opacity: 0.05;
+    z-index: 0;
+}
+
+.coming-soon-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 30px;
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.2), rgba(52, 152, 219, 0.1));
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    animation: pulseIcon 3s infinite;
+}
+
+.coming-soon-icon i {
+    font-size: 3rem;
+    color: var(--primary);
+}
+
+.coming-soon-title {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.coming-soon-text {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 700px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+}
+
+/* Coming Soon Features */
+.coming-soon-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin: 40px 0;
+    position: relative;
+    z-index: 1;
+}
+
+.feature-item {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.feature-item i {
+    font-size: 2.5rem;
+    color: #ffd700;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.feature-item h3 {
+    font-size: 1.3rem;
+    color: var(--light);
+    margin-bottom: 10px;
+}
+
+.feature-item p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+}
+
+/* Coming Soon CTA */
+.coming-soon-cta {
+    margin-top: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.coming-soon-cta .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 35px;
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    color: white;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.coming-soon-cta .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+    color: white;
+}
+
+.coming-soon-cta .btn i {
+    font-size: 1.2rem;
+}
+
+/* Animation Keyframes */
+@keyframes titleGlow {
+    0% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+    100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.5); }
+}
+
+@keyframes floatAnimation {
+    0% { transform: translateY(0) translateX(0); opacity: 0.3; }
+    25% { transform: translateY(-50px) translateX(30px); opacity: 0.7; }
+    50% { transform: translateY(-100px) translateX(-30px); opacity: 0.5; }
+    75% { transform: translateY(-50px) translateX(-50px); opacity: 0.7; }
+    100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+}
+
+@keyframes pulseIcon {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(52, 152, 219, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
+}
+
+/* Responsive Styles */
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .map-coming-soon {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 992px) {
+    .map-hero-title {
+        font-size: 2.8rem;
+    }
+    
+    .map-hero-subtitle {
+        font-size: 1.3rem;
+    }
+    
+    .coming-soon-features {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin: 30px 0;
+    }
+    
+    .feature-item {
+        padding: 20px;
+    }
+    
+    .feature-item i {
+        font-size: 2.2rem;
+        margin-bottom: 12px;
+    }
+    
+    .feature-item h3 {
+        font-size: 1.2rem;
+    }
+    
+    .coming-soon-title {
+        font-size: 2.2rem;
+    }
+    
+    .coming-soon-text {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .map-hero {
+        height: 220px;
+    }
+    
+    .map-hero-title {
+        font-size: 2.2rem;
+    }
+    
+    .map-hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .map-main-section {
+        padding: 40px 0;
+    }
+    
+    .map-coming-soon {
+        padding: 40px 25px;
+    }
+    
+    .coming-soon-icon {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 20px;
+    }
+    
+    .coming-soon-icon i {
+        font-size: 2.5rem;
+    }
+    
+    .coming-soon-title {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+    
+    .coming-soon-text {
+        font-size: 1rem;
+        margin-bottom: 30px;
+    }
+    
+    .coming-soon-features {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin: 25px 0;
+    }
+    
+    .feature-item {
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        text-align: left;
+    }
+    
+    .feature-item i {
+        font-size: 2rem;
+        margin-bottom: 0;
+        margin-right: 15px;
+        min-width: 40px;
+        text-align: center;
+    }
+    
+    .feature-item h3 {
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
+    
+    .feature-item p {
+        font-size: 0.9rem;
+    }
+    
+    .coming-soon-cta {
+        margin-top: 30px;
+    }
+    
+    .coming-soon-cta .btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .map-hero {
+        height: 180px;
+    }
+    
+    .map-hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .map-hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .map-main-section {
+        padding: 30px 0;
+    }
+    
+    .map-coming-soon {
+        padding: 30px 20px;
+    }
+    
+    .coming-soon-icon {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 15px;
+    }
+    
+    .coming-soon-icon i {
+        font-size: 2.2rem;
+    }
+    
+    .coming-soon-title {
+        font-size: 1.6rem;
+        margin-bottom: 12px;
+    }
+    
+    .coming-soon-text {
+        font-size: 0.95rem;
+        margin-bottom: 25px;
+    }
+    
+    .feature-item {
+        padding: 12px;
+    }
+    
+    .feature-item i {
+        font-size: 1.8rem;
+        margin-right: 12px;
+    }
+    
+    .feature-item h3 {
+        font-size: 1rem;
+        margin-bottom: 3px;
+    }
+    
+    .feature-item p {
+        font-size: 0.85rem;
+    }
+    
+    .coming-soon-cta {
+        margin-top: 25px;
+    }
+    
+    .coming-soon-cta .btn {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+        width: 100%;
+    }
+}
+
+@media (max-width: 360px) {
+    .map-hero-title {
+        font-size: 1.6rem;
+    }
+    
+    .map-hero-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .map-coming-soon {
+        padding: 25px 15px;
+        border-radius: 12px;
+    }
+    
+    .coming-soon-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .coming-soon-icon i {
+        font-size: 2rem;
+    }
+    
+    .coming-soon-title {
+        font-size: 1.4rem;
+    }
+    
+    .coming-soon-text {
+        font-size: 0.9rem;
+    }
+    
+    .feature-item {
+        padding: 10px;
+    }
+    
+    .feature-item i {
+        font-size: 1.6rem;
+        margin-right: 10px;
+        min-width: 35px;
+    }
+    
+    .feature-item p {
+        font-size: 0.8rem;
+    }
+}
