@@ -7,6 +7,53 @@
 <link rel="stylesheet" href="{% static 'css/store.css' %}">
 <link rel="stylesheet" href="{% static 'css/store-fixes.css' %}">
 <style>
+        /* Styles spécifiques pour les compagnons */
+    .treasure-card[data-category="companion"] {
+        border-top: 3px solid #9b59b6;
+        position: relative;
+    }
+    
+    .treasure-card[data-category="companion"]::before {
+        content: "🐾";
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 1.5rem;
+        opacity: 0.7;
+    }
+    
+    .treasure-card[data-category="companion"] .treasure-category {
+        background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        color: white;
+    }
+    
+    .treasure-card[data-category="companion"] .treasure-name {
+        color: #9b59b6 !important;
+    }
+    
+    .treasure-card[data-category="companion"] .add-to-cart-btn {
+        background: linear-gradient(135deg, #9b59b6, #8e44ad) !important;
+    }
+    
+    .category-btn[data-category="companion"] {
+        background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        color: white;
+        border: 2px solid #9b59b6;
+    }
+    
+    .category-btn[data-category="companion"]:hover,
+    .category-btn[data-category="companion"].active {
+        background: #8e44ad;
+        border-color: #8e44ad;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(155, 89, 182, 0.4);
+    }
+    
+    /* Animation spéciale pour les compagnons */
+    .treasure-card[data-category="companion"]:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 15px 35px rgba(155, 89, 182, 0.3);
+    }
     /* Style pour les rangs déjà possédés */
     .product-card.owned {
         position: relative;
@@ -199,6 +246,7 @@
                 <button class="category-btn" data-category="cosmetic">Cosmétiques</button>
                 <button class="category-btn" data-category="utility">Utilitaires</button>
                 <button class="category-btn" data-category="special">Spéciaux</button>
+                <button class="category-btn" data-category="companion">Compagnons</button>
             </div>
             
             <div class="store-grid treasures-grid">

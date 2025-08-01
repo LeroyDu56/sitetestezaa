@@ -165,12 +165,15 @@ class UserPurchase(models.Model):
             return f"{self.user.username} - {self.rank.name if self.rank else 'Rank supprimé'} (Gift from {self.gifted_by.username})"
         return f"{self.user.username} - {self.rank.name if self.rank else 'Rank supprimé'}"
     
+# Dans minecraft_app/models.py - Modifiez la classe StoreItem
+
 class StoreItem(models.Model):
     CATEGORY_CHOICES = [
         ('collectible', 'Collectible'),
         ('cosmetic', 'Cosmetic'),
         ('utility', 'Utility'),
         ('special', 'Special'),
+        ('companion', 'Compagnon'),  # ✅ NOUVEAU : Catégorie pour les pets
     ]
     
     name = models.CharField(max_length=100)
@@ -181,11 +184,22 @@ class StoreItem(models.Model):
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='collectible')
     quantity = models.IntegerField(default=1, help_text="Available quantity (-1 for unlimited)")
     
+    # ✅ NOUVEAU : Champ spécifique pour les pets
+    pet_permission = models.CharField(
+        max_length=100, 
+        blank=True, 
+        null=True,
+        help_text="Pour les compagnons: nom du pet (ex: dragon, chat, loup). La permission sera automatiquement: advancedpets.pet.<nom>"
+    )
+    
     def __str__(self):
         return self.name
-# REMPLACEZ votre classe Bundle existante par ceci :
-
-# Dans minecraft_app/models.py - REMPLACEZ votre classe Bundle par celle-ci :
+    
+    def get_pet_permission(self):
+        """Retourne la permission complète pour les pets"""
+        if self.category == 'companion' and self.pet_permission:
+            return f"advancedpets.pet.{self.pet_permission.lower()}"
+        return None
 
 class Bundle(models.Model):
     BUNDLE_TYPES = [

@@ -429,15 +429,109 @@ def send_success_messages(rcon, username, rank_name, is_temporary, gifted_by=Non
         import traceback
         logger.error(f"❌ Traceback: {traceback.format_exc()}")
 
-def give_store_item_to_player(username, item_name, quantity=1):
+# Dans minecraft_app/minecraft_service.py - Ajoutez cette fonction
+
+def give_pet_to_player(username, pet_permission):
+    """
+    Donne une permission de pet à un joueur via LuckPerms
+    
+    Args:
+        username: Le pseudo Minecraft du joueur
+        pet_permission: La permission du pet (ex: advancedpets.pet.dragon)
+    
+    Returns:
+        bool: True si la permission a été accordée avec succès
+    """
+    if not username or not pet_permission:
+        logger.error("Cannot give pet permission: Missing username or permission")
+        return False
+    
+    logger.info(f"Attribution de la permission pet {pet_permission} à {username}")
+    
+    try:
+        with rcon_connection() as rcon:
+            # Commande LuckPerms pour donner la permission
+            lp_command = f"lp user {username} permission set {pet_permission} true"
+            
+            logger.info(f"Commande LuckPerms pet: {lp_command}")
+            try:
+                lp_response = rcon.command(lp_command)
+                logger.info(f"Réponse LuckPerms pet: '{lp_response}'")
+                
+                # Attendre un peu pour que LuckPerms traite la commande
+                time.sleep(1)
+                
+                # Message de confirmation au joueur
+                pet_name = pet_permission.replace('advancedpets.pet.', '').title()
+                success_message = f'tellraw {username} ["",{{"text":"🐾 COMPAGNON DÉBLOQUÉ ! 🐾","color":"gold","bold":true}},{{"text":"\\n\\n"}},{{"text":"✅ Nouveau compagnon disponible:","color":"green"}},{{"text":"\\n"}},{{"text":"🦄 {pet_name}","color":"yellow","bold":true}},{{"text":"\\n\\n"}},{{"text":"💡 Utilisez /pets pour l\'équiper !","color":"aqua"}},{{"text":"\\n"}},{{"text":"🎉 Amusez-vous bien ! 🎉","color":"green","bold":true}}]'
+                
+                rcon.command(success_message)
+                
+                # Broadcast public
+                public_message = f'tellraw @a ["",{{"text":"🐾 [BOUTIQUE] ","color":"purple","bold":true}},{{"text":"{username} ","color":"yellow","bold":true}},{{"text":"vient d\'adopter un ","color":"white"}},{{"text":"{pet_name}","color":"green","bold":true}},{{"text":" ! 🎉","color":"gold"}}]'
+                
+                rcon.command(public_message)
+                
+                # Son de célébration
+                try:
+                    pet_sound = f"execute at {username} run playsound minecraft:entity.cat.purr master {username} ~ ~ ~ 1 1.5"
+                    rcon.command(pet_sound)
+                    
+                    global_sound = "playsound minecraft:entity.experience_orb.pickup master @a ~ ~ ~ 0.2 1.8"
+                    rcon.command(global_sound)
+                    
+                    logger.info("✅ Sons de pet joués")
+                except:
+                    pass
+                
+                logger.info(f"✅ Permission pet {pet_permission} attribuée avec succès à {username}")
+                return True
+                
+            except Exception as e:
+                logger.warning(f"Commande LuckPerms pet échouée: {e}")
+                
+                # Mode admin si l'attribution automatique échoue
+                admin_notification = f'tellraw @a[permission=luckperms.user.permission.set] ["",{{"text":"\\n"}},{{"text":"🐾 [COMPAGNON ADMIN] 🐾","color":"purple","bold":true}},{{"text":"\\n"}},{{"text":"Attribution de pet requise:","color":"yellow"}},{{"text":"\\n"}},{{"text":"👤 Joueur: ","color":"white"}},{{"text":"{username}","color":"green","bold":true}},{{"text":"\\n"}},{{"text":"🦄 Pet: ","color":"white"}},{{"text":"{pet_name}","color":"purple","bold":true}},{{"text":"\\n"}},{{"text":"🔧 Permission: ","color":"white"}},{{"text":"{pet_permission}","color":"aqua"}},{{"text":"\\n"}},{{"text":"💰 Achat payé et confirmé ✅","color":"green"}},{{"text":"\\n\\n"}},{{"text":"🔧 Cliquez pour attribuer: ","color":"gray"}},{{"text":"[EXÉCUTER MAINTENANT]","color":"aqua","bold":true,"underlined":true,"clickEvent":{{"action":"run_command","value":"{lp_command}"}},"hoverEvent":{{"action":"show_text","value":"Cliquez pour exécuter:\\n{lp_command}"}}}}]'
+                
+                rcon.command(admin_notification)
+                logger.info("✅ Notification admin pet envoyée")
+                
+                return True  # On considère ça comme un succès car l'admin peut faire l'attribution
+                
+    except Exception as e:
+        logger.error(f"Erreur critique lors de l'attribution du pet: {str(e)}")
+        
+        # Message de fallback
+        try:
+            with rcon_connection() as rcon:
+                fallback_message = f'tellraw {username} ["",{{"text":"⚠️ COMPAGNON ACHETÉ ⚠️","color":"gold","bold":true}},{{"text":"\\n"}},{{"text":"Votre compagnon a été acheté mais","color":"yellow"}},{{"text":"\\n"}},{{"text":"l\'attribution nécessite une intervention.","color":"yellow"}},{{"text":"\\n"}},{{"text":"Un admin va vous aider !","color":"green"}},{{"text":"\\n"}},{{"text":"Merci pour votre patience 💙","color":"aqua"}}]'
+                rcon.command(fallback_message)
+                logger.info("✅ Message de fallback pet envoyé")
+        except:
+            logger.error("❌ Impossible d'envoyer le message de fallback pet")
+        
+        return False
+
+# Modifiez également la fonction give_store_item_to_player pour inclure les pets
+def give_store_item_to_player(username, item_name, quantity=1, store_item=None):
     """
     Don d'objet optimisé pour H2 avec excellent feedback utilisateur.
+    Maintenant inclut le support des pets/compagnons.
     """
     if not username:
         logger.error("Cannot give item: No Minecraft username provided")
         return False
     
-    # Mappings des objets de la boutique
+    # Si c'est un pet/compagnon, utiliser la fonction spécialisée
+    if store_item and store_item.category == 'companion' and store_item.pet_permission:
+        pet_permission = store_item.get_pet_permission()
+        if pet_permission:
+            return give_pet_to_player(username, pet_permission)
+    
+    # Code existant pour les autres objets...
+    # [Garder tout le code existant de give_store_item_to_player]
+    
+    # Mappings des objets de la boutique (code existant)
     item_command_templates = {
         # Coffres CrazyCrates
         'Coffre d\'Argent': 'cc give physical argentcrate {1} {0}',

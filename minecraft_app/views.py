@@ -944,29 +944,44 @@ def process_successful_payment(session):
                                     user=user,
                                     store_item=cart_item.store_item,
                                     quantity=cart_item.quantity,
-                                    amount=cart_item.get_subtotal(),  # Utilise le prix avec réduction si applicable
+                                    amount=cart_item.get_subtotal(),
                                     payment_id=session.id,
                                     payment_status='completed'
                                 )
                                 logger.info("StoreItemPurchase %s créé pour %s (x%s)", 
-                                           purchase.id, cart_item.store_item.name, cart_item.quantity)
+                                        purchase.id, cart_item.store_item.name, cart_item.quantity)
                                 
-                                # Application de l'objet acheté au joueur
+                                # Attribution de l'objet acheté au joueur
                                 minecraft_username = user.profile.minecraft_username
                                 if minecraft_username:
-                                    from .minecraft_service import give_store_item_to_player
-                                    success = give_store_item_to_player(minecraft_username, cart_item.store_item.name, cart_item.quantity)
-                                    logger.info("Attribution de %d %s pour %s: %s", 
-                                              cart_item.quantity, cart_item.store_item.name, minecraft_username,
-                                              "Succès" if success else "Échec")
+                                    # ✅ NOUVEAU : Passer l'objet store_item pour gérer les pets
+                                    success = give_store_item_to_player(
+                                        minecraft_username, 
+                                        cart_item.store_item.name, 
+                                        cart_item.quantity,
+                                        store_item=cart_item.store_item  # ✅ NOUVEAU paramètre
+                                    )
+                                    
+                                    if success:
+                                        if cart_item.store_item.category == 'companion':
+                                            logger.info("Attribution du compagnon %s pour %s: Succès", 
+                                                    cart_item.store_item.name, minecraft_username)
+                                        else:
+                                            logger.info("Attribution de %d %s pour %s: Succès", 
+                                                    cart_item.quantity, cart_item.store_item.name, minecraft_username)
+                                    else:
+                                        logger.error("Attribution de %s pour %s: Échec", 
+                                                    cart_item.store_item.name, minecraft_username)
                                 else:
                                     logger.warning("Pas de nom d'utilisateur Minecraft pour l'utilisateur %s, objet(s) %s non appliqué(s)", 
-                                                 user.username, cart_item.store_item.name)
+                                                user.username, cart_item.store_item.name)
                                 
-                                if cart_item.store_item.quantity > 0:
+                                # Gestion du stock (ne pas décrémenter pour les pets car ils sont illimités)
+                                if cart_item.store_item.quantity > 0 and cart_item.store_item.category != 'companion':
                                     cart_item.store_item.quantity -= cart_item.quantity
                                     cart_item.store_item.quantity = max(0, cart_item.store_item.quantity)
                                     cart_item.store_item.save()
+                                
                                 cart_item.delete()
 
                             elif cart_item.bundle:

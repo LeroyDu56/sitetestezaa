@@ -74,21 +74,39 @@ admin.site.register(StoreItemPurchase, StoreItemPurchaseAdmin)
 
 # New admin configuration for StoreItem
 class StoreItemAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'price', 'quantity', 'color_code')
+    list_display = ('name', 'category', 'price', 'quantity', 'color_code', 'get_pet_permission_display')
     list_filter = ('category',)
-    search_fields = ('name', 'description')
+    search_fields = ('name', 'description', 'pet_permission')
     
     fieldsets = (
         (None, {
             'fields': ('name', 'description', 'price')
         }),
-        ('Appearance', {
+        ('Apparence', {
             'fields': ('image', 'color_code')
         }),
         ('Classification', {
             'fields': ('category', 'quantity')
         }),
+        ('Configuration Compagnon', {
+            'fields': ('pet_permission',),
+            'description': 'Pour les compagnons seulement: entrez le nom du pet (ex: dragon, chat, loup)',
+            'classes': ('collapse',)
+        }),
     )
+    
+    def get_pet_permission_display(self, obj):
+        """Affiche la permission complète dans la liste admin"""
+        if obj.category == 'companion' and obj.pet_permission:
+            return f"advancedpets.pet.{obj.pet_permission.lower()}"
+        return "-"
+    get_pet_permission_display.short_description = 'Permission Pet'
+    
+    def save_model(self, request, obj, form, change):
+        # Si c'est un compagnon mais pas de permission définie, utiliser le nom
+        if obj.category == 'companion' and not obj.pet_permission:
+            obj.pet_permission = obj.name.lower()
+        super().save_model(request, obj, form, change)
 
 admin.site.register(StoreItem, StoreItemAdmin)
 
