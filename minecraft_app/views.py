@@ -2190,3 +2190,21 @@ def process_failed_subscription_payment(invoice):
         
     except UserSubscription.DoesNotExist:
         logger.error(f"UserSubscription avec Stripe ID {subscription_id} introuvable")
+
+def vote(request):
+    """Page de vote pour le serveur"""
+    server = TownyServer.objects.first()
+    
+    # Statistiques de vote (vous pourrez les implémenter plus tard avec une API ou base de données)
+    vote_stats = {
+        'monthly_votes': 245,  # Exemple - remplacez par de vraies données
+        'total_votes': 1547,   # Exemple - remplacez par de vraies données
+        'rank_this_month': 12, # Exemple - remplacez par de vraies données
+    }
+    
+    context = {
+        'server': server,
+        'vote_stats': vote_stats,
+    }
+    
+    return render(request, 'minecraft_app/vote.html', context)

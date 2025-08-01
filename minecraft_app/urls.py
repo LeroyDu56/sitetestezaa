@@ -9,6 +9,7 @@ urlpatterns = [
     path('map/', views.map_view, name='dynmap'),
     path('staff/', views.staff, name='staff'),
     path('store/', views.store, name='store'),
+    path('vote/', views.vote, name='vote'),
     path('store/require_access/', views.store_nok, name='store_nok'),
     path('rules/', views.rules, name='rules'),
     path('contact/', views.contact, name='contact'),

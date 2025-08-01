@@ -1,0 +1,255 @@
+{% extends 'minecraft_app/base.html' %}
+{% load static %}
+
+{% block title %}Voter pour Novania - Serveur Minecraft Towny Earth{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/vote.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- En-tête de la page -->
+<section class="page-header">
+    <div class="container">
+        <h1><i class="fas fa-vote-yea"></i> Votez pour Novania</h1>
+        <p class="page-subtitle">Soutenez notre serveur en votant sur les sites de classement</p>
+    </div>
+</section>
+
+<!-- Section principale de vote -->
+<section class="vote-section">
+    <div class="container">
+        <div class="vote-intro">
+            <h2>Pourquoi voter ?</h2>
+            <p>Votre vote nous aide à faire connaître Novania et à attirer de nouveaux joueurs dans notre communauté. Plus nous avons de votes, mieux nous sommes classés sur les sites de serveurs Minecraft !</p>
+        </div>
+
+        <!-- Statistiques de vote -->
+        <div class="vote-info-banner">
+            <div class="vote-banner-content">
+                <div class="vote-banner-icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <div class="vote-banner-text">
+                    <h3>Chaque vote = 1 Clé de Vote !</h3>
+                    <p>Participez au concours mensuel et gagnez des récompenses exclusives</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sites de vote -->
+        <div class="vote-sites">
+            <h2>Sites de vote</h2>
+            <p class="vote-description">Cliquez sur les boutons ci-dessous pour voter sur chaque site. Vous pouvez voter une fois par jour sur chaque site !</p>
+            
+            <div class="vote-buttons">
+                <div class="vote-site-card">
+                    <div class="vote-site-header">
+                        <div class="vote-site-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <div class="vote-site-info">
+                            <h3>Serveur-Minecraft.com</h3>
+                            <p>L'un des plus grands sites de classement de serveurs Minecraft francophones</p>
+                        </div>
+                    </div>
+                    <div class="vote-site-footer">
+                        <a href="https://serveur-minecraft.com/4721" target="_blank" class="vote-btn vote-btn-primary" rel="noopener noreferrer">
+                            <i class="fas fa-external-link-alt"></i>
+                            Voter maintenant
+                        </a>
+                        <div class="vote-frequency">
+                            <i class="fas fa-clock"></i>
+                            Toutes les 3h
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vote-site-card">
+                    <div class="vote-site-header">
+                        <div class="vote-site-icon">
+                            <i class="fas fa-cubes"></i>
+                        </div>
+                        <div class="vote-site-info">
+                            <h3>ServeursMinecraft.org</h3>
+                            <p>Plateforme de référence pour découvrir les meilleurs serveurs Minecraft</p>
+                        </div>
+                    </div>
+                    <div class="vote-site-footer">
+                        <a href="https://www.serveursminecraft.org/serveur/7331/" target="_blank" class="vote-btn vote-btn-secondary" rel="noopener noreferrer">
+                            <i class="fas fa-external-link-alt"></i>
+                            Voter maintenant
+                        </a>
+                        <div class="vote-frequency">
+                            <i class="fas fa-clock"></i>
+                            Toutes les 24h
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions importantes -->
+        <div class="vote-instructions">
+            <h2>⚠️ Instructions Importantes</h2>
+            <div class="instruction-cards">
+                <div class="instruction-card java">
+                    <div class="instruction-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <div class="instruction-content">
+                        <h3>Joueurs Java</h3>
+                        <p>Renseignez votre <strong>pseudo Minecraft exact</strong> sur les sites de vote</p>
+                        <div class="example">
+                            <span class="example-label">Exemple :</span>
+                            <code class="username-example">VotrePseudo</code>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="instruction-card bedrock">
+                    <div class="instruction-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="instruction-content">
+                        <h3>Joueurs Bedrock</h3>
+                        <p>Ajoutez un <strong>point avant votre pseudo</strong> sur les sites de vote</p>
+                        <div class="example">
+                            <span class="example-label">Exemple :</span>
+                            <code class="username-example">.VotrePseudo</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="instruction-note">
+                <i class="fas fa-lightbulb"></i>
+                <p>Une fois votre vote validé, la <strong>Clé de Vote</strong> est automatiquement ajoutée à votre inventaire en jeu !</p>
+            </div>
+        </div>
+
+        <!-- Section récompenses -->
+        <div class="vote-rewards">
+            <h2>Récompenses de Vote</h2>
+            <div class="rewards-banner">
+                <div class="reward-immediate">
+                    <div class="reward-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <div class="reward-info">
+                        <h3>Récompense Automatique</h3>
+                        <p><strong>1 Clé de Vote</strong> directement dans votre inventaire</p>
+                        <span class="reward-note">Aucune commande nécessaire, c'est instantané !</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="monthly-contest">
+                <h3><i class="fas fa-trophy"></i> Concours Mensuel</h3>
+                <p class="contest-description">Chaque mois, les meilleurs votants remportent des récompenses exclusives !</p>
+                
+                <div class="podium-section">
+                    <h4>🏆 Podium des Champions</h4>
+                    <div class="podium-cards">
+                        <div class="podium-card gold">
+                            <div class="position">1ère</div>
+                            <div class="medal"><i class="fas fa-medal"></i></div>
+                            <div class="reward-list">
+                                <div class="reward-item">Premium 1 mois</div>
+                                <div class="reward-item">2 Clés Oros</div>
+                            </div>
+                        </div>
+                        
+                        <div class="podium-card silver">
+                            <div class="position">2ème</div>
+                            <div class="medal"><i class="fas fa-medal"></i></div>
+                            <div class="reward-list">
+                                <div class="reward-item">Premium 1 mois</div>
+                                <div class="reward-item">2 Clés Or</div>
+                            </div>
+                        </div>
+                        
+                        <div class="podium-card bronze">
+                            <div class="position">3ème</div>
+                            <div class="medal"><i class="fas fa-medal"></i></div>
+                            <div class="reward-list">
+                                <div class="reward-item">Premium 1 mois</div>
+                                <div class="reward-item">2 Clés Argent</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="other-rewards">
+                    <h4>🎁 Autres Récompenses</h4>
+                    <div class="reward-tiers">
+                        <div class="reward-tier">
+                            <div class="tier-rank">4ème - 6ème place</div>
+                            <div class="tier-reward">
+                                <i class="fas fa-gem"></i>
+                                10 Lingots de Netherite
+                            </div>
+                        </div>
+                        
+                        <div class="reward-tier">
+                            <div class="tier-rank">7ème - 10ème place</div>
+                            <div class="tier-reward">
+                                <i class="fas fa-coins"></i>
+                                2 Stacks d'Émeraude
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to action -->
+        <div class="vote-cta">
+            <div class="cta-content">
+                <h2>Merci pour votre soutien !</h2>
+                <p>Chaque vote compte et nous aide à grandir. N'hésitez pas à partager Novania avec vos amis !</p>
+                <div class="cta-actions">
+                    <a href="{% url 'home' %}" class="btn btn-primary">
+                        <i class="fas fa-home"></i>
+                        Retour à l'accueil
+                    </a>
+                    <a href="https://discord.gg/9JQ6ePj7CT" target="_blank" class="btn btn-secondary" rel="noopener noreferrer">
+                        <i class="fab fa-discord"></i>
+                        Rejoindre Discord
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Script pour le tracking des votes -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Tracking des clics sur les boutons de vote
+    const voteButtons = document.querySelectorAll('.vote-btn');
+    
+    voteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const siteName = this.closest('.vote-site-card').querySelector('h3').textContent;
+            
+            // Animation de clic
+            this.classList.add('voted');
+            setTimeout(() => {
+                this.classList.remove('voted');
+            }, 1000);
+            
+            // Vous pouvez ajouter ici du tracking analytics
+            console.log(`Vote clic sur: ${siteName}`);
+        });
+    });
+
+    // Effet de particules sur les statistiques
+    const voteCards = document.querySelectorAll('.podium-card, .reward-tier');
+    voteCards.forEach((card, index) => {
+        setTimeout(() => {
+            card.classList.add('animate-in');
+        }, index * 150);
+    });
+});
+</script>
+{% endblock %}
